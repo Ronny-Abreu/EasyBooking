@@ -1,0 +1,270 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Perfil de Usuario";
+    ViewData["HideFooter"] = true;
+    var isEmailVerified = ViewBag.IsEmailVerified ?? false;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/PerfilUsuario.css" asp-append-version="true" />
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Tarjeta de perfil principal -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body d-flex align-items-center p-4 position-relative">
+                    <div class="profile-avatar-container me-4">
+                        <div id="profile-avatar" class="profile-avatar">
+                            <!-- La inicial se cargará con el PerfilUser.js -->
+                        </div>
+                    </div>
+                    <div>
+                        <h2 id="profile-name" class="mb-0 UsuarioNombre">Cargando...</h2>
+                        <p class="text-muted mb-0 UsuarioDescripcion">Usuario</p>
+                    </div>
+
+                    <!-- Botones de acción edit -->
+                    <div class="profile-action-buttons">
+                        <button class="edit-button" id="editProfileBtn">
+                            <svg class="edit-svgIcon" viewBox="0 0 512 512">
+                                <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <!-- Modal de edición de perfil --> 
+            <div class="edit-profile-modal" id="editProfileModal">
+                <div class="edit-modal-content">
+                    <span class="close-edit-modal" id="closeEditModal">&times;</span>
+                    <form class="form" id="editProfileForm">
+                        <p class="title">Actualiza tu perfil</p>
+                        <p class="message">Edita cada campo para actualizar tu perfil.</p>
+                        <div class="flex">
+                            <label>
+                                <input class="input" type="text" id="editNombre" required="">
+                                <span>Nombre</span>
+                            </label>
+
+                            <label>
+                                <input class="input" type="text" id="editApellido" required="">
+                                <span>Apellido</span>
+                            </label>
+                        </div>
+
+                        <label>
+                            <input class="input" type="text" id="editUsername" required="">
+                            <span>Usuario</span>
+                        </label>
+
+                        <div class="password-section">
+                            <p class="password-title">Cambiar contraseña (opcional)</p>
+
+                            <label>
+                                <input class="input" type="password" id="currentPassword" placeholder="">
+                                <span>Contraseña actual</span>
+                            </label>
+
+                            <label>
+                                <input class="input" type="password" id="editPassword" placeholder="">
+                                <span>Nueva contraseña</span>
+                            </label>
+
+                            <div id="password-error" class="text-danger" style="display: none; margin-top: 5px;">
+                                La contraseña actual es incorrecta.
+                            </div>
+
+                            <div style="color:black">
+                                <a href="#" id="open-forgot-password">¿Olvidaste tu contraseña actual?</a>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="submit" id="updateProfileBtn">Actualizar</button>
+
+                    </form>
+                </div>
+            </div>
+
+
+
+            <!-- Modal de verificación de contraseña -->
+            <div class="password-verification-modal" id="passwordVerificationModal">
+                <div class="password-modal-content">
+                    <div class="password-modal-title">Verificar contraseña</div>
+                    <div class="password-modal-message">
+                        Para eliminar tu cuenta, por favor ingresa tu contraseña actual para confirmar.
+                    </div>
+
+                    <div class="group">
+                        <svg stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon">
+                            <path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" stroke-linejoin="round" stroke-linecap="round"></path>
+                        </svg>
+                        <input class="input" type="password" id="deletePassword" placeholder="Contraseña">
+                    </div>
+
+                    <div class="password-error" id="passwordError">Contraseña incorrecta. Por favor, intenta nuevamente.</div>
+
+                    <div class="password-actions">
+                        <button class="cancel-btn" id="cancelPasswordBtn">Cancelar</button>
+                        <button class="verify-btn" id="verifyPasswordBtn">Verificar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-backdrop" id="modalBackdrop"></div>
+
+
+            <!-- Modal de confirmación para eliminar cuenta -->
+            <div class="delete-confirmation-modal" id="deleteConfirmationModal">
+                <div class="card">
+                    <div class="header">
+                        <div class="image">
+                            <svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" stroke-linejoin="round" stroke-linecap="round"></path>
+                            </svg>
+                        </div>
+
+                        <div class="delete-modal-content">
+                            <span class="delete-modal-title">Delete account</span>
+                            <p class="delete-modal-message">
+                                Estás seguro de borrar tu cuenta? Todos tus datos, publicaciones, valoraciones serán eliminados. Esta acción no se puede rehacer.
+                            </p>
+                        </div>
+
+                        <div class="actions">
+                            <button class="desactivate" type="button" id="confirmDeleteBtn">Eliminar</button>
+                            <button class="cancel" type="button" id="cancelDeleteBtn">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Tarjeta de información confirmada -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body p-4">
+                    <h3 id="confirmed-info-title" class="mb-4">Información confirmada</h3>
+
+                    <div class="d-flex align-items-center mb-3">
+                        @if (isEmailVerified)
+                        {
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            <span>
+                                Dirección de correo electrónico
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-success" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 8 0a8 8 0 0 1 8 8zm-3.97-4.03a.75.75 0 0 0-1.06 0L7.25 9.69 5.03 7.47a.75.75 0 1 0-1.06 1.06l2.75 2.75a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0 0-1.06z" />
+                                </svg>
+                            </span>
+                        }
+                        else
+                        {
+                            <i class="bi bi-x-circle-fill text-danger me-2"></i>
+                            <span>
+                                Todavía su cuenta de correo no ha sido validada
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-danger" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 8 0a8 8 0 0 1 8 8zM4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </span>
+                        }
+                    </div>
+
+
+                    <hr class="my-4">
+
+                    <h3 class="mb-3 tituloVerificarIdentidad">Verifica tu identidad</h3>
+                    <div class="d-flex justify-content-center align-items-center" style="height: 100px; margin-top: -30px;">
+                        <p class="mb-1" style="font-size: 19px; margin-left: -2pX ;">Antes de reservar u hospedar en EasyBooking, tienes que completar este paso.</p>
+                    </div>
+
+                    @if (!isEmailVerified)
+                    {
+                        <button id="verification-btn" class="btn btn-outline-dark px-4 py-2">Verificación</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-success px-4 py-2" disabled>Verificado</button>
+                    }
+                </div>
+            </div>
+
+
+
+
+            <!-- Tarjeta de información personal -->
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+                    <h3 class="mb-4">Información personal</h3>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold titulo-datos">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 13.5c0-2.485 2.686-4.5 6-4.5s6 2.015 6 4.5V14H2v-.5z" />
+                            </svg>
+                            Nombre
+                        </label>
+                        <p id="user-fullname" class="info-text">Cargando...</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold titulo-datos">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                <path d="M3 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H3zm2.684 1.939a.5.5 0 0 1 .632.316l.084.252a.5.5 0 0 1-.316.632A4.992 4.992 0 0 0 4 8c0 .927.252 1.794.684 2.539a.5.5 0 0 1-.316.632l-.084.252a.5.5 0 0 1-.632.316A5.995 5.995 0 0 1 2 8c0-1.243.378-2.396 1.032-3.348a.5.5 0 0 1 .632-.316l.084.252a.5.5 0 0 1-.316.632z" />
+                            </svg>
+                            Teléfono
+                        </label>
+                        <p id="user-phone" class="info-text">Cargando...</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold titulo-datos">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-5.803 3.482L15 11.617V5.383zM1 5.383v6.234l5.803-3.482L1 4.383z" />
+                            </svg>
+                            Correo electrónico
+                        </label>
+                        <p id="user-email" class="info-text">Cargando...</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold titulo-datos">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                <path d="M6 2c0 .68-.279 1.293-.732 1.732C4.793 4.279 4.18 4.5 3.5 4.5S2.207 4.279 1.732 3.732C1.279 3.293 1 2.68 1 2s.279-1.293.732-1.732C2.207.221 2.82 0 3.5 0s1.293.221 1.732.732C5.721.707 6 1.32 6 2zM5 2c0-.273-.112-.534-.293-.707C4.534 1.112 4.273 1 4 1s-.534.112-.707.293C3.112 1.466 3 1.727 3 2s.112.534.293.707C3.466 2.888 3.727 3 4 3s.534-.112.707-.293C4.888 2.534 5 2.273 5 2zM4 5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2V9H4V7h2V5H4zm7 2V5h-2v2h2zm2 0h-2v2h2V7zm-2 2v2h2V9h-2zm-2 2h2v2h-2v-2zm-2 0h2v2H7v-2zm-3 0h2v2H4v-2z" />
+                            </svg>
+                            Nombre de usuario
+                        </label>
+                        <p id="user-username" class="info-text">Cargando...</p>
+                    </div>
+                </div>
+
+
+                    <button class="button delete-button" type="button" id="deleteProfileBtn">
+                        <span class="button__text">Delete</span>
+                        <span class="button__icon">
+                            <svg class="svg" height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
+                                <title></title>
+                                <path d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path>
+                                <line style="stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" x1="80" x2="432" y1="112" y2="112"></line>
+                                <path d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path>
+                                <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="256" x2="256" y1="176" y2="400"></line>
+                                <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="184" x2="192" y1="176" y2="400"></line>
+                                <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="328" x2="320" y1="176" y2="400"></line>
+                            </svg>
+                        </span>
+                    </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/PerfilUser.js" asp-append-version="true"></script>
+}
+
