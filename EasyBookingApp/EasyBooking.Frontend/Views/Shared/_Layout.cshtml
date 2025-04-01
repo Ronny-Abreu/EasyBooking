@@ -1,49 +1,174 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EasyBooking.Frontend</title>
+    <title>@ViewData["Title"] - EasyBooking </title>
+    <link href="https://fonts.googleapis.com/css2?family=Circular:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/EasyBooking.Frontend.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" /> 
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EasyBooking.Frontend</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
+    {
+        @await Html.PartialAsync("_NavbarPartial")
+
+    }
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - EasyBooking.Frontend - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+
+    @* Loading clases *@
+    <!-- Style loading From Uiverse.io by mrhyddenn -->
+    <div class="spinner center">
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+        <div class="spinner-blade"></div>
+    </div>
+
+    <!-- Modal Background Overlay -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+
+            <!-- Login Form -->
+            <div id="login-form-container" class="container">
+                <div class="heading">Iniciar Sesión</div>
+                <div id="login-error-message" class="alert alert-danger" style="display: none;"></div>
+                <form id="login-form" class="form" method="dialog">
+                    <input required class="input" type="email" name="Email" id="email" placeholder="Correo electrónico">
+                    <input required class="input" type="password" name="Password" id="password" placeholder="Contraseña">
+                    <span class="forgot-password"><a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a></span>
+                    <input class="login-button" type="submit" value="Iniciar Sesión">
+                </form>
+                <div class="social-account-container">
+                    <span class="title">O inicia sesión con</span>
+                    <div class="social-accounts">
+                        <button type="button" class="social-button google">
+                            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 488 512">
+                                <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <p>¿No tienes cuenta? <a href="#" onclick="switchToRegister(event)">Crear cuenta</a></p>
+                </div>
+                <span class="agreement"><a href="#">Términos y condiciones</a></span>
+            </div>
+
+            <!-- Forgot Password Form - Step 1: Request Code -->
+            <div id="forgot-password-container" class="container" style="display: none;">
+                <div class="heading">Recuperar Contraseña</div>
+                <div id="forgot-password-message" class="alert alert-info" style="display: none;"></div>
+                <form id="forgot-password-form" class="form" method="dialog">
+                    <p class="form-description">Ingresa tu correo electrónico y te enviaremos un código de verificación para restablecer tu contraseña.</p>
+                    <input required class="input" type="email" name="ForgotEmail" id="forgot-email" placeholder="Correo electrónico">
+                    <input class="login-button" type="submit" value="Enviar Código">
+                    <button type="button" class="back-button" id="back-to-login-btn">Volver al inicio de sesión</button>
+                </form>
+            </div>
+
+            <!-- Forgot Password Form - Step 2: Verify Code and Reset Password -->
+            <div id="reset-password-container" class="container" style="display: none;">
+                <div class="heading">Restablecer Contraseña</div>
+                <div id="reset-password-message" class="alert alert-info" style="display: none;"></div>
+                <form id="reset-password-form" class="form" method="dialog">
+                    <p class="form-description">Ingresa el código de verificación que enviamos a tu correo electrónico.</p>
+                    <div class="verification-code-container">
+                        <input required class="input verification-code" type="text" name="VerificationCode" id="verification-code" placeholder="Código de verificación" maxlength="6">
+                        <div class="code-status">
+                            <span id="code-valid" style="display: none;"><i class="bi bi-check-circle-fill text-success"></i> Código válido</span>
+                            <span id="code-invalid" style="display: none;"><i class="bi bi-x-circle-fill text-danger"></i> Código inválido</span>
+                        </div>
+                    </div>
+                    <input required class="input" type="password" name="NewPassword" id="new-password" placeholder="Nueva contraseña" disabled>
+                    <input class="login-button" type="submit" value="Restablecer Contraseña" id="reset-password-btn" disabled>
+                    <button type="button" class="back-button" id="back-to-forgot-btn">Volver</button>
+                </form>
+            </div>
         </div>
-    </footer>
+    </div>
+
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeRegisterModal()">&times;</span>
+            <div class="container">
+                <div class="heading">Registrarse</div>
+                <div id="register-error-message" class="alert alert-danger" style="display: none;"></div>
+                <form id="register-form" class="form" method="dialog">
+                    <input required class="input" type="text" name="Name" id="register-nombre" placeholder="Nombre">
+                    <input required class="input" type="text" name="Apellido" id="register-apellido" placeholder="Apellido">
+                    <input required class="input" type="email" name="Email" id="register-email" placeholder="Correo electrónico">
+                    <input required class="input" type="text" name="Username" id="register-username" placeholder="Nombre de usuario">
+                    <input required class="input" type="tel" name="Telefono" id="register-telefono" placeholder="Teléfono">
+                    <input required class="input" type="password" name="Password" id="register-password" placeholder="Contraseña">
+                    <input required class="input" type="password" name="ConfirmPassword" id="register-confirm-password" placeholder="Confirmar contraseña">
+                    <div class="checkbox-container">
+                    </div>
+                    <input class="login-button" type="submit" value="Registrarse">
+                </form>
+                <div class="social-account-container">
+                    <span class="title">O regístrate con</span>
+                    <div class="social-accounts">
+                        <button type="button" class="social-button google">
+                            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 488 512">
+                                <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <p>¿Ya tienes cuenta? <a href="#" onclick="switchToLogin(event)">Iniciar sesión</a></p>
+                </div>
+                <span class="agreement"><a href="#">Términos y condiciones</a></span>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewData["HideFooter"] == null || !(bool)ViewData["HideFooter"])
+    {
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2025 - EasyBooking- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    }
+
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/navbar.js" asp-append-version="true"></script>
+    <script src="~/js/auth.js" asp-append-version="true"></script>
+	<script src="~/js/authResetPassword.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @* <script src="~/js/Secciones.js" asp-append-version="true"></script> *@
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
