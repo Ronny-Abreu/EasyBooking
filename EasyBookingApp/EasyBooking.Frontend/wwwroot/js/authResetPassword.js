@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+
     // volver al formulario del Login
     const backToLoginBtn = document.getElementById('back-to-login-btn');
     if (backToLoginBtn) {
@@ -293,8 +294,9 @@ function resetPassword() {
                 showMessage('reset-password-message', 'Tu contraseña ha sido restablecida correctamente. Ahora puedes iniciar sesión con tu nueva contraseña.', 'success');
 
                 setTimeout(() => {
-                    showLoginForm();
-                }, 3000);
+                    window.location.reload();
+                },7000);
+
             } else {
                 showMessage('reset-password-message', data.message || 'Error al restablecer la contraseña.', 'danger');
             }
