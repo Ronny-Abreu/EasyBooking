@@ -1,6 +1,6 @@
 ﻿@font-face {
     font-family: 'Geist-bold';
-    src: url('/Fonts/Geist/Geist-VariableFont_wght.ttf') format('opentype');
+    src: url('/Fonts/Geist/static/Geist-SemiBold.ttf') format('opentype');
     font-weight: 400;
     font-style: normal;
 }
@@ -199,7 +199,7 @@ justify-content: center;
 
     .user-name:hover {
         background: transparent !important;
-        color: black;
+        color: indianred;
         text-decoration: none;
         box-shadow: none !important;
     }
