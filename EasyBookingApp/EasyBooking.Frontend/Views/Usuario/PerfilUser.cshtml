@@ -81,13 +81,49 @@
                             </div>
 
                             <div style="color:black">
-                                <a href="#" id="open-forgot-password">¿Olvidaste tu contraseña actual?</a>
+                                <a href="#" id="forgot-password-link-profile" onclick="openForgotPasswordFromProfile()">¿Olvidaste tu contraseña actual?</a>
                             </div>
 
                         </div>
                         <button type="submit" class="submit" id="updateProfileBtn">Actualizar</button>
 
                     </form>
+                </div>
+            </div>
+
+            <!-- Modal Background Overlay -->
+            <div id="modal-overlay" class="modal-overlay"></div>
+
+            <!-- Usando contenedor del Login Modal (ya que el cambió de contraseña está dentro de su modal)-->
+            <div id="login-modal" class="modal">
+                    <!-- Forgot Password Form - Step 1: Request Code -->
+                    <div id="forgot-password-container" class="container" style="display: none;">
+                        <div class="heading">Recuperar Contraseña</div>
+                        <div id="forgot-password-message" class="alert alert-info" style="display: none;"></div>
+                        <form id="forgot-password-form" class="form" method="dialog">
+                            <p class="form-description">Ingresa tu correo electrónico y te enviaremos un código de verificación para restablecer tu contraseña.</p>
+                            <input required class="input" type="email" name="ForgotEmail" id="forgot-email" placeholder="Correo electrónico">
+                            <input class="login-button" type="submit" value="Enviar Código">
+                        </form>
+                    </div>
+
+                    <!-- Forgot Password Form - Step 2: Verify Code and Reset Password -->
+                    <div id="reset-password-container" class="container" style="display: none;">
+                        <div class="heading">Restablecer Contraseña</div>
+                        <div id="reset-password-message" class="alert alert-info" style="display: none;"></div>
+                        <form id="reset-password-form" class="form" method="dialog">
+                            <p class="form-description">Ingresa el código de verificación que enviamos a tu correo electrónico.</p>
+                            <div class="verification-code-container">
+                                <input required class="input verification-code" type="text" name="VerificationCode" id="verification-code" placeholder="Código de verificación" maxlength="6">
+                                <div class="code-status">
+                                    <span id="code-valid" style="display: none;"><i class="bi bi-check-circle-fill text-success"></i> Código válido</span>
+                                    <span id="code-invalid" style="display: none;"><i class="bi bi-x-circle-fill text-danger"></i> Código inválido</span>
+                                </div>
+                            </div>
+                            <input required class="input" type="password" name="NewPassword" id="new-password" placeholder="Nueva contraseña" disabled>
+                            <input class="login-button" type="submit" value="Restablecer Contraseña" id="reset-password-btn" disabled>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -156,7 +192,7 @@
                         {
                             <i class="bi bi-check-circle-fill text-success me-2"></i>
                             <span>
-                                Dirección de correo electrónico
+                                Dirección de correo electrónico confirmado
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-success" viewBox="0 0 16 16">
                                     <path d="M16 8A8 8 0 1 1 8 0a8 8 0 0 1 8 8zm-3.97-4.03a.75.75 0 0 0-1.06 0L7.25 9.69 5.03 7.47a.75.75 0 1 0-1.06 1.06l2.75 2.75a.75.75 0 0 0 1.06 0l4.25-4.25a.75.75 0 0 0 0-1.06z" />
                                 </svg>
@@ -266,5 +302,6 @@
 
 @section Scripts {
     <script src="~/js/PerfilUser.js" asp-append-version="true"></script>
+    <script src="~/js/forgotPasswordFromProfile.js" asp-append-version="true"></script>
 }
 
