@@ -158,9 +158,9 @@ namespace EasyBooking.Api.Controllers
                         <style>
                             body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
                     .container {{ max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
-                    .header {{ background-color: #007bff; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
+                    .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
                     .content {{ padding: 30px; background-color: #fff; }}
-                    .button {{ display: inline-block; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0; }}
+                    .button {{ display: inline-block; padding: 12px 24px; background-color: indianred; color: white; text-decoration: none !important; border-radius: 5px; font-weight: bold; margin: 20px 0; }}
                     .button:hover {{ background-color: #0056b3; }}
                     .footer {{ text-align: center; padding: 15px; font-size: 14px; color: #666; }}
                     .emoji {{ font-size: 24px; }}
@@ -175,7 +175,13 @@ namespace EasyBooking.Api.Controllers
                         <p>¡Hola {usuario.Nombre}! 👋</p>
                         <p>Gracias por registrarte en EasyBooking. 🎉</p>
                         <p>Para completar tu registro y comenzar a disfrutar de todos nuestros servicios, por favor verifica tu dirección de correo electrónico haciendo clic en el siguiente botón:</p>
-                        <p style='text-align: center;'><a href='{verificationUrl}' class='button'>✅ Verificar correo electrónico</a></p>
+                        <div style='text-align: center;'>
+                            <a href='{verificationUrl}' 
+                               style='display: inline-block; padding: 12px 24px; background-color: indianred; color: white !important; text-decoration: none !important; border-radius: 5px; font-weight: bold; margin: 20px 0;'>
+                               <span style='color: white;'>✅ Verificar correo electrónico</span>
+                            </a>
+                        </div>
+
                         <p>Si no puedes hacer clic en el botón, copia y pega la siguiente URL en tu navegador:</p>
                         <p style='background-color: #f5f5f5; padding: 10px; border-radius: 5px; word-break: break-all;'>{verificationUrl}</p>
                         <p>⏰ Este enlace expirará en 24 horas.</p>
@@ -368,7 +374,7 @@ namespace EasyBooking.Api.Controllers
                 <style>
                     body {{ font-family: Arial, sans-serif; line-height: 1.6; }}
                     .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                    .header {{ background-color: #4a90e2; padding: 20px; text-align: center; color: white; }}
+                    .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; }}
                     .content {{ padding: 20px; }}
                     .button {{ display: inline-block; padding: 10px 20px; background-color: #4a90e2; color: white; text-decoration: none; border-radius: 5px; }}
                     .footer {{ background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 0.8em; }}
@@ -488,7 +494,7 @@ namespace EasyBooking.Api.Controllers
                 <style>
                     body {{ font-family: Arial, sans-serif; line-height: 1.6; }}
                     .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                    .header {{ background-color: #f8f9fa; padding: 20px; text-align: center; }}
+                    .header {{ background-color: indianred; padding: 20px; text-align: center; }}
                     .content {{ padding: 20px; }}
                 </style>
             </head>
@@ -602,9 +608,6 @@ namespace EasyBooking.Api.Controllers
                 var random = new Random();
                 var verificationCode = random.Next(100000, 999999).ToString();
 
-                // Guardar el código en la base de datos o en caché
-                // Para este ejemplo, usaremos un enfoque simple con una propiedad temporal
-                // En producción, deberías usar una tabla específica o un sistema de caché
                 usuario.ResetCode = verificationCode;
                 usuario.ResetCodeExpiry = DateTime.UtcNow.AddMinutes(15); // El código expira en 15 minutos
                 await _service.ActualizarUsuarioAsync(usuario);
@@ -720,9 +723,9 @@ namespace EasyBooking.Api.Controllers
             <style>
                 body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
                 .container {{ max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
-                .header {{ background-color: #007bff; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
+                .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
                 .content {{ padding: 30px; background-color: #fff; }}
-                .code {{ font-size: 32px; font-weight: bold; text-align: center; margin: 20px 0; letter-spacing: 5px; color: #007bff; }}
+                .code {{ font-size: 32px; font-weight: bold; text-align: center; margin: 20px 0; letter-spacing: 5px; color: indianred; }}
                 .footer {{ text-align: center; padding: 15px; font-size: 14px; color: #666; }}
             </style>
         </head>
@@ -760,7 +763,7 @@ namespace EasyBooking.Api.Controllers
             <style>
                 body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
                 .container {{ max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
-                .header {{ background-color: #28a745; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
+                .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
                 .content {{ padding: 30px; background-color: #fff; }}
                 .footer {{ text-align: center; padding: 15px; font-size: 14px; color: #666; }}
             </style>
