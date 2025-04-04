@@ -225,7 +225,7 @@ body {
     display: flex;
     align-items: center;
     padding-left: 90px;
-    color: black;
+    color: indianred;
 }
 
     .title::before {
@@ -247,7 +247,7 @@ body {
         width: 16px;
         border-radius: 50%;
         left: 65px;
-        background-color: #00bfff;
+        background-color: indianred;
     }
 .password-title{
     margin-left: 0px;
@@ -315,6 +315,9 @@ body {
             font-weight: 600;
         }
 
+input + .titulodatosModaledit {
+    color: black !important;
+}
 
 .input {
     font-size: medium;
@@ -329,11 +332,11 @@ body {
     color: #fff;
     font-size: 16px;
     transform: .3s ease;
-    background-color: #00bfff;
+    background-color: indianred;
 }
 
     .submit:hover {
-        background-color: #00bfff96;
+        background-color: darkgrey;
     }
 
 @keyframes pulse {
