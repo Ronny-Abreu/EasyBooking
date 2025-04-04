@@ -108,6 +108,11 @@ namespace EasyBooking.Application.Services
             return await _context.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
+
+        public async Task<Usuario> ObtenerPorUsernameAsync(string username)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+        }
     }
 }
 
