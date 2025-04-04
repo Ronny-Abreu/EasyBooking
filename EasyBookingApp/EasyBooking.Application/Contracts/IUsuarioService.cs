@@ -11,5 +11,6 @@ namespace EasyBooking.Application.Contracts
         Task<Usuario> ActualizarUsuarioAsync(Usuario usuario);
         Task EliminarUsuarioAsync(int id);
         Task<Usuario> ObtenerPorEmailAsync(string email);
+        Task<Usuario> ObtenerPorUsernameAsync(string username);
     }
 }
