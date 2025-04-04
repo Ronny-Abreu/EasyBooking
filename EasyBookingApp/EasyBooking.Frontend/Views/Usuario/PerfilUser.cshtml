@@ -49,18 +49,18 @@
                         <div class="flex">
                             <label>
                                 <input class="input" type="text" id="editNombre" required="">
-                                <span>Nombre</span>
+                                <span class="titulodatosModaledit">Nombre</span>
                             </label>
 
                             <label>
                                 <input class="input" type="text" id="editApellido" required="">
-                                <span>Apellido</span>
+                                <span class="titulodatosModaledit">Apellido</span>
                             </label>
                         </div>
 
                         <label>
                             <input class="input" type="text" id="editUsername" required="">
-                            <span>Usuario</span>
+                            <span class="titulodatosModaledit">Usuario</span>
                         </label>
 
                         <div class="password-section">
@@ -68,21 +68,22 @@
 
                             <label>
                                 <input class="input" type="password" id="currentPassword" placeholder="">
-                                <span>Contraseña actual</span>
+                                <span style="color:black">Contraseña actual</span>
                             </label>
 
                             <label>
                                 <input class="input" type="password" id="editPassword" placeholder="">
-                                <span>Nueva contraseña</span>
+                                <span style="color:black">Nueva contraseña</span>
                             </label>
 
                             <div id="password-error" class="text-danger" style="display: none; margin-top: 5px;">
                                 La contraseña actual es incorrecta.
                             </div>
 
-                            <div style="color:black">
-                                <a href="#" id="forgot-password-link-profile" onclick="openForgotPasswordFromProfile()">¿Olvidaste tu contraseña actual?</a>
+                            <div class="text-black">
+                                <a href="#" id="forgot-password-link-profile" onclick="openForgotPasswordFromProfile()" style="text-decoration: none;">¿Olvidaste tu contraseña actual?</a>
                             </div>
+
 
                         </div>
                         <button type="submit" class="submit" id="updateProfileBtn">Actualizar</button>
