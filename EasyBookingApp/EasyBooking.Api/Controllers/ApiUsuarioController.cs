@@ -77,28 +77,41 @@ namespace EasyBooking.Api.Controllers
 
                 // Verificar si el email ya existe
                 var existingUser = await _service.ObtenerPorEmailAsync(usuarioDto.Email);
-                if (existingUser != null)
+                var existingUsername = await _service.ObtenerPorUsernameAsync(usuarioDto.Username);
+
+                if (existingUser != null && existingUsername != null)
+                {
+                    return BadRequest(new { message = "Correo y nombre de usuario ya registrados." });
+                }
+                else if (existingUser != null)
                 {
                     return BadRequest(new { message = "El email ya está registrado." });
                 }
+                else if (existingUsername != null)
+                {
+                    return BadRequest(new { message = "Nombre de usuario no disponible." });
+                }
+
+
+
 
                 // Crear el objeto Usuario a partir del UsuarioDto
                 var usuario = new Usuario
-                {
-                    Id = 0, // El ID se asignará automáticamente en la base de datos
-                    Nombre = usuarioDto.Nombre ?? string.Empty,
-                    Apellido = usuarioDto.Apellido ?? string.Empty,
-                    Email = usuarioDto.Email ?? string.Empty,
-                    Username = usuarioDto.Username ?? string.Empty,
-                    Telefono = usuarioDto.Telefono ?? string.Empty,
-                    IsEmailVerified = false // Por defecto, el email no está verificado
-                };
+                    {
+                        Id = 0, // El ID se asignará automáticamente en la base de datos
+                        Nombre = usuarioDto.Nombre ?? string.Empty,
+                        Apellido = usuarioDto.Apellido ?? string.Empty,
+                        Email = usuarioDto.Email ?? string.Empty,
+                        Username = usuarioDto.Username ?? string.Empty,
+                        Telefono = usuarioDto.Telefono ?? string.Empty,
+                        IsEmailVerified = false // Por defecto, el email no está verificado
+                    };
 
-                // Aquí generamos el hash de la contraseña antes de guardarla
+                // Generación del hash de la contraseña antes de guardarla
                 var passwordHasher = new PasswordHasher<Usuario>();
-                usuario.Password = passwordHasher.HashPassword(usuario, usuarioDto.Password);  // Usamos la contraseña en texto claro
+                usuario.Password = passwordHasher.HashPassword(usuario, usuarioDto.Password);
 
-                // Ahora pasamos un objeto Usuario al servicio
+                
                 await _service.CrearUsuarioAsync(usuario);
 
                 // Enviar correo de bienvenida
