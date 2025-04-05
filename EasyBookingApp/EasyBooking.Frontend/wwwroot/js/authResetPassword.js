@@ -57,15 +57,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Reset Password Form
-    const resetPasswordForm = document.getElementById('reset-password-form');
-    if (resetPasswordForm) {
-        resetPasswordForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            resetPassword();
-        });
-    }
+    const resetPasswordForm = document.getElementById("reset-password-form");
+
+    resetPasswordForm.addEventListener("submit", function (e) {
+        const password = newPasswordInput.value;
+
+        if (password.length < 8) {
+            e.preventDefault(); // Evita que se envíe el formulario
+            resetPasswordFeedback.textContent = "La contraseña debe tener al menos 8 caracteres.";
+            resetPasswordFeedback.style.color = "red";
+            resetPasswordFeedback.style.display = "block";
+        }
+    });
+
 });
 
+function isValidPassword(password) {
+    const hasMinLength = password.length >= 8;
+    const digitMatches = password.match(/\d/g); // Busca dígitos
+    const hasAtLeastTwoDigits = digitMatches && digitMatches.length >= 2;
+    const hasLetters = /[a-zA-Z]/.test(password); // Verifica si hay letras
+
+    return hasMinLength && hasAtLeastTwoDigits && hasLetters;
+}
 
 function showForgotPasswordForm() {
     document.getElementById('login-form-container').style.display = 'none';
@@ -295,7 +309,7 @@ function resetPassword() {
 
                 setTimeout(() => {
                     window.location.reload();
-                },7000);
+                },2000);
 
             } else {
                 showMessage('reset-password-message', data.message || 'Error al restablecer la contraseña.', 'danger');
@@ -310,6 +324,38 @@ function resetPassword() {
             showMessage('reset-password-message', 'Error al restablecer la contraseña. Por favor, intenta nuevamente.', 'danger');
         });
 }
+
+// Seleccionamos el input de la nueva contraseña y agregamos un div de feedback si no existe
+const newPasswordInput = document.getElementById("new-password");
+
+// Creamos el div de retroalimentación si no está
+let resetPasswordFeedback = document.getElementById("reset-password-feedback");
+if (!resetPasswordFeedback) {
+    resetPasswordFeedback = document.createElement("div");
+    resetPasswordFeedback.id = "reset-password-feedback";
+    resetPasswordFeedback.className = "feedback-text";
+    resetPasswordFeedback.style.marginTop = "-10px";
+    resetPasswordFeedback.style.marginBottom = "10px";
+    resetPasswordFeedback.style.fontSize = "14px";
+    resetPasswordFeedback.style.display = "none";
+    newPasswordInput.insertAdjacentElement("afterend", resetPasswordFeedback);
+}
+
+// Mostrar feedback mientras el usuario escribe
+newPasswordInput.addEventListener("input", function () {
+    const password = newPasswordInput.value;
+
+    if (!isValidPassword(password)) {
+        resetPasswordFeedback.textContent = "La contraseña debe tener al menos 8 caracteres, incluir al menos 2 números y letras.";
+        resetPasswordFeedback.style.color = "red";
+        resetPasswordFeedback.style.display = "block";
+    }
+    else {
+        resetPasswordFeedback.textContent = "";
+        resetPasswordFeedback.style.display = "none";
+        resetPassword();
+    }
+});
 
 // Show Message
 function showMessage(elementId, message, type) {
