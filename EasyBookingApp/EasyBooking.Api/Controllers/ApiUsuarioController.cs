@@ -444,6 +444,12 @@ namespace EasyBooking.Api.Controllers
                 bool passwordChanged = false;
                 if (!string.IsNullOrEmpty(updateDto.Password))
                 {
+
+                    if (updateDto.Password.Length < 8 || updateDto.Password.Count(char.IsDigit) < 2)
+                    {
+                        return BadRequest(new { success = false, message = "La contraseña debe tener al menos 8 caracteres y contener al menos 2 números." });
+                    }
+
                     // Verificar la contraseña actual
                     if (string.IsNullOrEmpty(updateDto.CurrentPassword))
                     {
