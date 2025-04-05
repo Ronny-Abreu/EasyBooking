@@ -75,6 +75,17 @@ function setupLoginForm() {
 }
 
 
+// Función para validar la contraseña
+function validatePassword(password) {
+    if (!password) return false
+
+    const hasMinLength = password.length >= 8
+    const hasNumbers = (password.match(/\d/g) || []).length >= 2
+    const hasLetters = (password.match(/[a-zA-Z]/g) || []).length >= 2
+
+    return hasMinLength && hasNumbers && hasLetters
+}
+
 //FORMULARIO REGISTER
 function setupRegisterForm() {
     const registerForm = document.getElementById("register-form")
@@ -100,6 +111,12 @@ function setupRegisterForm() {
             // Validar que las contraseñas coincidan
             if (password !== confirmPassword) {
                 showRegisterError("Las contraseñas no coinciden.")
+                return
+            }
+
+            // Validar la fortaleza de la contraseña
+            if (!validatePassword(password)) {
+                showRegisterError("La contraseña debe tener al menos 8 caracteres, incluyendo al menos 2 números y 2 letras.")
                 return
             }
 
