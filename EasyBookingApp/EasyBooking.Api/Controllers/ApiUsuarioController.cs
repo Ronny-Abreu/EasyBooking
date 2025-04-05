@@ -532,8 +532,15 @@ namespace EasyBooking.Api.Controllers
                     return NotFound(new { success = false, message = "Usuario no encontrado." });
                 }
 
+                // Guardar el email antes de eliminar la cuenta
+                string userEmail = usuario.Email;
+                string userName = usuario.Nombre;
+
                 // Eliminar el usuario
                 await _service.EliminarUsuarioAsync(userId);
+
+                // Enviar correo de confirmación de eliminación de cuenta
+                await SendAccountDeletionEmail(userEmail, userName);
 
                 return Ok(new { success = true, message = "Usuario eliminado correctamente." });
             }
@@ -543,6 +550,65 @@ namespace EasyBooking.Api.Controllers
                 return StatusCode(500, new { success = false, message = "Error interno del servidor al eliminar el usuario." });
             }
         }
+
+        // Método privado para enviar correo de confirmación de eliminación de cuenta
+        private async Task SendAccountDeletionEmail(string email, string nombre)
+        {
+            try
+            {
+                var subject = "Confirmación de eliminación de cuenta - EasyBooking";
+                var body = $@"
+            <html>
+            <head>
+                <style>
+                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
+                    .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
+                    .content {{ padding: 30px; background-color: #fff; }}
+                    .warning {{ color: #e74c3c; font-weight: bold; }}
+                    .contact {{ background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px; }}
+                    .footer {{ text-align: center; padding: 15px; font-size: 14px; color: #666; }}
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <h1>Cuenta Eliminada</h1>
+                    </div>
+                    <div class='content'>
+                        <p>Hola {nombre},</p>
+                        <p>Te informamos que tu cuenta en EasyBooking ha sido eliminada exitosamente.</p>
+                        <p>Todos tus datos personales y reservas asociadas han sido removidos de nuestro sistema.</p>
+                        <p class='warning'>⚠️ Si no has solicitado esta eliminación, es posible que alguien haya accedido a tu cuenta sin autorización.</p>
+                        <div class='contact'>
+                            <p><strong>¿No fuiste tú?</strong></p>
+                            <p>Por favor, contacta inmediatamente con nuestro equipo de soporte:</p>
+                            <ul>
+                                <li>Email: soporte@easybooking.com</li>
+                                <li>Teléfono: +1 809-854-1714</li>
+                            </ul>
+                        </div>
+                        <p>Gracias por haber sido parte de EasyBooking. Esperamos verte de nuevo en el futuro.</p>
+                        <p>Saludos,<br>El equipo de EasyBooking</p>
+                    </div>
+                    <div class='footer'>
+                        <p>© 2025 EasyBooking - Todos los derechos reservados</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+        ";
+
+                await _emailService.SendEmailAsync(email, subject, body);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar correo de confirmación de eliminación de cuenta: {ex.Message}");
+                // No lanzamos la excepción para que no afecte al flujo principal
+            }
+        }
+
+
 
         // Agregar este nuevo endpoint después del método DeleteAccount
         // POST: api/ApiUsuario/VerifyPassword
