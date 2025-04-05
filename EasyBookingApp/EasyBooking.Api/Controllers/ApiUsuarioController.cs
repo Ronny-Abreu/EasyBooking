@@ -58,7 +58,6 @@ namespace EasyBooking.Api.Controllers
                 Username = usuario.Username,
                 Telefono = usuario.Telefono,
                 IsEmailVerified = usuario.IsEmailVerified
-                // No incluimos la contraseña en la respuesta
             };
 
             return Ok(new { message = "Inicio de sesión exitoso.", data = usuarioDto });
@@ -142,12 +141,10 @@ namespace EasyBooking.Api.Controllers
                 // Generar token de verificación
                 var token = GenerateVerificationToken(usuario.Id, usuario.Email);
 
-                // Construir URL de verificación - Usar el puerto correcto para la API
                 var apiBaseUrl = _configuration["AppSettings:BaseUrl"] ?? "https://localhost:7191";
-                // Usar el puerto correcto para el frontend
+
                 var frontendBaseUrl = _configuration["AppSettings:WebAppUrl"] ?? "https://localhost:7094";
 
-                // URL para la verificación de la API
                 var verificationUrl = $"{apiBaseUrl}/api/ApiUsuario/VerifyEmail?token={token}&redirectUrl={Uri.EscapeDataString(frontendBaseUrl + "/Usuario/EmailVerified")}";
 
                 // Enviar correo de verificación
@@ -225,14 +222,11 @@ namespace EasyBooking.Api.Controllers
                     return NotFound("Usuario no encontrado.");
                 }
 
-                // Actualizar el estado de verificación del correo
                 usuario.IsEmailVerified = true;
                 await _service.ActualizarUsuarioAsync(usuario);
 
-                // Obtener la URL base de la aplicación web
                 var baseUrl = _configuration["AppSettings:WebAppUrl"] ?? "https://localhost:7094";
 
-                // Redirigir a la página de éxito en la aplicación web
                 return Redirect($"{baseUrl}/Usuario/EmailVerified");
             }
             catch (Exception ex)
@@ -243,14 +237,13 @@ namespace EasyBooking.Api.Controllers
         }
         private string GenerateVerificationToken(int userId, string email)
         {
-            // Crear un token que incluya el ID de usuario, el correo y una marca de tiempo
+            // Crea un token que incluya el ID de usuario, el correo y una marca de tiempo
             var tokenData = $"{userId}:{email}:{DateTime.UtcNow.AddHours(24).Ticks}";
 
             // Encriptar el token
             var key = _configuration["AppSettings:EmailVerificationKey"] ?? "your-secret-key-for-email-verification";
             var encryptedToken = EncryptString(tokenData, key);
 
-            // Codificar en base64 para URL
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(encryptedToken));
         }
 
@@ -261,11 +254,9 @@ namespace EasyBooking.Api.Controllers
                 // Decodificar el token
                 var encryptedToken = Encoding.UTF8.GetString(Convert.FromBase64String(token));
 
-                // Desencriptar el token
                 var key = _configuration["AppSettings:EmailVerificationKey"] ?? "your-secret-key-for-email-verification";
                 var tokenData = DecryptString(encryptedToken, key);
 
-                // Separar los componentes del token
                 var parts = tokenData.Split(':');
                 if (parts.Length != 3)
                 {
@@ -322,7 +313,7 @@ namespace EasyBooking.Api.Controllers
             using (var aes = Aes.Create())
             {
                 aes.Key = Encoding.UTF8.GetBytes(key.PadRight(32).Substring(0, 32));
-                aes.IV = new byte[16]; // IV simple para este ejemplo
+                aes.IV = new byte[16];
 
                 var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
@@ -346,7 +337,7 @@ namespace EasyBooking.Api.Controllers
             using (var aes = Aes.Create())
             {
                 aes.Key = Encoding.UTF8.GetBytes(key.PadRight(32).Substring(0, 32));
-                aes.IV = new byte[16]; // IV simple para este ejemplo
+                aes.IV = new byte[16];
 
                 var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
@@ -412,7 +403,6 @@ namespace EasyBooking.Api.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al enviar correo de bienvenida: {ex.Message}");
-                // No lanzamos la excepción para que no afecte al flujo principal
             }
         }
 
