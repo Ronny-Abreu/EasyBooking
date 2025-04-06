@@ -821,26 +821,58 @@ namespace EasyBooking.Api.Controllers
                     return BadRequest(new { success = false, message = "El correo electrónico es requerido." });
                 }
 
-                // Verificar si el usuario existe
-                var usuario = await _service.ObtenerPorEmailAsync(request.Email);
-                if (usuario == null)
+                // Verificar si la solicitud viene del perfil (se incluye el userId)
+                if (request.UserId.HasValue && request.UserId.Value > 0)
                 {
-                    
-                    return Ok(new { success = true, message = "Si el correo existe en nuestra base de datos, recibirás un código de verificación." });
+                    // Verificar que el correo proporcionado coincida con el del usuario en sesión
+                    var usuarioSesion = await _service.ObtenerUsuarioPorIdAsync(request.UserId.Value);
+                    if (usuarioSesion == null)
+                    {
+                        return NotFound(new { success = false, message = "Usuario no encontrado." });
+                    }
+
+                    // Verificación estricta: el correo debe coincidir exactamente con el del usuario en sesión
+                    if (usuarioSesion.Email != request.Email)
+                    {
+                        return BadRequest(new { success = false, message = "Solo puedes restablecer la contraseña de tu propia cuenta." });
+                    }
+
+                    // Continuar con el proceso usando el usuario de la sesión
+                    var random = new Random();
+                    var verificationCode = random.Next(100000, 999999).ToString();
+
+                    usuarioSesion.ResetCode = verificationCode;
+                    usuarioSesion.ResetCodeExpiry = DateTime.UtcNow.AddMinutes(15);
+                    await _service.ActualizarUsuarioAsync(usuarioSesion);
+
+                    // Enviar el código por correo electrónico
+                    await SendPasswordResetEmail(usuarioSesion.Email, usuarioSesion.Nombre, verificationCode);
+
+                    return Ok(new { success = true, message = "Código de verificación enviado. Por favor, revisa tu correo electrónico." });
                 }
+                else
+                {
+                    // Flujo normal para solicitudes desde la página de inicio de sesión
+                    var usuario = await _service.ObtenerPorEmailAsync(request.Email);
+                    if (usuario == null)
+                    {
+                        // Por seguridad, no revelamos si el email existe o no
+                        return Ok(new { success = true, message = "Si el correo existe en nuestra base de datos, recibirás un código de verificación." });
+                    }
 
-                // Generar código de verificación (6 dígitos)
-                var random = new Random();
-                var verificationCode = random.Next(100000, 999999).ToString();
+                    // Generar código de verificación (6 dígitos)
+                    var random = new Random();
+                    var verificationCode = random.Next(100000, 999999).ToString();
 
-                usuario.ResetCode = verificationCode;
-                usuario.ResetCodeExpiry = DateTime.UtcNow.AddMinutes(15);
-                await _service.ActualizarUsuarioAsync(usuario);
+                    usuario.ResetCode = verificationCode;
+                    usuario.ResetCodeExpiry = DateTime.UtcNow.AddMinutes(15);
+                    await _service.ActualizarUsuarioAsync(usuario);
 
-                // Enviar el código por correo electrónico
-                await SendPasswordResetEmail(usuario.Email, usuario.Nombre, verificationCode);
+                    // Enviar el código por correo electrónico
+                    await SendPasswordResetEmail(usuario.Email, usuario.Nombre, verificationCode);
 
-                return Ok(new { success = true, message = "Código de verificación enviado. Por favor, revisa tu correo electrónico." });
+                    return Ok(new { success = true, message = "Código de verificación enviado. Por favor, revisa tu correo electrónico." });
+                }
             }
             catch (Exception ex)
             {
@@ -848,6 +880,8 @@ namespace EasyBooking.Api.Controllers
                 return StatusCode(500, new { success = false, message = "Error interno del servidor." });
             }
         }
+
+
 
         // POST: api/ApiUsuario/VerifyResetCode
         [HttpPost("VerifyResetCode")]
