@@ -430,7 +430,6 @@ namespace EasyBooking.Api.Controllers
                 usuario.Apellido = updateDto.Apellido ?? usuario.Apellido;
                 usuario.Username = updateDto.Username ?? usuario.Username;
 
-                // Verificar si se está actualizando la contraseña
                 bool passwordChanged = false;
                 if (!string.IsNullOrEmpty(updateDto.Password))
                 {
@@ -460,10 +459,8 @@ namespace EasyBooking.Api.Controllers
                     passwordChanged = true;
                 }
 
-                // Guardar los cambios
                 await _service.ActualizarUsuarioAsync(usuario);
 
-                // Si se cambió la contraseña, enviar correo de confirmación
                 if (passwordChanged)
                 {
                     await SendPasswordChangeEmail(usuario.Email, usuario.Nombre);
@@ -515,105 +512,12 @@ namespace EasyBooking.Api.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al enviar correo de confirmación de cambio de contraseña: {ex.Message}");
-                // No lanzamos la excepción para que no afecte al flujo principal
             }
         }
 
-        // DELETE: api/ApiUsuario/DeleteAccount
-        [HttpDelete("DeleteAccount")]
-        public async Task<IActionResult> DeleteAccount([FromQuery] int userId)
-        {
-            try
-            {
-                // Obtener el usuario
-                var usuario = await _service.ObtenerUsuarioPorIdAsync(userId);
-                if (usuario == null)
-                {
-                    return NotFound(new { success = false, message = "Usuario no encontrado." });
-                }
-
-                // Guardar el email antes de eliminar la cuenta
-                string userEmail = usuario.Email;
-                string userName = usuario.Nombre;
-
-                // Eliminar el usuario
-                await _service.EliminarUsuarioAsync(userId);
-
-                // Enviar correo de confirmación de eliminación de cuenta
-                await SendAccountDeletionEmail(userEmail, userName);
-
-                return Ok(new { success = true, message = "Usuario eliminado correctamente." });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al eliminar usuario: {ex.Message}");
-                return StatusCode(500, new { success = false, message = "Error interno del servidor al eliminar el usuario." });
-            }
-        }
-
-        // Método privado para enviar correo de confirmación de eliminación de cuenta
-        private async Task SendAccountDeletionEmail(string email, string nombre)
-        {
-            try
-            {
-                var subject = "Confirmación de eliminación de cuenta - EasyBooking";
-                var body = $@"
-            <html>
-            <head>
-                <style>
-                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
-                    .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
-                    .content {{ padding: 30px; background-color: #fff; }}
-                    .warning {{ color: #e74c3c; font-weight: bold; }}
-                    .contact {{ background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px; }}
-                    .footer {{ text-align: center; padding: 15px; font-size: 14px; color: #666; }}
-                </style>
-            </head>
-            <body>
-                <div class='container'>
-                    <div class='header'>
-                        <h1>Cuenta Eliminada</h1>
-                    </div>
-                    <div class='content'>
-                        <p>Hola {nombre},</p>
-                        <p>Te informamos que tu cuenta en EasyBooking ha sido eliminada exitosamente.</p>
-                        <p>Todos tus datos personales y reservas asociadas han sido removidos de nuestro sistema.</p>
-                        <p class='warning'>⚠️ Si no has solicitado esta eliminación, es posible que alguien haya accedido a tu cuenta sin autorización.</p>
-                        <div class='contact'>
-                            <p><strong>¿No fuiste tú?</strong></p>
-                            <p>Por favor, contacta inmediatamente con nuestro equipo de soporte:</p>
-                            <ul>
-                                <li>Email: soporte@easybooking.com</li>
-                                <li>Teléfono: +1 809-854-1714</li>
-                            </ul>
-                        </div>
-                        <p>Gracias por haber sido parte de EasyBooking. Esperamos verte de nuevo en el futuro.</p>
-                        <p>Saludos,<br>El equipo de EasyBooking</p>
-                    </div>
-                    <div class='footer'>
-                        <p>© 2025 EasyBooking - Todos los derechos reservados</p>
-                    </div>
-                </div>
-            </body>
-            </html>
-        ";
-
-                await _emailService.SendEmailAsync(email, subject, body);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al enviar correo de confirmación de eliminación de cuenta: {ex.Message}");
-                // No lanzamos la excepción para que no afecte al flujo principal
-            }
-        }
-
-
-
-        // Agregar este nuevo endpoint después del método DeleteAccount
-        // POST: api/ApiUsuario/VerifyPassword
-        [HttpPost("VerifyPassword")]
-        public async Task<IActionResult> VerifyPassword([FromBody] PasswordVerificationDto verificationDto)
+        // POST: api/ApiUsuario/RequestAccountDeletion
+        [HttpPost("RequestAccountDeletion")]
+        public async Task<IActionResult> RequestAccountDeletion([FromBody] PasswordVerificationDto verificationDto)
         {
             try
             {
@@ -630,6 +534,265 @@ namespace EasyBooking.Api.Controllers
                 }
 
                 // Verificar la contraseña
+                var passwordHasher = new PasswordHasher<Usuario>();
+                var result = passwordHasher.VerifyHashedPassword(usuario, usuario.Password, verificationDto.Password);
+
+                if (result == PasswordVerificationResult.Failed)
+                {
+                    return Ok(new { success = false, message = "Contraseña incorrecta." });
+                }
+
+                // Generar token de eliminación (válido por 24 horas)
+                var token = GenerateDeletionToken(usuario.Id, usuario.Email);
+
+                // Enviar correo con enlace de confirmación
+                await SendAccountDeletionRequestEmail(usuario.Email, usuario.Nombre, token);
+
+                return Ok(new { success = true, message = "Se ha enviado un correo de confirmación para eliminar tu cuenta." });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al solicitar eliminación de cuenta: {ex.Message}");
+                return StatusCode(500, new { success = false, message = "Error interno del servidor." });
+            }
+        }
+
+        // GET: api/ApiUsuario/ConfirmAccountDeletion
+        [HttpGet("ConfirmAccountDeletion")]
+        public async Task<IActionResult> ConfirmAccountDeletion([FromQuery] string token, [FromQuery] string redirectUrl = null)
+        {
+            try
+            {
+                // Validar el token
+                var (isValid, userId, email) = ValidateDeletionToken(token);
+
+                if (!isValid)
+                {
+                    return BadRequest("El enlace de eliminación no es válido o ha expirado.");
+                }
+
+                // Obtener el usuario
+                var usuario = await _service.ObtenerUsuarioPorIdAsync(userId);
+                if (usuario == null || usuario.Email != email)
+                {
+                    return NotFound("Usuario no encontrado.");
+                }
+
+                // Guardar el nombre para el correo de confirmación
+                string userName = usuario.Nombre;
+                string userEmail = usuario.Email;
+
+                // Eliminar el usuario
+                await _service.EliminarUsuarioAsync(userId);
+
+                // Enviar correo de confirmación de eliminación
+                await SendAccountDeletionConfirmationEmail(userEmail, userName);
+
+                // Redirigir a la página de confirmación o a la URL proporcionada
+                if (!string.IsNullOrEmpty(redirectUrl))
+                {
+                    return Redirect(redirectUrl);
+                }
+
+                // Si no hay URL de redirección, devolver una respuesta JSON
+                return Ok(new { success = true, message = "Tu cuenta ha sido eliminada correctamente." });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al confirmar eliminación de cuenta: {ex.Message}");
+                return StatusCode(500, "Error interno del servidor al eliminar la cuenta.");
+            }
+        }
+
+        // Método para generar token de eliminación
+        private string GenerateDeletionToken(int userId, string email)
+        {
+            // Crea un token que incluya el ID de usuario, el correo y una marca de tiempo
+            var tokenData = $"{userId}:{email}:{DateTime.UtcNow.AddHours(24).Ticks}";
+
+            // Encriptar el token
+            var key = _configuration["AppSettings:AccountDeletionKey"] ?? "your-secret-key-for-account-deletion";
+            var encryptedToken = EncryptString(tokenData, key);
+
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(encryptedToken));
+        }
+
+        // Método para validar token de eliminación
+        private (bool isValid, int userId, string email) ValidateDeletionToken(string token)
+        {
+            try
+            {
+                // Decodificar el token
+                var encryptedToken = Encoding.UTF8.GetString(Convert.FromBase64String(token));
+
+                var key = _configuration["AppSettings:AccountDeletionKey"] ?? "your-secret-key-for-account-deletion";
+                var tokenData = DecryptString(encryptedToken, key);
+
+                var parts = tokenData.Split(':');
+                if (parts.Length != 3)
+                {
+                    return (false, 0, string.Empty);
+                }
+
+                var userId = int.Parse(parts[0]);
+                var email = parts[1];
+                var expirationTicks = long.Parse(parts[2]);
+
+                // Verificar si el token ha expirado
+                if (DateTime.UtcNow.Ticks > expirationTicks)
+                {
+                    return (false, 0, string.Empty);
+                }
+
+                return (true, userId, email);
+            }
+            catch
+            {
+                return (false, 0, string.Empty);
+            }
+        }
+
+        // Método para enviar correo de solicitud de eliminación de cuenta
+        private async Task SendAccountDeletionRequestEmail(string email, string nombre, string token)
+        {
+            try
+            {
+                var apiBaseUrl = _configuration["AppSettings:BaseUrl"] ?? "https://localhost:7191";
+                var frontendBaseUrl = _configuration["AppSettings:WebAppUrl"] ?? "https://localhost:7094";
+
+                var confirmationUrl = $"{apiBaseUrl}/api/ApiUsuario/ConfirmAccountDeletion?token={token}&redirectUrl={Uri.EscapeDataString(frontendBaseUrl + "/Usuario/AccountDeleted")}";
+
+                var subject = "Confirmación de eliminación de cuenta - EasyBooking";
+                var body = $@"
+            <html>
+            <head>
+                <style>
+                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
+                    .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
+                    .content {{ padding: 30px; background-color: #fff; }}
+                    .button {{ display: inline-block; padding: 12px 24px; background-color: indianred; color: white !important; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0; text-align: center; }}
+                    .button:hover {{ background-color: #c93a3a; }}
+                    .warning {{ color: #e74c3c; font-weight: bold; }}
+                    .contact {{ background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px; }}
+                    .footer {{ text-align: center; padding: 15px; font-size: 14px; color: #666; }}
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <h1>Solicitud de Eliminación de Cuenta</h1>
+                    </div>
+                    <div class='content'>
+                        <p>Hola {nombre},</p>
+                        <p>Hemos recibido una solicitud para eliminar tu cuenta en EasyBooking.</p>
+                        <p><strong>Si fuiste tú quien solicitó esta acción</strong>, por favor confirma la eliminación haciendo clic en el siguiente botón:</p>
+                        
+                        <div style='text-align: center;'>
+                            <a href='{confirmationUrl}' class='button'>Confirmar Eliminación de Cuenta</a>
+                        </div>
+                        
+                        <p>Este enlace expirará en 24 horas por razones de seguridad.</p>
+                        
+                        <p class='warning'>⚠️ Si NO has solicitado eliminar tu cuenta, alguien podría estar intentando acceder a ella sin tu autorización.</p>
+                        
+                        <div class='contact'>
+                            <p><strong>¿No fuiste tú?</strong></p>
+                            <p>Te recomendamos:</p>
+                            <ul>
+                                <li>Cambiar tu contraseña inmediatamente</li>
+                                <li>Contactar con nuestro equipo de soporte:</li>
+                                <ul>
+                                    <li>Email: soporte@easybooking.com</li>
+                                    <li>Teléfono: +1 (555) 123-4567</li>
+                                </ul>
+                            </ul>
+                        </div>
+                        
+                        <p>Saludos,<br>El equipo de EasyBooking</p>
+                    </div>
+                    <div class='footer'>
+                        <p>© 2025 EasyBooking - Todos los derechos reservados</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+        ";
+
+                await _emailService.SendEmailAsync(email, subject, body);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar correo de solicitud de eliminación de cuenta: {ex.Message}");
+            }
+        }
+
+        // Método para enviar correo de confirmación de eliminación de cuenta
+        private async Task SendAccountDeletionConfirmationEmail(string email, string nombre)
+        {
+            try
+            {
+                var subject = "Cuenta eliminada exitosamente - EasyBooking";
+                var body = $@"
+            <html>
+            <head>
+                <style>
+                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
+                    .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; border-radius: 8px 8px 0 0; }}
+                    .content {{ padding: 30px; background-color: #fff; }}
+                    .footer {{ text-align: center; padding: 15px; font-size: 14px; color: #666; }}
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <h1>Cuenta Eliminada</h1>
+                    </div>
+                    <div class='content'>
+                        <p>Hola {nombre},</p>
+                        <p>Te confirmamos que tu cuenta en EasyBooking ha sido eliminada exitosamente.</p>
+                        <p>Todos tus datos personales y reservas asociadas han sido removidos de nuestro sistema.</p>
+                        <p>Lamentamos verte partir y esperamos que hayas disfrutado de nuestros servicios.</p>
+                        <p>Si deseas volver a utilizar EasyBooking en el futuro, siempre puedes crear una nueva cuenta.</p>
+                        <p>Gracias por haber sido parte de nuestra comunidad.</p>
+                        <p>Saludos,<br>El equipo de EasyBooking</p>
+                    </div>
+                    <div class='footer'>
+                        <p>© 2025 EasyBooking - Todos los derechos reservados</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+        ";
+
+                await _emailService.SendEmailAsync(email, subject, body);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar correo de confirmación de eliminación de cuenta: {ex.Message}");
+            }
+        }
+
+
+
+        // POST: api/ApiUsuario/VerifyPassword
+        [HttpPost("VerifyPassword")]
+        public async Task<IActionResult> VerifyPassword([FromBody] PasswordVerificationDto verificationDto)
+        {
+            try
+            {
+                if (verificationDto == null || string.IsNullOrEmpty(verificationDto.Password) || verificationDto.UserId <= 0)
+                {
+                    return BadRequest(new { success = false, message = "Datos inválidos." });
+                }
+
+                var usuario = await _service.ObtenerUsuarioPorIdAsync(verificationDto.UserId);
+                if (usuario == null)
+                {
+                    return NotFound(new { success = false, message = "Usuario no encontrado." });
+                }
+
                 var passwordHasher = new PasswordHasher<Usuario>();
                 var result = passwordHasher.VerifyHashedPassword(usuario, usuario.Password, verificationDto.Password);
 
@@ -662,7 +825,7 @@ namespace EasyBooking.Api.Controllers
                 var usuario = await _service.ObtenerPorEmailAsync(request.Email);
                 if (usuario == null)
                 {
-                    // Por seguridad, no revelamos si el email existe o no
+                    
                     return Ok(new { success = true, message = "Si el correo existe en nuestra base de datos, recibirás un código de verificación." });
                 }
 
@@ -671,7 +834,7 @@ namespace EasyBooking.Api.Controllers
                 var verificationCode = random.Next(100000, 999999).ToString();
 
                 usuario.ResetCode = verificationCode;
-                usuario.ResetCodeExpiry = DateTime.UtcNow.AddMinutes(15); // El código expira en 15 minutos
+                usuario.ResetCodeExpiry = DateTime.UtcNow.AddMinutes(15);
                 await _service.ActualizarUsuarioAsync(usuario);
 
                 // Enviar el código por correo electrónico
