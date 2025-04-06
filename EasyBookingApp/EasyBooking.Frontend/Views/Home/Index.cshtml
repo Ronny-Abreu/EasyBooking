@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+<link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+
+<div class="content">
+    <h1>
+        Bienvenido a EasyBooking 🧩
+
+    </h1>
+    <p>Reserva, Pública y Gestiona fácil</p>
+</div>
+
+
+<!-- Secciones -->
+@await Html.PartialAsync("_HotelesPartial")
+@await Html.PartialAsync("_PaquetesPartial")
+@await Html.PartialAsync("_ViajesPartial")
+
+
+
+<!-- Scripts -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector(".content").classList.add("show");
+    });
+</script>

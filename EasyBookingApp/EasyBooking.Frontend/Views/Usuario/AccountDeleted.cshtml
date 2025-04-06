@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Cuenta Eliminada";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["HideFooter"] = true;
+
+}
+
+<div class="container">
+    <img src="~/img/emailVerifiedLogo.jpeg" alt="Verificado" class="logo">
+    <h1>¡Cuenta eliminada!</h1>
+    <p>Lamentamos verte partir y esperamos que hayas disfrutado de nuestros servicios.</p>
+    <p>Gracias por haber sido parte de nuestra comunidad.</p>
+    <a href="/" class="btn">Volver al Inicio</a>
+    <div>
+        <br />
+        <small>© 2025 EasyBooking - Todos los derechos reservados</small>
+    </div>
+</div>
+
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/AccountDeleted.css">
+}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Cierra sesión en todas las pestañas/ventanas
+        localStorage.removeItem('user');
+
+        try {
+            if (window.BroadcastChannel) {
+                const bc = new BroadcastChannel('easybooking_logout_channel');
+                bc.postMessage('logout');
+            }
+        } catch (e) {
+            console.error('Error al usar BroadcastChannel:', e);
+        }
+
+        let secondsLeft = 5;
+        const countdownElement = document.getElementById('countdown');
+
+        const countdownInterval = setInterval(function() {
+            secondsLeft--;
+            countdownElement.textContent = secondsLeft;
+
+            if (secondsLeft <= 0) {
+                clearInterval(countdownInterval);
+                window.location.href = '/';
+            }
+        }, 1000);
+    });
+</script>
