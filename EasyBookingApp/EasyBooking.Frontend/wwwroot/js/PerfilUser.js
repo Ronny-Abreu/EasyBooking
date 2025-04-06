@@ -109,8 +109,8 @@ function setupActionButtons(user) {
     const editProfileForm = document.getElementById("editProfileForm")
 
     if (editProfileBtn) {
-        // Modal al hacer clic en el botón de editar
         editProfileBtn.addEventListener("click", () => {
+
             // El formulario aparece con los datos actuales del usuario
             document.getElementById("editNombre").value = user.nombre || ""
             document.getElementById("editApellido").value = user.apellido || ""
@@ -155,6 +155,7 @@ function setupActionButtons(user) {
                 return
             }
 
+            // Solo verificar la contraseña actual si el usuario está intentando cambiar su contraseña
             if (newPassword) {
                 if (!currentPassword) {
                     passwordError.textContent = "Debes ingresar tu contraseña actual para cambiarla."
@@ -286,10 +287,89 @@ function setupActionButtons(user) {
         modalBackdrop.style.display = "none"
     })
 
-    // Confirmar eliminación
     confirmDeleteBtn.addEventListener("click", () => {
-        deleteAccount(user.id)
+        requestAccountDeletion(user.id, deletePasswordInput.value)
     })
+
+    function requestAccountDeletion(userId, password) {
+        const confirmDeleteBtn = document.getElementById("confirmDeleteBtn")
+        confirmDeleteBtn.disabled = true
+        confirmDeleteBtn.innerHTML =
+            '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...'
+
+        // URL de la API
+        const apiUrl = "https://localhost:7191/api/ApiUsuario/RequestAccountDeletion"
+
+        // Solicitud para iniciar el proceso de eliminación de cuenta
+        fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userId: userId,
+                password: password,
+            }),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Error al procesar la solicitud")
+                }
+                return response.json()
+            })
+            .then((data) => {
+
+                document.getElementById("deleteConfirmationModal").style.display = "none"
+                document.getElementById("modalBackdrop").style.display = "none"
+
+                if (data.success) {
+
+                    if (typeof Swal !== "undefined") {
+                        Swal.fire({
+                            title: "Solicitud enviada",
+                            text: "Se ha enviado un correo electrónico con instrucciones para confirmar la eliminación de tu cuenta.",
+                            icon: "info",
+                            confirmButtonText: "Aceptar",
+                        }).then(() => {
+
+                            localStorage.removeItem("user")
+                            window.location.href = "/"
+                        })
+                    } else {
+                        alert("Se ha enviado un correo electrónico con instrucciones para confirmar la eliminación de tu cuenta.")
+
+                        localStorage.removeItem("user")
+                        window.location.href = "/"
+                    }
+                } else {
+                    throw new Error(data.message || "Error al procesar la solicitud de eliminación de cuenta.")
+                }
+
+                confirmDeleteBtn.innerHTML = "Eliminar"
+                confirmDeleteBtn.disabled = false
+            })
+            .catch((error) => {
+                console.error("Error:", error)
+
+                if (typeof Swal !== "undefined") {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Ocurrió un error al procesar tu solicitud. Por favor, intenta nuevamente más tarde.",
+                        icon: "error",
+                        confirmButtonText: "Aceptar",
+                    })
+                } else {
+                    alert("Ocurrió un error al procesar tu solicitud. Por favor, intenta nuevamente más tarde.")
+                }
+
+                confirmDeleteBtn.innerHTML = "Eliminar"
+                confirmDeleteBtn.disabled = false
+
+                // Ocultar el modal de confirmación
+                document.getElementById("deleteConfirmationModal").style.display = "none"
+                document.getElementById("modalBackdrop").style.display = "none"
+            })
+    }
 
     modalBackdrop.addEventListener("click", (event) => {
         if (event.target === modalBackdrop) {
@@ -383,6 +463,8 @@ function verifyPassword(userId, password) {
             passwordInput.classList.add("shake")
         })
 }
+
+
 //FUNCIÓN PARA AUTENTICACIÓN DE LA CONTRASEÑA SEGURA
 function validatePassword(password) {
     if (!password) return false
@@ -398,7 +480,6 @@ function updateProfile(updatedUser) {
     const updateProfileBtn = document.getElementById("updateProfileBtn")
     const passwordError = document.getElementById("password-error")
 
-    // Verificar si hay cambios en los datos básicos
     const userJson = localStorage.getItem("user")
     if (userJson) {
         const user = JSON.parse(userJson)
@@ -409,7 +490,6 @@ function updateProfile(updatedUser) {
             user.username === updatedUser.username &&
             !updatedUser.password
         ) {
-
             if (typeof Swal !== "undefined") {
                 Swal.fire({
                     title: "Sin cambios",
@@ -489,7 +569,6 @@ function updateProfile(updatedUser) {
                 passwordError.style.display = "block"
                 passwordError.scrollIntoView({ behavior: "smooth", block: "center" })
             } else {
-
                 if (typeof Swal !== "undefined") {
                     Swal.fire({
                         title: "Error al actualizar el perfil",
@@ -504,68 +583,6 @@ function updateProfile(updatedUser) {
 
             updateProfileBtn.innerHTML = "Actualizar"
             updateProfileBtn.disabled = false
-        })
-}
-
-function deleteAccount(userId) {
-    const confirmDeleteBtn = document.getElementById("confirmDeleteBtn")
-    confirmDeleteBtn.disabled = true
-    confirmDeleteBtn.innerHTML =
-        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Eliminando...'
-
-    // URL de la API
-    const apiUrl = "https://localhost:7191/api/ApiUsuario/DeleteAccount"
-
-    // Solicitud para eliminar la cuenta
-    fetch(`${apiUrl}?userId=${userId}`, {
-        method: "DELETE",
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Error al eliminar la cuenta")
-            }
-            return response.json()
-        })
-        .then((data) => {
-            if (data.success) {
-                localStorage.removeItem("user")
-
-                if (typeof Swal !== "undefined") {
-                    Swal.fire({
-                        title: "¡Cuenta eliminada!",
-                        text: "Tu cuenta ha sido eliminada correctamente.",
-                        icon: "success",
-                        confirmButtonText: "Aceptar",
-                    }).then(() => {
-                        window.location.href = "/"
-                    })
-                } else {
-                    alert("Tu cuenta ha sido eliminada correctamente.")
-                    window.location.href = "/"
-                }
-            } else {
-                throw new Error(data.message || "Error al eliminar la cuenta")
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error)
-
-            if (typeof Swal !== "undefined") {
-                Swal.fire({
-                    title: "Error",
-                    text: "Ocurrió un error al eliminar la cuenta. Por favor, intenta nuevamente más tarde.",
-                    icon: "error",
-                    confirmButtonText: "Aceptar",
-                })
-            } else {
-                alert("Ocurrió un error al eliminar la cuenta. Por favor, intenta nuevamente más tarde.")
-            }
-
-            confirmDeleteBtn.innerHTML = "Eliminar"
-            confirmDeleteBtn.disabled = false
-
-            document.getElementById("deleteConfirmationModal").style.display = "none"
-            document.getElementById("modalBackdrop").style.display = "none"
         })
 }
 
