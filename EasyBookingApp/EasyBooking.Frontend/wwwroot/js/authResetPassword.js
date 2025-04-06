@@ -150,11 +150,11 @@ function requestPasswordResetCode() {
             submitButton.value = originalText;
 
             if (data.success) {
-                showMessage('forgot-password-message', 'Hemos enviado un código de verificación a tu correo electrónico.', 'info');
+                showMessage('forgot-password-message', 'Si tu correo está registrado, verás el código de verificación enviado a tu correo electrónico.', 'info');
 
                 setTimeout(() => {
                     showResetPasswordForm();
-                }, 2000);
+                }, 5000);
             } else {
                 showMessage('forgot-password-message', data.message || 'Error al enviar el código de verificación.', 'danger');
             }
