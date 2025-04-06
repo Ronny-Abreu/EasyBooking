@@ -142,13 +142,19 @@ namespace EasyBooking.Frontend.Controllers
             return RedirectToAction("Index", "Inicio");
         }
 
+        // GET: /Usuario/AccountDeleted
+        public IActionResult AccountDeleted()
+        {
+            return View();
+        }
 
 
 
 
 
 
-    
+
+
     }
 }
 
