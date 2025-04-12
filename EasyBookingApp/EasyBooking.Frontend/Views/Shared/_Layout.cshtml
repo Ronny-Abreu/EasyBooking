@@ -6,23 +6,20 @@
     <title>@ViewData["Title"] - EasyBooking </title>
     <link href="https://fonts.googleapis.com/css2?family=Circular:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" /> 
+    <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
-    @RenderSection("Styles", required: false)
 
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
     {
         @await Html.PartialAsync("_NavbarPartial")
-
     }
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main>
+        @RenderBody()
+    </main>
 
 
 
@@ -72,7 +69,7 @@
                     </div>
                 </div>
                 <div class="form-footer">
-                    <p>¿No tienes cuenta? <a href="#" onclick="switchToRegister(event)">Crear cuenta</a></p>
+                    <p>¿No tienes cuenta? <a href="#" class="CreateAccountLink" onclick="switchToRegister(event)">Crear cuenta</a></p>
                 </div>
                 <span class="agreement"><a href="#">Términos y condiciones</a></span>
             </div>
@@ -85,7 +82,7 @@
                     <p class="form-description">Ingresa tu correo electrónico y te enviaremos un código de verificación para restablecer tu contraseña.</p>
                     <input required class="input" type="email" name="ForgotEmail" id="forgot-email" placeholder="Correo electrónico">
                     <input class="login-button" type="submit" value="Enviar Código">
-                    <button type="button" class="back-button" id="back-to-login-btn">Volver al inicio de sesión</button>
+                    <button type="button" class="back-button text-decoration-none" id="back-to-login-btn">Volver al inicio de sesión</button>
                 </form>
             </div>
 
@@ -105,7 +102,7 @@
                     <div id="reset-password-message" class="alert alert-info" style="display: none;"></div>
                     <input required class="input" type="password" name="NewPassword" id="new-password" placeholder="Nueva contraseña" disabled>
                     <input class="login-button" type="submit" value="Restablecer Contraseña" id="reset-password-btn" disabled>
-                    <button type="button" class="back-button" id="back-to-forgot-btn">Volver</button>
+                    <button type="button" class="back-button text-decoration-none" id="back-to-forgot-btn">Volver</button>
                 </form>
             </div>
         </div>
@@ -167,8 +164,7 @@
     <script src="~/js/auth.js" asp-append-version="true"></script>
 	<script src="~/js/authResetPassword.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    @* <script src="~/js/Secciones.js" asp-append-version="true"></script> *@
+    <script src="~/js/Secciones.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
