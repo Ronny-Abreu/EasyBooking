@@ -41,7 +41,6 @@ namespace EasyBooking.Domain.Entities
         // Navegación
         public ICollection<Reserva> Reservas { get; set; }
         public ICollection<Valoracion> Valoraciones { get; set; }
-        public ICollection<Publicacion> Publicaciones { get; set; }
 
         public Usuario()
         {
@@ -53,7 +52,6 @@ namespace EasyBooking.Domain.Entities
             Telefono = string.Empty;
             Reservas = new List<Reserva>();
             Valoraciones = new List<Valoracion>();
-            Publicaciones = new List<Publicacion>();
         }
     }
 }
