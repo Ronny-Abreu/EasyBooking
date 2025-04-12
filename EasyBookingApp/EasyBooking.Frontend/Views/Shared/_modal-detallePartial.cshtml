@@ -1,0 +1,258 @@
+﻿<!-- Modal de detalle -->
+<div id="detalle-modal" class="modal-detalle">
+    <div class="modal-contenido">
+        <button id="cerrar-modal" class="cerrar-modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <!-- Encabezado del modal -->
+        <div class="modal-header">
+            <h2 id="detalle-titulo">Título de la propiedad</h2>
+            <div class="modal-subtitulo">
+                <div class="rating-container">
+                    <span class="star">★</span>
+                    <span id="detalle-rating">4.85</span>
+                    <span class="separador"></span>
+                </div>
+                <span class="separador"></span>
+                <span id="detalle-subtitulo">Alojamiento entero: condominio en Santo Domingo</span>
+            </div>
+        </div>
+
+        <!-- Galería de imágenes -->
+        <div class="detalle-galeria">
+            <div class="galeria-principal">
+                <img id="imagen-principal" src="/img/airbnb1.jpg" alt="Imagen principal del alojamiento">
+                <button class="galeria-control prev">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="galeria-control next">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+                <button class="ver-todas-fotos">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    Mostrar todas las fotos
+                </button>
+            </div>
+            <div class="galeria-miniaturas">
+                <!-- Las miniaturas se generarán dinámicamente con JavaScript -->
+                <div class="miniatura active" data-img="/img/airbnb1.jpg">
+                    <img src="/img/airbnb1.jpg" alt="Miniatura 1">
+                </div>
+                <div class="miniatura" data-img="/img/airbnb1.jpg">
+                    <img src="/img/airbnb1.jpg" alt="Miniatura 2">
+                </div>
+                <div class="miniatura" data-img="/img/airbnb1.jpg">
+                    <img src="/img/airbnb1.jpg" alt="Miniatura 3">
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="modal-body">
+            <div class="detalle-info">
+
+                <!-- Características destacadas -->
+                <div class="caracteristicas">
+					<div class="caracteristica-item">
+						<circle cx="12" cy="7" r="4"></circle>
+                    </div>
+                    <div class="caracteristica-item">
+                        <div class="caracteristica-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </div>
+                        <div class="caracteristica-texto">
+                            <h4>Seguridad propiedad privada</h4>
+                            <p>El alojamiento cuenta con alta tecnologia de seguridad.</p>
+                        </div>
+                    </div>
+                    <div class="caracteristica-item">
+                        <div class="caracteristica-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="caracteristica-texto">
+                            <h4>Cancelación gratuita por 48 horas</h4>
+                            <p>Cancela sin costo hasta 48 horas antes de la llegada.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="descripcion">
+                    <h3>Acerca de este espacio</h3>
+                    <p class="AboutSpace">Disfruta de este hermoso apartamento con vista al mar en Santo Domingo. Completamente amueblado y equipado para que te sientas como en casa. A pocos minutos de las principales atracciones turísticas, restaurantes y vida nocturna.</p>
+                    <p class="AboutSpace">El espacio cuenta con:</p>
+                    <ul>
+                        <li>Cocina completamente equipada</li>
+                        <li>WiFi de alta velocidad</li>
+                        <li>Smart TV con Netflix</li>
+                        <li>Aire acondicionado en todas las habitaciones</li>
+                        <li>Balcón con vista al mar</li>
+                        <li>Acceso a piscina y gimnasio</li>
+                    </ul>
+                </div>
+
+                <!-- Amenidades -->
+                <div class="amenidades">
+                    <h3>Lo que ofrece este lugar</h3>
+                    <div class="amenidades-grid">
+                        <div class="amenidad-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Vista al mar</span>
+                        </div>
+                        <div class="amenidad-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M23 6l-9.5 9.5-5-5L1 18"></path>
+                                <path d="M17 6h6v6"></path>
+                            </svg>
+                            <span>WiFi</span>
+                        </div>
+                        <div class="amenidad-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                                <polyline points="17 2 12 7 7 2"></polyline>
+                            </svg>
+                            <span>TV</span>
+                        </div>
+                        <div class="amenidad-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14"></path>
+                                <path d="M2 20h20"></path>
+                                <path d="M14 12v.01"></path>
+                            </svg>
+                            <span>Cocina</span>
+                        </div>
+                        <div class="amenidad-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 3v4M3 5h4M6 17v4M4 19h4M13 3l4 4M17 5l-4 4M15 19l-2 2M19 15l-4 4"></path>
+                            </svg>
+                            <span>Aire acondicionado</span>
+                        </div>
+                        <div class="amenidad-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                            <span>Piscina</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de reserva -->
+            <div class="panel-reserva">
+                <div class="panel-reserva-contenido">
+                    <div class="panel-header">
+                        <div class="precio-container">
+                            <span id="detalle-precio" class="precio">$790</span>
+                            <span id="detalle-noches">por noche</span>
+                        </div>
+                        <div class="rating-container">
+                            <span class="star">★</span>
+                            <span id="reserva-rating">4.85</span>
+                            <span class="separador"></span>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de reserva -->
+                    <div class="formulario-reserva">
+                        <div class="fechas-container">
+                            <div class="fecha-entrada">
+                                <label>LLEGADA</label>
+                                <input type="date" placeholder="Agregar fecha">
+                            </div>
+                            <div class="fecha-salida">
+                                <label>SALIDA</label>
+                                <input type="date" placeholder="Agregar fecha">
+                            </div>
+                        </div>
+                        <div class="huespedes-container">
+                            <label>HUÉSPEDES</label>
+                            <select>
+                                <option value="1">1 huésped</option>
+                                <option value="2">2 huéspedes</option>
+                                <option value="3">3 huéspedes</option>
+                                <option value="4" selected>4 huéspedes</option>
+                                <option value="5">5 huéspedes</option>
+                            </select>
+                        </div>
+                        <button class="btn-reservar">Reservar</button>
+                        <p class="no-cargo">No se te cobrará todavía</p>
+                    </div>
+
+                    <!-- Desglose de precios -->
+                    <div class="desglose-precios">
+                        <div class="precio-item">
+                            <span>$790 x 5 noches</span>
+                            <span>$3,950</span>
+                        </div>
+                        <div class="precio-item">
+                            <span>Tarifa de limpieza</span>
+                            <span>$100</span>
+                        </div>
+                        <div class="precio-item">
+                            <span>Tarifa de servicio</span>
+                            <span>$250</span>
+                        </div>
+                        <div class="precio-total">
+                            <span>Total</span>
+                            <span>$4,300</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Galería completa -->
+<div id="galeria-completa" class="galeria-completa">
+    <div class="galeria-completa-header">
+        <button id="cerrar-galeria" class="cerrar-galeria">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <div class="contador-fotos">
+            <span id="imagen-actual-num">1</span> / <span id="imagen-total-num">5</span>
+        </div>
+    </div>
+    <div class="galeria-completa-contenido">
+        <button id="prev-foto" class="nav-foto prev">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <div class="galeria-completa-imagen">
+            <img id="galeria-imagen-actual" src="/img/airbnb1.jpg" alt="Imagen">
+        </div>
+        <button id="next-foto" class="nav-foto next">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+    </div>
+    <div class="galeria-completa-miniaturas">
+        <!-- Las miniaturas se generarán dinámicamente con JavaScript -->
+    </div>
+</div>
