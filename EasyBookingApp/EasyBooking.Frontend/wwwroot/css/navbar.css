@@ -103,7 +103,7 @@ text-decoration: none;
 display: block;
 font-size: 14px;
 transition: all 0.2s;
-position: relative;
+position: center;
 }
 
     .dropdown-item:hover {
@@ -161,7 +161,7 @@ align-items: center;
 justify-content: center;
 }
 
-/*Estilos para el avatar*/
+/* Estilos para el navbar dinámico */
 .EasyBooking-navbar {
     position: fixed;
     top: 0;
@@ -172,7 +172,50 @@ justify-content: center;
     border-bottom: 5px solid #ebebeb;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
+    transition: transform 0.3s ease;
 }
+
+.navbar-hidden {
+    transform: translateY(-100%);
+}
+
+/* Estilos para el botón de volver arriba */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(226, 41, 90, 0.8);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+    .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .back-to-top:hover {
+        background-color: rgba(226, 41, 90, 1);
+        transform: translateY(-5px);
+    }
+
+    .back-to-top svg {
+        width: 24px;
+        height: 24px;
+    }
+
+
 
 .navbar-container {
     font-family: Geist-bold, serif;
@@ -211,16 +254,17 @@ justify-content: center;
 
 /* Profile Dropdown Styles */
 .profile-dropdown {
-display: none;
-position: absolute;
-top: calc(100% + 10px);
-right: -70px;
-width: 240px;
-background-color: white;
-border-radius: 12px;
-box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
-padding: 8px 0;
-z-index: 100;
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: -70px;
+    width: 240px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+    padding: 8px 0;
+    z-index: 100;
+    text-align: center;
 }
 
 .profile-dropdown.show {
@@ -232,12 +276,13 @@ padding: 8px 0;
 }
 
 .dropdown-item {
-display: block;
-padding: 12px 16px;
-color: #222;
-text-decoration: none;
-font-size: 14px;
-transition: background-color 0.2s;
+    display: block;
+    padding: 12px 16px;
+    color: #222;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    margin-left: 0;
 }
 
     .dropdown-item:hover {
@@ -385,7 +430,7 @@ margin-top: 20px;
 .form .forgot-password {
     display: block;
     margin-top: 15px;
-    margin-left: 10px;
+    margin-left: 126px;
 }
 
     .form .forgot-password a {
@@ -394,20 +439,20 @@ margin-top: 20px;
         text-decoration: none;
     }
 
-.form .login-button {
-    display: block;
-    width: 100%;
-    font-weight: bold;
-    background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%);
-    color: white;
-    padding-block: 15px;
-    margin: 20px auto;
-    border-radius: 20px;
-    box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px;
-    border: none;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-}
+    .form .login-button {
+        display: block;
+        width: 100%;
+        font-weight: bold;
+        background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%);
+        color: white;
+        padding-block: 15px;
+        margin: 20px auto;
+        border-radius: 20px;
+        box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px;
+        border: none;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
 
     .form .login-button:hover {
         transform: scale(1.03);
@@ -573,7 +618,7 @@ animation: slideIn 0.3s forwards;
     height: 20px;
 }
 
-/*input de cuadros pa ingresar codigo defs verificacion enviado*/
+/*input de cuadros pa ingresar codigo verificacion enviado*/
 .verification-code.valid {
     border-color: #28a745;
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
@@ -584,7 +629,7 @@ animation: slideIn 0.3s forwards;
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
-/*Animacion de error cuando algo desc incorrecto center un input*/
+/*Animacion de error cuando algo es incorrecto center un input*/
 .shake {
     animation: shake 0.5s;
 }
