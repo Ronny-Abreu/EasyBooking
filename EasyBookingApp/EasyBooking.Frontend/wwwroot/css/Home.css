@@ -30,32 +30,82 @@
 }
 
 
+/* Ajustes para el body y contenedor principal */
 body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 0;
+    display: block; /* Cambiado de flex a block */
+    font-family: 'Monserrat-thin', sans-serif;
+    overflow-x: hidden;
+}
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Estilos para la sección de título principal */
+.hero-section {
+    height: 100vh;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    padding-top: 0;
+    margin-top: 0;
+    position: relative;
+    overflow: hidden;
 }
+
 
 .content {
     color: rgba(226,41,90,255);
     text-align: center;
     padding: 20px;
     margin-bottom: 20px;
+    max-width: 800px;
+    z-index: 2;
 }
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+    cursor: pointer;
+    color: rgba(226,41,90,0.7);
+    z-index: 2;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+
+    40% {
+        transform: translateY(-20px) translateX(-50%);
+    }
+
+    60% {
+        transform: translateY(-10px) translateX(-50%);
+    }
+}
+
 
 
 h1 {
     font-family: Poppins-Tall, serif; 
-    font-size: clamp(2rem, 6vw, 4rem);
+    font-size: clamp(3rem, 5vw, 5rem);
     font-weight: bold;
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-    margin-top: 50px;
+/*    margin-top: 250px;*/
 }
 
 
@@ -93,6 +143,276 @@ p {
 .content.show h1, .content.show p {
     transform: translateY(0);
     opacity: 1;
+}
+
+/* Contenedor de secciones */
+.sections-container {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    background-color: #fff;
+}
+
+/* Ajuste para las secciones de contenido */
+.section-container {
+    padding-top: 70px;
+    margin-top: 0;
+    padding-bottom: 30px;
+}
+
+.section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    color: rgba(226,41,90,255);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 15px;
+}
+
+.card-item {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: white;
+    position: relative;
+    cursor: pointer;
+}
+
+    .card-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+/* Carrusel de imágenes */
+.card-carousel {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 100%;
+}
+
+.carousel-item {
+    min-width: 100%;
+    height: 100%;
+    flex: 0 0 auto;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+    .carousel-item.active {
+        opacity: 1;
+        z-index: 1;
+    }
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.card-carousel:hover .carousel-control {
+    opacity: 1;
+}
+
+.carousel-control:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.carousel-control.prev {
+    left: 10px;
+}
+
+.carousel-control.next {
+    right: 10px;
+}
+
+.carousel-arrow {
+    font-size: 14px;
+    color: #333;
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    z-index: 2;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .dot.active {
+        background-color: white;
+    }
+
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    z-index: 2;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .favorite-btn svg {
+        stroke: white;
+        fill: none;
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.5));
+        transition: fill 0.3s ease;
+    }
+
+    .favorite-btn:hover svg {
+        fill: rgba(255, 255, 255, 0.5);
+    }
+
+    .favorite-btn.active svg {
+        fill: rgba(226,41,90,255);
+        stroke: rgba(226,41,90,255);
+    }
+
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: white;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenido de la card */
+.card-content {
+    padding: 15px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+.card-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+    flex: 1;
+}
+
+.card-rating {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin-left: 10px;
+}
+
+.star {
+    color: #FF385C;
+    margin-right: 3px;
+}
+
+.rating {
+    font-weight: 600;
+    color: #333;
+}
+
+.card-location, .card-dates {
+    color: #717171;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.card-price {
+    margin-top: 10px;
+    margin-left: 0px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Ajuste para el footer */
+.footer {
+    position: relative;
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    margin-top: auto;
+}
+
+/* Responsive para las cards */
+@media screen and (max-width: 992px) {
+    .cards-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .cards-container {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 /*Loading de la pagina*/
