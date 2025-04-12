@@ -599,7 +599,7 @@ function sendVerificationEmail(email, userId) {
         method: "POST",
     })
         .then((response) => {
-            console.log("Respuesta:", response)
+            console.log("Respuesta:", response)     
             if (!response.ok) {
                 throw new Error("Error al enviar el correo de verificación")
             }
