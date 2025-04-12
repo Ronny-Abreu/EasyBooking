@@ -103,7 +103,7 @@ text-decoration: none;
 display: block;
 font-size: 14px;
 transition: all 0.2s;
-position: center;
+position: relative;
 }
 
     .dropdown-item:hover {
@@ -114,10 +114,10 @@ position: center;
     content: '';
     position: absolute;
     bottom: 5px;
-    left: 30%;
+    left: 28%;
     transform: translateX(-50%);
-    width: 75px;
-    height: 2px;
+    width: 70px;
+    height: 1px;
     background-color: indianred;
     }
 
