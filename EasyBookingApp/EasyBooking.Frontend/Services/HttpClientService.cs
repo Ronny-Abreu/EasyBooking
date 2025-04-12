@@ -21,6 +21,9 @@ namespace EasyBooking.Frontend.Services
             _logger = logger;
         }
 
+        // Propiedad pública para acceder a _apiBaseUrl
+        public string ApiBaseUrl => _apiBaseUrl;
+
         public async Task<ApiResponse<T>> GetAsync<T>(string endpoint)
         {
             try
@@ -195,4 +198,3 @@ namespace EasyBooking.Frontend.Services
         }
     }
 }
-
