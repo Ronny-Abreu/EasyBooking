@@ -4,17 +4,14 @@ let userSessionId = 0
 
 // Función que abre el modal de recuperación de contraseña desde el perfil
 function openForgotPasswordFromProfile() {
-    // Primero, se cierra el modal de edición de perfil
     const editProfileModal = document.getElementById("editProfileModal")
     if (editProfileModal) {
         editProfileModal.style.display = "none"
     }
 
-    // Luego, abre el modal de login
     document.getElementById("modal-overlay").classList.add("active")
     document.getElementById("login-modal").classList.add("active")
 
-    // Finalmente, muestra el formulario de recuperación de contraseña después de un breve retraso
     setTimeout(() => {
         document.getElementById("login-form-container").style.display = "none"
         document.getElementById("forgot-password-container").style.display = "block"
@@ -29,7 +26,7 @@ function openForgotPasswordFromProfile() {
                 userSessionEmail = user.email || ""
                 userSessionId = user.id || 0
 
-                // Establecer el correo del usuario en sesión y deshabilitar el campo
+                // Establece el correo del usuario en sesión y deshabilitar el campo
                 const emailInput = document.getElementById("forgot-email")
                 if (emailInput) {
                     emailInput.value = userSessionEmail
@@ -39,7 +36,6 @@ function openForgotPasswordFromProfile() {
                     emailInput.style.cursor = "not-allowed"
                 }
 
-                // Agregar un campo oculto para indicar que la solicitud viene del perfil
                 if (!document.getElementById("from-profile-flag")) {
                     const hiddenField = document.createElement("input")
                     hiddenField.type = "hidden"
@@ -51,7 +47,6 @@ function openForgotPasswordFromProfile() {
                     document.getElementById("from-profile-flag").value = "true"
                 }
 
-                // Agregar un mensaje informativo
                 showMessage(
                     "forgot-password-message",
                     "Enviaremos un código de verificación a tu correo electrónico registrado.",
@@ -59,11 +54,9 @@ function openForgotPasswordFromProfile() {
                 )
             } catch (e) {
                 console.error("Error al parsear los datos del usuario:", e)
-                // Si hay error, dejar el campo de correo vacío como en el código original
                 document.getElementById("forgot-email").value = ""
             }
         } else {
-            // Si no hay usuario en sesión, dejar el campo de correo vacío como en el código original
             document.getElementById("forgot-email").value = ""
         }
     }, 100)
@@ -118,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function requestPasswordResetCodeFromProfile() {
     // Verificar que el correo coincida con el de la sesión
-    const email = userSessionEmail // Usar directamente el email de la sesión
+    const email = userSessionEmail // Usa directamente el email de la sesión
 
     if (!email) {
         showMessage(
@@ -139,7 +132,6 @@ function requestPasswordResetCodeFromProfile() {
     // API URL
     const apiUrl = "https://localhost:7191/api/ApiUsuario/SendPasswordResetCode"
 
-    // Send request with userId to identify it's from profile
     fetch(apiUrl, {
         method: "POST",
         headers: {
