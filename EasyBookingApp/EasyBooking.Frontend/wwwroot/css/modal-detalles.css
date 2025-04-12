@@ -1,0 +1,692 @@
+﻿/* Estilos para el modal de detalle */
+.modal-detalle {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-contenido {
+    background-color: white;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1000px;
+    padding: 24px;
+    position: relative;
+    border-radius: 12px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado del modal */
+.modal-header {
+    margin-bottom: 24px;
+}
+
+    .modal-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+.modal-subtitulo {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #222;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    color: #e41d57;
+    margin-right: 4px;
+}
+
+.separador {
+    margin: 0 8px;
+}
+
+.reviews-link {
+    color: #222;
+    text-decoration: underline;
+}
+
+/* Galería de imágenes */
+.detalle-galeria {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 12px;
+    margin-bottom: 32px;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 400px;
+}
+
+.galeria-principal {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px 0 0 12px;
+}
+
+    .galeria-principal img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.galeria-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+    .galeria-control:hover {
+        opacity: 1;
+    }
+
+    .galeria-control.prev {
+        left: 16px;
+    }
+
+    .galeria-control.next {
+        right: 16px;
+    }
+
+.ver-todas-fotos {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    z-index: 2;
+}
+
+    .ver-todas-fotos:hover {
+        background-color: #f7f7f7;
+    }
+
+.galeria-miniaturas {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.miniatura {
+    height: 100%;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+    .miniatura img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+
+    .miniatura:hover img {
+        transform: scale(1.05);
+    }
+
+    .miniatura.active::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid #222;
+        border-radius: 8px;
+    }
+
+/* Contenido principal */
+.modal-body {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 48px;
+}
+
+.detalle-info {
+    padding-right: 24px;
+}
+
+/* Información del anfitrión */
+.anfitrion-info {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+    .anfitrion-info h3 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+.anfitrion-detalles {
+    font-size: 14px;
+    color: #222;
+}
+
+.anfitrion-avatar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+    .anfitrion-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+/* Características */
+.caracteristicas {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 24px;
+}
+
+.caracteristica-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.caracteristica-icon {
+    flex-shrink: 0;
+}
+
+.caracteristica-texto h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.caracteristica-texto p {
+    font-size: 14px;
+    color: #717171;
+}
+
+/* Descripción */
+.descripcion {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 24px;
+}
+
+    .descripcion h3 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+    .descripcion p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 16px;
+    }
+
+    .descripcion ul {
+        padding-left: 20px;
+        margin-bottom: 16px;
+    }
+
+    .descripcion li {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 8px;
+    }
+
+.mostrar-mas {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+    cursor: pointer;
+    padding: 0;
+}
+/*Acerca de este espacio*/
+.AboutSpace{
+    margin-left: -30px;
+}
+/* Amenidades */
+.amenidades {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 24px;
+}
+
+    .amenidades h3 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+.amenidades-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.amenidad-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 16px;
+}
+
+/* Panel de reserva */
+.panel-reserva {
+    position: sticky;
+    top: 24px;
+}
+
+.panel-reserva-contenido {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.panel-header {
+    margin-bottom: 24px;
+}
+
+.precio-container {
+    margin-bottom: 8px;
+}
+
+.precio {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* Formulario de reserva */
+.formulario-reserva {
+    margin-bottom: 24px;
+}
+
+.fechas-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #b0b0b0;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.fecha-entrada, .fecha-salida {
+    padding: 12px;
+}
+
+.fecha-entrada {
+    border-right: 1px solid #b0b0b0;
+}
+
+.fechas-container label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.fechas-container input {
+    width: 100%;
+    border: none;
+    font-size: 14px;
+    outline: none;
+}
+
+.huespedes-container {
+    padding: 12px;
+    border: 1px solid #b0b0b0;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+}
+
+    .huespedes-container label {
+        display: block;
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .huespedes-container select {
+        width: 100%;
+        border: none;
+        font-size: 14px;
+        outline: none;
+        background: transparent;
+    }
+
+.btn-reservar {
+    width: 100%;
+    background-color: #e41d57;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: background-color 0.2s;
+}
+
+    .btn-reservar:hover {
+        background-color: #d01950;
+    }
+
+.no-cargo {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+/* Desglose de precios */
+.desglose-precios {
+    font-size: 16px;
+}
+
+.precio-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.precio-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    padding-top: 16px;
+    margin-top: 16px;
+    border-top: 1px solid #ddd;
+}
+
+/* Valoraciones */
+.valoraciones {
+    margin-top: 48px;
+}
+
+.valoraciones-header {
+    margin-bottom: 32px;
+}
+
+.valoraciones-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.valoracion-item {
+    margin-bottom: 24px;
+}
+
+.valoracion-usuario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+    .valoracion-usuario img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .valoracion-usuario h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .valoracion-usuario p {
+        font-size: 14px;
+        color: #717171;
+        margin: 0;
+    }
+
+.valoracion-texto {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.mostrar-mas-valoraciones {
+    background: none;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 13px 23px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+    .mostrar-mas-valoraciones:hover {
+        background-color: #f7f7f7;
+    }
+
+/* Galería completa */
+.galeria-completa {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1100;
+    flex-direction: column;
+}
+
+.galeria-completa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    color: white;
+}
+
+.cerrar-galeria {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.contador-fotos {
+    font-size: 14px;
+}
+
+.galeria-completa-contenido {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.galeria-completa-imagen {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .galeria-completa-imagen img {
+        max-height: 100%;
+        max-width: 90%;
+        object-fit: contain;
+    }
+
+.nav-foto {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+    .nav-foto:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .nav-foto.prev {
+        left: 16px;
+    }
+
+    .nav-foto.next {
+        right: 16px;
+    }
+
+.galeria-completa-miniaturas {
+    display: flex;
+    gap: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.miniatura-completa {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+    .miniatura-completa:hover {
+        opacity: 0.8;
+    }
+
+    .miniatura-completa.active {
+        opacity: 1;
+        border: 2px solid white;
+    }
+
+    .miniatura-completa img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-contenido {
+        padding: 16px;
+        margin-top: 0;
+        border-radius: 0;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .detalle-galeria {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .galeria-principal img {
+        border-radius: 12px 12px 0 0;
+    }
+
+    .galeria-miniaturas {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: none;
+    }
+
+    .modal-body {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .detalle-info {
+        padding-right: 0;
+    }
+
+    .valoraciones-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-reserva {
+        position: static;
+    }
+}
