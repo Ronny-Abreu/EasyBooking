@@ -141,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.updateAuthUI()
 
-    // Publicaciones dropdown-items
     const dropdown = document.querySelector(".dropdown")
     const dropdownToggle = document.querySelector(".dropdown-toggle")
     const dropdownMenu = document.querySelector(".dropdown-menu")
@@ -168,7 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    // Profile dropdown-items
     const profileButton = document.getElementById("profile-button")
     const profileDropdown = document.getElementById("profile-dropdown")
 
@@ -189,7 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    // Modal event listeners
     const modalOverlay = document.getElementById("modal-overlay")
 
     // FORMAS PERMITADAS PARA CERRAR EL MODAL

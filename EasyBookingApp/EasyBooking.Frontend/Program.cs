@@ -1,20 +1,20 @@
-using EasyBooking.Frontend.Services;
+ï»¿using EasyBooking.Frontend.Services;
 using EasyBooking.Frontend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración de servicios ANTES de builder.Build()
+// Configuraciï¿½n de servicios ANTES de builder.Build()
 builder.Services.AddHttpClient(); // HttpClient
 builder.Services.AddScoped<HttpClientService>(); // Servicios personalizados
 builder.Services.AddScoped<UsuarioClientService>();
-builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings")); // Configuración
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings")); // Configuraciï¿½n
 
 // Otros servicios
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build(); // A partir de aquí, NO se pueden registrar más servicios
+var app = builder.Build(); // A partir de aquï¿½, NO se pueden registrar mï¿½s servicios
 
-// Configuración del middleware (esto sí va después de Build())
+// Configuraciï¿½n del middleware (esto sï¿½ va despuï¿½s de Build())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

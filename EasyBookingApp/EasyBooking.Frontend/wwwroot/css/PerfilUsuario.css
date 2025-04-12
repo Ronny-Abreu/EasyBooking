@@ -1,7 +1,4 @@
-﻿/* PerfilUsuario.css */
-
-/* Body and HTML setup */
-html, body {
+﻿html, body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -9,21 +6,44 @@ html, body {
     overflow-x: hidden;
 }
 
-/* No need for padding-top since navbar is gone */
 body {
     padding-top: 200px;
 }
 
 .info-text {
-    font-size: 17px; /* Puedes ajustar este valor según lo pequeño que quieras el texto */
+    font-size: 17px;
     color: #717171;
     margin-bottom: 40px;
     margin-top: -10px;
-    margin-right: -30px;
+    margin-left: 200px;
+    margin-bottom:0px;
+}
+.info-text-tel {
+    font-size: 17px;
+    color: #717171;
+    margin-bottom: 40px;
+    margin-top: -10px;
+    margin-left: 250px;
+}
+.info-text-username {
+    font-size: 17px;
+    color: #717171;
+    margin-bottom: 40px;
+    margin-top: -10px;
+    margin-left: 270px;
+    margin-bottom: 0;
 }
 .titulo-datos {
-    font-size: 20px; /* Puedes ajustar este valor según lo pequeño que quieras el texto */
-    margin-right: 40px;
+    font-size: 20px;
+    margin-left: 250px;
+}
+.titulo-dato-user {
+    font-size: 20px;
+    margin-left: 200px;
+}
+.titulo-dato-email{
+    font-size:20px;
+    margin-left: 230px;
 }
 /* Container styling */
 .container.mt-4 {
@@ -46,8 +66,8 @@ body {
 
 /* Container styling */
 .container.mt-5 {
-    padding-top: 10px; /* Additional padding at the top */
-    margin-top: 0 !important; /* Override Bootstrap's mt-5 */
+    padding-top: 10px;
+    margin-top: 0 !important;
 }
 
 /* Card styling */
@@ -58,7 +78,6 @@ body {
     overflow: hidden;
 }
 
-    /* First card special styling to ensure visibility */
     .card:first-of-type {
         margin-top: 0;
     }
@@ -183,7 +202,6 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-/*Movimiento del modal*/
 .edit-modal-content {
     position: relative;
     background-color: transparent;
@@ -396,8 +414,10 @@ input + .titulodatosModaledit {
     margin-bottom: 20px;
 }
 
-
-
+.verificacionbutton{
+    position: center;
+    margin-left: 265px;
+}
 /* Delete button styling */
 .button {
     position: relative;
@@ -410,7 +430,7 @@ input + .titulodatosModaledit {
     border: 1px solid #cc0000;
     background-color: #e50000;
     overflow: hidden;
-    margin-left: 650px ;
+    margin-left: 650px;
     margin-bottom: 20px;
 }
 
@@ -558,9 +578,6 @@ input + .titulodatosModaledit {
     border-color: #e53e3e !important;
 }
 
-
-
-
 /* Delete confirmation modal */
 .delete-confirmation-modal {
     position: fixed;
@@ -686,7 +703,6 @@ input + .titulodatosModaledit {
     cursor: pointer;
 }
 
-/* Typography */
 h3 {
     color: #484848;
     font-weight: 600;
@@ -727,7 +743,7 @@ h3 {
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body {
-        padding-top: 60px; /* Smaller padding for mobile */
+        padding-top: 60px;
     }
 
     .profile-avatar {

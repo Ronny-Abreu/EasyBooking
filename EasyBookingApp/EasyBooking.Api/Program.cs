@@ -26,7 +26,7 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();  // Servicio de u
 // Registrar repositorios
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-// Registrar el servicio de correo electrónico
+// Registrar el servicio de correo electr?nico
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 
