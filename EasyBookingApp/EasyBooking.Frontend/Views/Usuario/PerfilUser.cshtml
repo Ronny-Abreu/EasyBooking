@@ -39,7 +39,7 @@
 
 
 
-            <!-- Modal de edición de perfil --> 
+            <!-- Modal de edición de perfil -->
             <div class="edit-profile-modal" id="editProfileModal">
                 <div class="edit-modal-content">
                     <span class="close-edit-modal" id="closeEditModal">&times;</span>
@@ -97,35 +97,35 @@
 
             <!-- Usando contenedor del Login Modal (ya que el cambió de contraseña está dentro de su modal)-->
             <div id="login-modal" class="modal">
-                    <!-- Forgot Password Form - Step 1: Request Code -->
-                    <div id="forgot-password-container" class="container" style="display: none;">
-                        <div class="heading">Recuperar Contraseña</div>
-                        <div id="forgot-password-message" class="alert alert-info" style="display: none;"></div>
-                        <form id="forgot-password-form" class="form" method="dialog">
-                            <p class="form-description">Ingresa tu correo electrónico y te enviaremos un código de verificación para restablecer tu contraseña.</p>
-                            <input required class="input" type="email" name="ForgotEmail" id="forgot-email" placeholder="Correo electrónico">
-                            <input class="login-button" type="submit" value="Enviar Código">
-                        </form>
-                    </div>
+                <!-- Forgot Password Form - Step 1: Request Code -->
+                <div id="forgot-password-container" class="container" style="display: none;">
+                    <div class="heading">Recuperar Contraseña</div>
+                    <div id="forgot-password-message" class="alert alert-info" style="display: none;"></div>
+                    <form id="forgot-password-form" class="form" method="dialog">
+                        <p class="form-description">Ingresa tu correo electrónico y te enviaremos un código de verificación para restablecer tu contraseña.</p>
+                        <input required class="input" type="email" name="ForgotEmail" id="forgot-email" placeholder="Correo electrónico">
+                        <input class="login-button" type="submit" value="Enviar Código">
+                    </form>
+                </div>
 
-                    <!-- Forgot Password Form - Step 2: Verify Code and Reset Password -->
-                    <div id="reset-password-container" class="container" style="display: none;">
-                        <div class="heading">Restablecer Contraseña</div>
-                        <div id="reset-password-message" class="alert alert-info" style="display: none;"></div>
-                        <form id="reset-password-form" class="form" method="dialog">
-                            <p class="form-description">Ingresa el código de verificación que enviamos a tu correo electrónico.</p>
-                            <div class="verification-code-container">
-                                <input required class="input verification-code" type="text" name="VerificationCode" id="verification-code" placeholder="Código de verificación" maxlength="6">
-                                <div class="code-status">
-                                    <span id="code-valid" style="display: none;"><i class="bi bi-check-circle-fill text-success"></i> Código válido</span>
-                                    <span id="code-invalid" style="display: none;"><i class="bi bi-x-circle-fill text-danger"></i> Código inválido</span>
-                                </div>
+                <!-- Forgot Password Form - Step 2: Verify Code and Reset Password -->
+                <div id="reset-password-container" class="container" style="display: none;">
+                    <div class="heading">Restablecer Contraseña</div>
+                    <div id="reset-password-message" class="alert alert-info" style="display: none;"></div>
+                    <form id="reset-password-form" class="form" method="dialog">
+                        <p class="form-description">Ingresa el código de verificación que enviamos a tu correo electrónico.</p>
+                        <div class="verification-code-container">
+                            <input required class="input verification-code" type="text" name="VerificationCode" id="verification-code" placeholder="Código de verificación" maxlength="6">
+                            <div class="code-status">
+                                <span id="code-valid" style="display: none;"><i class="bi bi-check-circle-fill text-success"></i> Código válido</span>
+                                <span id="code-invalid" style="display: none;"><i class="bi bi-x-circle-fill text-danger"></i> Código inválido</span>
                             </div>
-                            <input required class="input" type="password" name="NewPassword" id="new-password" placeholder="Nueva contraseña" disabled>
-                            <input class="login-button" type="submit" value="Restablecer Contraseña" id="reset-password-btn" disabled>
-                        </form>
-                    </div>
-             
+                        </div>
+                        <input required class="input" type="password" name="NewPassword" id="new-password" placeholder="Nueva contraseña" disabled>
+                        <input class="login-button" type="submit" value="Restablecer Contraseña" id="reset-password-btn" disabled>
+                    </form>
+                </div>
+
             </div>
 
 
@@ -221,11 +221,15 @@
 
                     @if (!isEmailVerified)
                     {
-                        <button id="verification-btn" class="btn btn-outline-dark px-4 py-2">Verificación</button>
+                        <div class="text-center">
+                            <button id="verification-btn" class="btn btn-outline-dark px-4 py-2 verificacionbutton">Verificación</button>
+                        </div>
                     }
                     else
                     {
-                        <button class="btn btn-success px-4 py-2" disabled>Verificado</button>
+                        <div class="text-center">
+                            <button class="btn btn-success px-4 py-2" disabled>Verificado</button>
+                        </div>
                     }
                 </div>
             </div>
@@ -237,7 +241,7 @@
             <div class="card shadow-sm">
 
                 <div class="card-body p-4">
-                    <h3 class="mb-4">Información personal</h3>
+                    <h3 class="mb-4" style="margin-left: 210px;">Información personal</h3>
 
                     <div class="mb-3">
                         <label class="form-label fw-bold titulo-datos">
@@ -256,45 +260,44 @@
                             </svg>
                             Teléfono
                         </label>
-                        <p id="user-phone" class="info-text">Cargando...</p>
+                        <p id="user-phone" class="info-text-tel">Cargando...</p>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold titulo-datos">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
-                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-5.803 3.482L15 11.617V5.383zM1 5.383v6.234l5.803-3.482L1 4.383z" />
-                            </svg>
-                            Correo electrónico
-                        </label>
-                        <p id="user-email" class="info-text">Cargando...</p>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-bold titulo-datos">
+                        <label class="form-label fw-bold titulo-dato-user">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
                                 <path d="M6 2c0 .68-.279 1.293-.732 1.732C4.793 4.279 4.18 4.5 3.5 4.5S2.207 4.279 1.732 3.732C1.279 3.293 1 2.68 1 2s.279-1.293.732-1.732C2.207.221 2.82 0 3.5 0s1.293.221 1.732.732C5.721.707 6 1.32 6 2zM5 2c0-.273-.112-.534-.293-.707C4.534 1.112 4.273 1 4 1s-.534.112-.707.293C3.112 1.466 3 1.727 3 2s.112.534.293.707C3.466 2.888 3.727 3 4 3s.534-.112.707-.293C4.888 2.534 5 2.273 5 2zM4 5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2V9H4V7h2V5H4zm7 2V5h-2v2h2zm2 0h-2v2h2V7zm-2 2v2h2V9h-2zm-2 2h2v2h-2v-2zm-2 0h2v2H7v-2zm-3 0h2v2H4v-2z" />
                             </svg>
                             Nombre de usuario
                         </label>
-                        <p id="user-username" class="info-text">Cargando...</p>
+                        <p id="user-username" class="info-text-username">Cargando...</p>
                     </div>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label fw-bold titulo-dato-email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-5.803 3.482L15 11.617V5.383zM1 5.383v6.234l5.803-3.482L1 4.383z" />
+                        </svg>
+                        Correo electrónico
+                    </label>
+                    <p id="user-email" class="info-text">Cargando...</p>
+                </div>
 
-                    <button class="button delete-button" type="button" id="deleteProfileBtn">
-                        <span class="button__text">Delete</span>
-                        <span class="button__icon">
-                            <svg class="svg" height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
-                                <title></title>
-                                <path d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path>
-                                <line style="stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" x1="80" x2="432" y1="112" y2="112"></line>
-                                <path d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path>
-                                <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="256" x2="256" y1="176" y2="400"></line>
-                                <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="184" x2="192" y1="176" y2="400"></line>
-                                <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="328" x2="320" y1="176" y2="400"></line>
-                            </svg>
-                        </span>
-                    </button>
+                <button class="button delete-button" style="margin-left: 600px; type="button" id="deleteProfileBtn">
+                    <span class="button__text">Delete</span>
+                    <span class="button__icon">
+                        <svg class="svg" height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
+                            <title></title>
+                            <path d="M112,112l20,320c.95,18.49,14.4,32,32,32H348c17.67,0,30.87-13.51,32-32l20-320" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path>
+                            <line style="stroke:#fff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px" x1="80" x2="432" y1="112" y2="112"></line>
+                            <path d="M192,112V72h0a23.93,23.93,0,0,1,24-24h80a23.93,23.93,0,0,1,24,24h0v40" style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px"></path>
+                            <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="256" x2="256" y1="176" y2="400"></line>
+                            <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="184" x2="192" y1="176" y2="400"></line>
+                            <line style="fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px" x1="328" x2="320" y1="176" y2="400"></line>
+                        </svg>
+                    </span>
+                </button>
             </div>
 
         </div>
@@ -306,4 +309,3 @@
     <script src="~/js/PerfilUser.js" asp-append-version="true"></script>
     <script src="~/js/forgotPasswordFromProfile.js" asp-append-version="true"></script>
 }
-
