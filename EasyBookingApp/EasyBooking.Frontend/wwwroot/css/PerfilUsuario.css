@@ -6,9 +6,6 @@
     overflow-x: hidden;
 }
 
-body {
-    padding-top: 200px;
-}
 
 .info-text {
     font-size: 17px;
@@ -16,7 +13,7 @@ body {
     margin-bottom: 40px;
     margin-top: -10px;
     margin-left: 200px;
-    margin-bottom:0px;
+    margin-bottom: 0px;
 }
 .info-text-tel {
     font-size: 17px;
@@ -47,7 +44,7 @@ body {
 }
 /* Container styling */
 .container.mt-4 {
-    padding-top: 250px;
+    padding-top: 100px;
 }
 
 /* Back button styling */
