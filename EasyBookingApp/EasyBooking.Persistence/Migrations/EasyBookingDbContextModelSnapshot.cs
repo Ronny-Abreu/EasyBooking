@@ -20,71 +20,7 @@ namespace EasyBooking.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Publicacion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("Capacidad")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaFin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImagenUrl")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Tipo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Ubicacion")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Titulo");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Publicaciones");
-                });
 
             modelBuilder.Entity("EasyBooking.Domain.Entities.Reserva", b =>
                 {
@@ -246,8 +182,6 @@ namespace EasyBooking.Persistence.Migrations
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PublicacionId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Puntuacion")
                         .HasColumnType("int");
@@ -257,57 +191,31 @@ namespace EasyBooking.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PublicacionId");
-
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Valoraciones");
                 });
 
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Publicacion", b =>
-                {
-                    b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Publicaciones")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("EasyBooking.Domain.Entities.Reserva", b =>
                 {
-                    b.HasOne("EasyBooking.Domain.Entities.Publicacion", "Publicacion")
-                        .WithMany("Reservas")
-                        .HasForeignKey("PublicacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
 
                     b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
                         .WithMany("Reservas")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Publicacion");
 
                     b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("EasyBooking.Domain.Entities.Valoracion", b =>
                 {
-                    b.HasOne("EasyBooking.Domain.Entities.Publicacion", "Publicacion")
-                        .WithMany("Valoraciones")
-                        .HasForeignKey("PublicacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
 
                     b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
                         .WithMany("Valoraciones")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Publicacion");
 
                     b.Navigation("Usuario");
                 });
@@ -321,7 +229,6 @@ namespace EasyBooking.Persistence.Migrations
 
             modelBuilder.Entity("EasyBooking.Domain.Entities.Usuario", b =>
                 {
-                    b.Navigation("Publicaciones");
 
                     b.Navigation("Reservas");
 
