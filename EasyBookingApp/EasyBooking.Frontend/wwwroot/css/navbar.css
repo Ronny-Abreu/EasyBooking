@@ -39,9 +39,9 @@ width: auto;
 
 /*Navbar center (Inicio y Publicaciones)*/
 .navbar-center {
-position: absolute;
-left: 50%;
-transform: translateX(-50%);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .nav-tabs {
@@ -133,6 +133,8 @@ position: relative;
 /*Profile y su menu*/
 .profile-container {
 position: relative;
+margin-right: 50px;
+
 }
 
 .profile-button {
@@ -159,6 +161,7 @@ color: #fff;
 display: flex;
 align-items: center;
 justify-content: center;
+
 }
 
 /* Estilos para el navbar dinámico */
@@ -168,7 +171,9 @@ justify-content: center;
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.2); /* Un poco translúcido */
+    backdrop-filter: blur(10px); /* Difumina lo que está detrás */
+    -webkit-backdrop-filter: blur(10px);
     border-bottom: 5px solid #ebebeb;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
@@ -226,6 +231,8 @@ justify-content: center;
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 80px;
+    background-color: transparent !important;
+    backdrop-filter: blur(10px);
 }
 
 /*Nombre del usuario registrado*/
@@ -703,7 +710,6 @@ animation: slideIn 0.3s forwards;
     border: 1px solid #c3e6cb;
     color: #155724;
 }
-
 /*---------------------------*/
 footer {
 position: fixed;
