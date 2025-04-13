@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/theme-toggle.css" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
 </head>
@@ -113,7 +114,7 @@
     <div id="register-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeRegisterModal()">&times;</span>
-            <div class="container">
+            <div class="container containerRegister">
                 <div class="heading">Registrarse</div>
                 <div id="register-error-message" class="alert alert-danger" style="display: none;"></div>
                 <form id="register-form" class="form" method="dialog">
@@ -165,6 +166,7 @@
 	<script src="~/js/authResetPassword.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/Secciones.js" asp-append-version="true"></script>
+	<script src="~/js/theme-toggle.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

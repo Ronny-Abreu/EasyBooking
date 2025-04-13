@@ -59,7 +59,7 @@
                         </div>
 
                         <label>
-                            <input class="input" type="text" id="editUsername" required="">
+                            <input class="input " type="text" id="editUsername" required="">
                             <span class="titulodatosModaledit">Usuario</span>
                         </label>
 
@@ -67,13 +67,13 @@
                             <p class="password-title">Cambiar contraseña (opcional)</p>
 
                             <label>
-                                <input class="input" type="password" id="currentPassword" placeholder="">
-                                <span style="color:black">Contraseña actual</span>
+                                <input class="input inputPasswordCurrent" type="password" id="currentPassword" placeholder="">
+                                <span style="color:black; margin-left: 79px;">Contraseña actual</span>
                             </label>
 
                             <label>
-                                <input class="input" type="password" id="editPassword" placeholder="">
-                                <span style="color:black">Nueva contraseña</span>
+                                <input class="input inputPasswordCurrent" type="password" id="editPassword" placeholder="">
+                                <span style="color:black;  margin-left: 79px;">Nueva contraseña</span>
                             </label>
 
                             <div id="password-error" class="text-danger" style="display: none; margin-top: 5px;">
@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="text-black">
-                                <a href="#" id="forgot-password-link-profile" style="text-decoration: none;">¿Olvidaste tu contraseña actual?</a>
+                                <a href="#" id="forgot-password-link-profile" style="text-decoration: none;  margin-left: 43px;">¿Olvidaste tu contraseña actual?</a>
                             </div>
 
 
@@ -98,7 +98,7 @@
             <!-- Usando contenedor del Login Modal (ya que el cambió de contraseña está dentro de su modal)-->
             <div id="login-modal" class="modal">
                 <!-- Forgot Password Form - Step 1: Request Code -->
-                <div id="forgot-password-container" class="container" style="display: none;">
+                <div id="forgot-password-container" class="container containerForgotPassword" style="display: none;">
                     <div class="heading">Recuperar Contraseña</div>
                     <div id="forgot-password-message" class="alert alert-info" style="display: none;"></div>
                     <form id="forgot-password-form" class="form" method="dialog">
@@ -186,7 +186,7 @@
             <!-- Tarjeta de información confirmada -->
             <div class="card mb-4 shadow-sm">
                 <div class="card-body p-4">
-                    <h3 id="confirmed-info-title" class="mb-4">Información confirmada</h3>
+                    <h3 id="confirmed-info-title" class="mb-4 tituloVerificarIdentidad">Información confirmada</h3>
 
                     <div class="d-flex align-items-center mb-3">
                         @if (isEmailVerified)

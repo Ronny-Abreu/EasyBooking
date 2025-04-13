@@ -272,6 +272,7 @@
 .signin {
     font-size: 14.5px;
     color: black;
+    margin-left: 5px;
 }
 
 .signin {
@@ -337,6 +338,10 @@ input + .titulodatosModaledit {
 .input {
     font-size: medium;
     margin-bottom: 20px;
+}
+
+.inputPasswordCurrent{
+    margin-left: 40px;
 }
 
 .submit {
