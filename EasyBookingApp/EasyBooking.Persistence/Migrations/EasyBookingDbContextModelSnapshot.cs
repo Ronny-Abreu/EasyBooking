@@ -17,223 +17,244 @@ namespace EasyBooking.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-
-
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Reserva", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CantidadPersonas")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Estado")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCheckIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaCheckOut")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaFin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaReserva")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("PrecioTotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PublicacionId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PublicacionId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Reservas");
-                });
-
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Usuario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Apellido")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("AvatarUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsEmailVerified")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResetCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ResetCodeExpiry")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Telefono")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.ToTable("Usuarios");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 20,
-                            Activo = true,
-                            Apellido = "Admin",
-                            Email = "admin@easybooking.com",
-                            FechaCreacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsEmailVerified = false,
-                            Nombre = "Admin2",
-                            Password = "hashedpassword",
-                            Telefono = "1234567890",
-                            Username = "admin"
-                        });
-                });
-
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Valoracion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Comentario")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaModificacion")
-                        .HasColumnType("datetime2");
-
-
-                    b.Property<int>("Puntuacion")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Valoraciones");
-                });
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("EasyBooking.Domain.Entities.Reserva", b =>
-                {
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Reservas")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Navigation("Usuario");
-                });
+                b.Property<bool>("Activo")
+                    .HasColumnType("bit");
 
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Valoracion", b =>
-                {
+                b.Property<int>("Estado")
+                    .HasColumnType("int");
 
-                    b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Valoraciones")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                b.Property<DateTime>("FechaCreacion")
+                    .HasColumnType("datetime2");
 
-                    b.Navigation("Usuario");
-                });
+                b.Property<DateTime>("FechaEntrada")
+                    .HasColumnType("datetime2");
 
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Publicacion", b =>
-                {
-                    b.Navigation("Reservas");
+                b.Property<DateTime?>("FechaModificacion")
+                    .HasColumnType("datetime2");
 
-                    b.Navigation("Valoraciones");
-                });
+                b.Property<DateTime>("FechaSalida")
+                    .HasColumnType("datetime2");
+
+                b.Property<int>("HotelId")
+                    .HasColumnType("int");
+
+                b.Property<int>("NumeroHuespedes")
+                    .HasColumnType("int");
+
+                b.Property<decimal>("PrecioTotal")
+                    .HasColumnType("decimal(18,2)");
+
+                b.Property<string>("ReferenciaPago")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<int>("UsuarioId")
+                    .HasColumnType("int");
+
+                b.HasKey("Id");
+
+                b.HasIndex("HotelId");
+
+                b.HasIndex("UsuarioId");
+
+                b.ToTable("Reservas");
+            });
 
             modelBuilder.Entity("EasyBooking.Domain.Entities.Usuario", b =>
-                {
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    b.Navigation("Reservas");
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Navigation("Valoraciones");
-                });
+                b.Property<bool>("Activo")
+                    .HasColumnType("bit");
+
+                b.Property<string>("Apellido")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(450)");
+
+                b.Property<DateTime>("FechaCreacion")
+                    .HasColumnType("datetime2");
+
+                b.Property<DateTime?>("FechaModificacion")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("Nombre")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("PasswordHash")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Telefono")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("Email")
+                    .IsUnique();
+
+                b.ToTable("Usuarios");
+            });
+
+            modelBuilder.Entity("Hotel", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<bool>("Activo")
+                    .HasColumnType("bit");
+
+                b.Property<int>("Calificacion")
+                    .HasColumnType("int");
+
+                b.Property<string>("Ciudad")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Descripcion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Direccion")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<DateTime>("FechaCreacion")
+                    .HasColumnType("datetime2");
+
+                b.Property<DateTime?>("FechaModificacion")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("ImagenBase")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("ImagenUrl")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Nombre")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Pais")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<decimal>("PrecioPorNoche")
+                    .HasColumnType("decimal(18,2)");
+
+                b.Property<string>("Servicios")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("Id");
+
+                b.ToTable("Hoteles");
+
+                b.HasData(
+                    new
+                    {
+                        Id = 1,
+                        Activo = true,
+                        Calificacion = 5,
+                        Ciudad = "Cancún",
+                        Descripcion = "Un lujoso hotel con vistas al mar",
+                        Direccion = "Calle Principal 123",
+                        FechaCreacion = new DateTime(2025, 4, 15, 15, 44, 27, 234, DateTimeKind.Local).AddTicks(5190),
+                        ImagenBase = "hotel1",
+                        ImagenUrl = "",
+                        Nombre = "Hotel Paraíso",
+                        Pais = "México",
+                        PrecioPorNoche = 150.00m,
+                        Servicios = ""
+                    },
+                    new
+                    {
+                        Id = 2,
+                        Activo = true,
+                        Calificacion = 4,
+                        Ciudad = "Bariloche",
+                        Descripcion = "Disfruta de la naturaleza en nuestro hotel de montaña",
+                        Direccion = "Avenida Sierra 456",
+                        FechaCreacion = new DateTime(2025, 4, 15, 15, 44, 27, 234, DateTimeKind.Local).AddTicks(5249),
+                        ImagenBase = "hotel2",
+                        ImagenUrl = "",
+                        Nombre = "Hotel Montaña",
+                        Pais = "Argentina",
+                        PrecioPorNoche = 120.00m,
+                        Servicios = ""
+                    },
+                    new
+                    {
+                        Id = 3,
+                        Activo = true,
+                        Calificacion = 4,
+                        Ciudad = "Madrid",
+                        Descripcion = "Ubicado en el corazón de la ciudad",
+                        Direccion = "Plaza Mayor 789",
+                        FechaCreacion = new DateTime(2025, 4, 15, 15, 44, 27, 234, DateTimeKind.Local).AddTicks(5251),
+                        ImagenBase = "hotel3",
+                        ImagenUrl = "",
+                        Nombre = "Hotel Céntrico",
+                        Pais = "España",
+                        PrecioPorNoche = 180.00m,
+                        Servicios = ""
+                    });
+            });
+
+            modelBuilder.Entity("EasyBooking.Domain.Entities.Reserva", b =>
+            {
+                b.HasOne("Hotel", "Hotel")
+                    .WithMany("Reservas")
+                    .HasForeignKey("HotelId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
+                    .WithMany("Reservas")
+                    .HasForeignKey("UsuarioId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("Hotel");
+
+                b.Navigation("Usuario");
+            });
+
+            modelBuilder.Entity("EasyBooking.Domain.Entities.Usuario", b =>
+            {
+                b.Navigation("Reservas");
+            });
+
+            modelBuilder.Entity("Hotel", b =>
+            {
+                b.Navigation("Reservas");
+            });
 #pragma warning restore 612, 618
         }
     }
