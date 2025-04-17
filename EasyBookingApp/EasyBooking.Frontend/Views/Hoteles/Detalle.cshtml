@@ -1,0 +1,126 @@
+﻿@model EasyBooking.Frontend.Models.HotelViewModel
+
+@{
+    ViewData["Title"] = Model.Nombre;
+}
+
+<div class="container mt-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb breadcrumb-modern">
+            <li class="breadcrumb-item">
+                <a asp-controller="Home" asp-action="Index" class="bi bi-house-door me-1">Inicio</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-controller="Hoteles" asp-action="Index">Hoteles</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Nombre</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="hotel-image-container">
+                <img src="@(string.IsNullOrEmpty(Model.ImagenUrl) ? "/img/hotels/default.jpg" : Model.ImagenUrl)"
+                     class="img-fluid rounded shadow hotel-main-image"
+                     alt="@Model.Nombre">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card luxury-card h-100">
+                <div class="card-header luxury-header">
+                    <h4 class="mb-0 fw-bold">Reserva tu estancia</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title price-display mb-4">@Model.PrecioPorNoche.ToString("C")/noche</h5>
+                    <div class="mb-3 rating-container">
+                        <span>
+                            @for (int i = 0; i < Model.Calificacion; i++)
+                            {
+                                <i class="bi bi-star-fill text-warning"></i>
+                            }
+                            @for (int i = Model.Calificacion; i < 5; i++)
+                            {
+                                <i class="bi bi-star text-warning"></i>
+                            }
+                        </span>
+                    </div>
+                    <p class="card-text location-info">
+                        <i class="bi bi-geo-alt-fill me-2"></i>@Model.Ciudad, @Model.Pais
+                    </p>
+                    <p class="card-text location-info">
+                        <i class="bi bi-house-door-fill me-2"></i>@Model.Direccion
+                    </p>
+                    <hr class="divider" />
+                    <div class="d-grid gap-2">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <a asp-controller="Reservas" asp-action="Crear" asp-route-hotelId="@Model.Id"
+                               class="btn btn-luxury btn-lg">Reservar Ahora</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Usuarios" asp-action="Login"
+                               class="btn btn-luxury btn-lg">Iniciar Sesión para Reservar</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 g-4">
+        <div class="col-md-8">
+            <div class="card info-card shadow-hover">
+                <div class="card-header info-header">
+                    <h4 class="mb-0 fw-bold">Acerca del Hotel</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text description-text">@Model.Descripcion</p>
+                    <p class="reservation-cta"><b>¡Reserva ya! La información de la reserva será enviada a su correo electrónico.</b></p>
+                </div>
+            </div>
+
+            <div class="card info-card shadow-hover mt-4">
+                <div class="card-header info-header">
+                    <h4 class="mb-0 fw-bold">Servicios</h4>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(Model.Servicios))
+                    {
+                        var servicios = Model.Servicios.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                        <ul class="list-unstyled services-list">
+                            @foreach (var servicio in servicios)
+                            {
+                                <li class="service-item">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>@servicio.Trim()
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Este hotel no ha listado servicios adicionales.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card info-card shadow-hover h-100">
+                <div class="card-header info-header">
+                    <h4 class="mb-0 fw-bold">Ubicación</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text location-detail">
+                        <i class="bi bi-geo-alt-fill accent-icon me-2"></i>@Model.Direccion
+                    </p>
+                    <p class="card-text location-detail">
+                        <i class="bi bi-building accent-icon me-2"></i>@Model.Ciudad
+                    </p>
+                    <p class="card-text location-detail">
+                        <i class="bi bi-globe accent-icon me-2"></i>@Model.Pais
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

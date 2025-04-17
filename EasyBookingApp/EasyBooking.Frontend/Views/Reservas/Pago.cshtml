@@ -1,0 +1,339 @@
+﻿@model EasyBooking.Frontend.Models.PagoViewModel
+
+@{
+    ViewData["Title"] = "Pago de Reserva";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Reservas/PagoReservas.css" asp-append-version="true" />
+}
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Reservas" asp-action="Index">Mis Reservas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Pago</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-gradient-primary text-white border-0 py-3">
+                    <h4 class="mb-0 fw-bold">Información de Pago</h4>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Tarjeta de crédito interactiva -->
+                    <div class="credit-card-wrapper mb-4">
+                        <div class="credit-card-container">
+                            <div class="credit-card">
+                                <div class="credit-card-front">
+                                    <div class="credit-card-logo">
+                                        <div class="credit-card-chip"></div>
+                                        <div class="credit-card-brand"></div>
+                                    </div>
+                                    <div class="credit-card-number" id="cardNumberDisplay">
+                                        •••• •••• •••• ••••
+                                    </div>
+                                    <div class="credit-card-info">
+                                        <div class="credit-card-holder">
+                                            <div class="label">Titular</div>
+                                            <div class="value" id="cardHolderDisplay">NOMBRE APELLIDO</div>
+                                        </div>
+                                        <div class="credit-card-expires">
+                                            <div class="label">Expira</div>
+                                            <div class="value" id="cardExpiresDisplay">MM/YY</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="credit-card-back">
+                                    <div class="credit-card-stripe"></div>
+                                    <div class="credit-card-signature">
+                                        <div class="credit-card-cvv">
+                                            <div class="label">CVV</div>
+                                            <div class="value" id="cardCvvDisplay">•••</div>
+                                        </div>
+                                    </div>
+                                    <div class="credit-card-info-back">
+                                        <p class="small-text">Esta tarjeta es propiedad del banco emisor. El uso de esta tarjeta está sujeto a los términos y condiciones del acuerdo con el emisor.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Pago" method="post" id="paymentForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger rounded-3 p-3 bg-danger-subtle mb-4"></div>
+                        <input type="hidden" asp-for="ReservaId" />
+
+                        <div class="form-group mb-4">
+                            <label asp-for="NumeroTarjeta" class="form-label fw-medium">Número de tarjeta</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-credit-card"></i>
+                                </span>
+                                <input asp-for="NumeroTarjeta" id="cardNumber" class="form-control border-start-0 ps-0"
+                                       placeholder="1234 5678 9012 3456" maxlength="19" />
+                            </div>
+                            <span asp-validation-for="NumeroTarjeta" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="NombreTitular" class="form-label fw-medium">Nombre del titular</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-person"></i>
+                                </span>
+                                <input asp-for="NombreTitular" id="cardHolder" class="form-control border-start-0 ps-0"
+                                       placeholder="NOMBRE APELLIDO" />
+                            </div>
+                            <span asp-validation-for="NombreTitular" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FechaExpiracion" class="form-label fw-medium">Fecha de expiración</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-calendar"></i>
+                                        </span>
+                                        <input asp-for="FechaExpiracion" id="cardExpires" class="form-control border-start-0 ps-0"
+                                               placeholder="MM/YY" maxlength="5" />
+                                    </div>
+                                    <span asp-validation-for="FechaExpiracion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CVV" class="form-label fw-medium">CVV</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-lock"></i>
+                                        </span>
+                                        <input asp-for="CVV" id="cardCvv" class="form-control border-start-0 ps-0"
+                                               placeholder="123" maxlength="4" />
+                                    </div>
+                                    <span asp-validation-for="CVV" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-4 d-flex gap-3">
+                            <button type="submit" class="btn btn-success btn-lg px-5 rounded-pill">
+                                <i class="bi bi-check-circle me-2"></i>Procesar Pago
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="bi bi-x-circle me-2"></i>Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-gradient-secondary text-dark border-0 py-3">
+                    <h5 class="mb-0 fw-bold">Resumen de Reserva</h5>
+                </div>
+                <div class="card-body p-4">
+                    @if (Model.Reserva != null)
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-medium">Reserva #:</span>
+                            <span class="badge bg-primary rounded-pill fs-6">@Model.Reserva.Id</span>
+                        </div>
+
+                        @if (Model.Reserva.Hotel != null)
+                        {
+                            <div class="hotel-info bg-light rounded-4 p-3 mb-4">
+                                <h6 class="fw-bold mb-2">@Model.Reserva.Hotel.Nombre</h6>
+                                <p class="mb-0 text-muted">
+                                    <i class="bi bi-geo-alt-fill me-1"></i>
+                                    @Model.Reserva.Hotel.Ciudad, @Model.Reserva.Hotel.Pais
+                                </p>
+                            </div>
+                        }
+
+                        <div class="reservation-details">
+                            <div class="detail-item d-flex justify-content-between mb-2">
+                                <span><i class="bi bi-calendar-check me-2 text-primary"></i>Fecha Entrada:</span>
+                                <span class="fw-medium">@Model.Reserva.FechaEntrada.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="detail-item d-flex justify-content-between mb-2">
+                                <span><i class="bi bi-calendar-x me-2 text-primary"></i>Fecha Salida:</span>
+                                <span class="fw-medium">@Model.Reserva.FechaSalida.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="detail-item d-flex justify-content-between mb-2">
+                                <span><i class="bi bi-moon me-2 text-primary"></i>Noches:</span>
+                                <span class="fw-medium">@((Model.Reserva.FechaSalida - Model.Reserva.FechaEntrada).Days)</span>
+                            </div>
+                            <div class="detail-item d-flex justify-content-between mb-2">
+                                <span><i class="bi bi-people me-2 text-primary"></i>Huéspedes:</span>
+                                <span class="fw-medium">@Model.Reserva.NumeroHuespedes</span>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="total-price d-flex justify-content-between align-items-center">
+                            <span class="fw-bold fs-5">Total a pagar:</span>
+                            <span class="text-success fw-bold fs-4">@Model.Reserva.PrecioTotal.ToString("C")</span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden mt-4">
+                <div class="card-body p-4">
+                    <div class="security-info mb-3">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-circle bg-success-subtle me-3">
+                                <i class="bi bi-shield-lock-fill text-success"></i>
+                            </div>
+                            <span class="fw-medium">Pago seguro garantizado</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="icon-circle bg-primary-subtle me-3">
+                                <i class="bi bi-credit-card-fill text-primary"></i>
+                            </div>
+                            <span class="fw-medium">Aceptamos todas las tarjetas principales</span>
+                        </div>
+                    </div>
+                    <div class="card-brands text-center mt-3">
+                        <i class="bi bi-credit-card-2-front fs-2 mx-2 text-primary"></i>
+                        <i class="bi bi-credit-card-2-front-fill fs-2 mx-2 text-danger"></i>
+                        <i class="bi bi-credit-card fs-2 mx-2 text-warning"></i>
+                        <i class="bi bi-credit-card-fill fs-2 mx-2 text-info"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardNumber = document.getElementById('cardNumber');
+            const cardHolder = document.getElementById('cardHolder');
+            const cardExpires = document.getElementById('cardExpires');
+            const cardCvv = document.getElementById('cardCvv');
+
+            const cardNumberDisplay = document.getElementById('cardNumberDisplay');
+            const cardHolderDisplay = document.getElementById('cardHolderDisplay');
+            const cardExpiresDisplay = document.getElementById('cardExpiresDisplay');
+            const cardCvvDisplay = document.getElementById('cardCvvDisplay');
+
+            const creditCard = document.querySelector('.credit-card');
+
+            // Formatear número de tarjeta con espacios cada 4 dígitos
+            cardNumber.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                let formattedValue = '';
+
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+
+                e.target.value = formattedValue;
+
+                // Actualizar visualización en la tarjeta
+                if (value.length === 0) {
+                    cardNumberDisplay.textContent = '•••• •••• •••• ••••';
+                } else {
+                    cardNumberDisplay.textContent = formattedValue;
+                }
+
+                // Detectar tipo de tarjeta
+                detectCardType(value);
+            });
+
+            // Actualizar nombre del titular
+            cardHolder.addEventListener('input', function(e) {
+                let value = e.target.value.toUpperCase();
+                e.target.value = value;
+
+                if (value.length === 0) {
+                    cardHolderDisplay.textContent = 'NOMBRE APELLIDO';
+                } else {
+                    cardHolderDisplay.textContent = value;
+                }
+            });
+
+            // Formatear fecha de expiración
+            cardExpires.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                let formattedValue = '';
+
+                if (value.length > 0) {
+                    formattedValue = value.substring(0, 2);
+                    if (value.length > 2) {
+                        formattedValue += '/' + value.substring(2, 4);
+                    }
+                }
+
+                e.target.value = formattedValue;
+
+                if (formattedValue.length === 0) {
+                    cardExpiresDisplay.textContent = 'MM/YY';
+                } else {
+                    cardExpiresDisplay.textContent = formattedValue;
+                }
+            });
+
+            // Voltear tarjeta al enfocar en CVV
+            cardCvv.addEventListener('focus', function() {
+                creditCard.classList.add('flipped');
+            });
+
+            cardCvv.addEventListener('blur', function() {
+                creditCard.classList.remove('flipped');
+            });
+
+            // Actualizar CVV
+            cardCvv.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                e.target.value = value;
+
+                if (value.length === 0) {
+                    cardCvvDisplay.textContent = '•••';
+                } else {
+                    cardCvvDisplay.textContent = value;
+                }
+            });
+
+            // Detectar tipo de tarjeta basado en el número
+            function detectCardType(number) {
+                const cardBrand = document.querySelector('.credit-card-brand');
+
+                // Tajeta Visa
+                if (number.startsWith('4')) {
+                    cardBrand.className = 'credit-card-brand visa';
+                }
+                // Tarje Mastercard
+                else if (/^5[1-5]/.test(number)) {
+                    cardBrand.className = 'credit-card-brand mastercard';
+                }
+                // Tarjeta Amex
+                else if (/^3[47]/.test(number)) {
+                    cardBrand.className = 'credit-card-brand amex';
+                }
+                // Tarje Discover
+                else if (/^6(?:011|5)/.test(number)) {
+                    cardBrand.className = 'credit-card-brand discover';
+                }
+                // Default
+                else {
+                    cardBrand.className = 'credit-card-brand';
+                }
+            }
+        });
+    </script>
+}
