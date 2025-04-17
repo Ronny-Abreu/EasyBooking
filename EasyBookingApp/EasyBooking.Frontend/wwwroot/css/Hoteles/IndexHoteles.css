@@ -1,0 +1,136 @@
+﻿/* Estilos modernos para la página de hoteles */
+:root {
+    --primary-color: #f8345c;
+    --primary-hover: #e02a4e;
+    --secondary-color: #2d3748;
+    --light-gray: #f8f9fa;
+    --border-radius: 12px;
+}
+
+/* Título principal */
+.hotel-title {
+    color: var(--secondary-color);
+    letter-spacing: -0.5px;
+}
+
+/* Tarjeta de filtros */
+.filter-card {
+    transition: all 0.3s ease;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+}
+
+    .filter-card:hover {
+        transform: translateY(-5px);
+    }
+
+/* Botón de búsqueda */
+.btn-search {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+    .btn-search:hover, .btn-search:focus {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(248, 52, 92, 0.2);
+    }
+
+/* Tarjetas de hoteles */
+.hotel-card {
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+    .hotel-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+
+.hotel-img {
+    height: 220px;
+    object-fit: cover;
+    transition: all 0.5s ease;
+}
+
+.hotel-card:hover .hotel-img {
+    transform: scale(1.05);
+}
+
+/* Badge de precio */
+.hotel-price-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-top-left-radius: 12px;
+    font-weight: 500;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.hotel-card:hover .hotel-price-badge {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(248, 52, 92, 0.3);
+}
+
+/* Estrellas de calificación */
+.rating-stars {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+/* Descripción del hotel */
+.hotel-description {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Botón primario personalizado */
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .btn-primary-custom:hover, .btn-primary-custom:focus {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(248, 52, 92, 0.2);
+    }
+
+/* Efecto de transición general */
+.transition-hover {
+    transition: all 0.3s ease;
+}
+
+/* Inputs con iconos */
+.input-group-text {
+    color: #6c757d;
+}
+
+/* Bordes redondeados */
+.rounded-4 {
+    border-radius: var(--border-radius) !important;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .hotel-card {
+        margin-bottom: 2rem;
+    }
+
+    .filter-card {
+        padding: 1rem;
+    }
+}
