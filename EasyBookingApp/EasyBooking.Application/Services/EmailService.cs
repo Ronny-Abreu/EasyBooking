@@ -44,4 +44,3 @@ namespace EasyBooking.Application.Services
         }
     }
 }
-

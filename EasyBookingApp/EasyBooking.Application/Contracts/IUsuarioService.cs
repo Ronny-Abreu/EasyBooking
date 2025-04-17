@@ -1,16 +1,15 @@
-﻿using EasyBooking.Domain.Entities;
-using System.Threading.Tasks;
+﻿using EasyBooking.Application.Dtos;
 
 namespace EasyBooking.Application.Contracts
 {
     public interface IUsuarioService
     {
-        Task<Usuario> ObtenerUsuarioPorIdAsync(int id);
-        Task<IEnumerable<Usuario>> ObtenerUsuariosAsync();
-        Task<Usuario> CrearUsuarioAsync(Usuario usuario);
-        Task<Usuario> ActualizarUsuarioAsync(Usuario usuario);
-        Task EliminarUsuarioAsync(int id);
-        Task<Usuario> ObtenerPorEmailAsync(string email);
-        Task<Usuario> ObtenerPorUsernameAsync(string username);
+        Task<UsuarioDto?> RegistrarUsuarioAsync(RegistroUsuarioDto registroDto);
+        Task<UsuarioDto?> LoginAsync(LoginUsuarioDto loginDto);
+        Task<bool> EliminarUsuarioAsync(int id);
+        Task<bool> ValidarContrasenaAsync(int id, string password);
+
+        Task<UsuarioDto?> GetUsuarioByIdAsync(int id);
+        Task<UsuarioDto?> GetUsuarioByEmailAsync(string email);
     }
 }
