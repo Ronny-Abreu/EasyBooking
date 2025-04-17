@@ -1,33 +1,22 @@
-﻿//Loading configuracion
+﻿document.addEventListener("DOMContentLoaded", () => {
+    // Inicializar todos los carruseles
+    var carousels = document.querySelectorAll(".carousel")
+    carousels.forEach((carousel) => {
+        const bsCarousel = new bootstrap.Carousel(carousel, {
+            interval: 3000,
+            wrap: true,
+            touch: true,
+        })
+    })
 
-document.addEventListener("DOMContentLoaded", function () {
-    const existingSpinner = document.querySelector('.spinner.center');
+    // Pausar el carrusel al pasar el mouse por encima
+    carousels.forEach((carousel) => {
+        carousel.addEventListener("mouseenter", () => {
+            bootstrap.Carousel.getInstance(carousel).pause()
+        })
 
-    if (existingSpinner) {
-        let container = existingSpinner.parentElement;
-        if (!container.classList.contains('loading-container')) {
-            container = document.createElement('div');
-            container.className = 'loading-container';
-            existingSpinner.parentNode.insertBefore(container, existingSpinner);
-            container.appendChild(existingSpinner);
-        }
-
-        container.style.position = 'fixed';
-        container.style.top = '0';
-        container.style.left = '0';
-        container.style.width = '100%';
-        container.style.height = '100%';
-        container.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
-        container.style.zIndex = '9999';
-        container.style.display = 'flex';
-        container.style.justifyContent = 'center';
-        container.style.alignItems = 'center';
-
-        container.style.display = 'flex';
-
-        // Ocultar el spinner cuando la página termine de cargar
-        window.addEventListener('load', function () {
-            container.style.display = 'none';
-        });
-    }
-});
+        carousel.addEventListener("mouseleave", () => {
+            bootstrap.Carousel.getInstance(carousel).cycle()
+        })
+    })
+})
