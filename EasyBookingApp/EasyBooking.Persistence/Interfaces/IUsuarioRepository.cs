@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EasyBooking.Domain.Entities;
+﻿using EasyBooking.Domain.Entities;
 
 namespace EasyBooking.Persistence.Interfaces
 {
-    public interface IUsuarioRepository
+    public interface IUsuarioRepository : IRepositoryBase<Usuario>
     {
-        Task<Usuario> GetByIdAsync(int id);
-        Task<IEnumerable<Usuario>> GetAllAsync();
-        Task AddAsync(Usuario usuario);
-        Task UpdateAsync(Usuario usuario);
-        Task DeleteAsync(int id);
+        Task<Usuario?> GetByEmailAsync(string email);
+        Task<bool> ExisteEmailAsync(string email);
+        Task DeleteAsync(Usuario usuario);
+
     }
 }
