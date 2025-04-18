@@ -17,11 +17,9 @@ namespace EasyBooking.Frontend.Services
         {
             _httpClient = httpClient;
             _configuration = configuration;
-            _apiBaseUrl = _configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7001/api/";
+            _apiBaseUrl = _configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7191/api/";
             _logger = logger;
         }
-
-        // Propiedad pública para acceder a _apiBaseUrl
         public string ApiBaseUrl => _apiBaseUrl;
 
         public async Task<ApiResponse<T>> GetAsync<T>(string endpoint)
@@ -46,12 +44,17 @@ namespace EasyBooking.Frontend.Services
         {
             try
             {
+                var url = $"{_apiBaseUrl}{endpoint}";
+                _logger.LogInformation($"Making POST request to: {url}");
+
                 var content = new StringContent(
                     JsonSerializer.Serialize(data),
                     Encoding.UTF8,
                     "application/json");
 
-                var response = await _httpClient.PostAsync($"{_apiBaseUrl}{endpoint}", content);
+                var response = await _httpClient.PostAsync(url, content);
+                _logger.LogInformation($"Response status: {response.StatusCode}");
+
                 return await ProcessResponseAsync<T>(response);
             }
             catch (Exception ex)
@@ -139,7 +142,6 @@ namespace EasyBooking.Frontend.Services
                         PropertyNameCaseInsensitive = true
                     };
 
-                    // Intentar deserializar como ApiResponse primero
                     var apiResponse = JsonSerializer.Deserialize<ApiResponse<T>>(content, options);
 
                     if (apiResponse != null)
@@ -148,7 +150,6 @@ namespace EasyBooking.Frontend.Services
                         return apiResponse;
                     }
 
-                    // Si no funciona, intentar deserializar directamente como T
                     var data = JsonSerializer.Deserialize<T>(content, options);
                     return new ApiResponse<T>
                     {
@@ -177,7 +178,6 @@ namespace EasyBooking.Frontend.Services
                         PropertyNameCaseInsensitive = true
                     };
 
-                    // Intentar deserializar el error
                     var errorResponse = JsonSerializer.Deserialize<object>(content, options);
 
                     return new ApiResponse<T>
