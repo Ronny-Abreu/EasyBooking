@@ -33,6 +33,7 @@ namespace EasyBooking.Api.Controllers
             return Ok(new { Data = hotel });
         }
 
+
         [HttpGet("buscar")]
         public async Task<IActionResult> Buscar([FromQuery] string? ciudad = null, [FromQuery] decimal? precioMinimo = null, [FromQuery] decimal? precioMaximo = null, [FromQuery] int? calificacion = null)
         {

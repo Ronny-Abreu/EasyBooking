@@ -7,6 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddAutoMapper(
+    typeof(EasyBooking.Application.Mappings.MappingProfile),
+    typeof(EasyBooking.Frontend.Mappings.FrontendMappingProfile)
+);
+
 // Add HttpClient
 builder.Services.AddHttpClient<HttpClientService>();
 builder.Services.AddScoped<HttpClientService>();

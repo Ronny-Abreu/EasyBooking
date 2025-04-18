@@ -24,13 +24,14 @@ namespace EasyBooking.Application.Services
 
         public async Task<HotelDto?> GetHotelByIdAsync(int id)
         {
-            var hotel = await _hotelRepository.GetByIdAsync(id);
+            var hotel = await _hotelRepository.GetHotelWithImagesAsync(id);
 
             if (hotel != null)
             {
                 var hotelDto = _mapper.Map<HotelDto>(hotel);
                 hotelDto.Servicios = hotel.Servicios;
 
+                // Las imágenes ya deberían estar mapeadas por AutoMapper
                 return hotelDto;
             }
             return null;

@@ -2,6 +2,7 @@
 using EasyBooking.Application.Dtos;
 using EasyBooking.Domain.Entities;
 
+
 namespace EasyBooking.Application.Mappings
 {
     public class MappingProfile : Profile
@@ -20,6 +21,9 @@ namespace EasyBooking.Application.Mappings
             CreateMap<Reserva, ReservaDto>()
                 .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado.ToString()));
             CreateMap<CrearReservaDto, Reserva>();
+
+            // Mapeo de HotelImagen a HotelImagenDto
+            CreateMap<HotelImagen, HotelImagenDto>().ReverseMap();
         }
     }
 }

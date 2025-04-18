@@ -15,4 +15,8 @@
 		<Folder Include="wwwroot\fonts\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\EasyBooking.Application\EasyBooking.Application.csproj" />
+	</ItemGroup>
+
 </Project>
