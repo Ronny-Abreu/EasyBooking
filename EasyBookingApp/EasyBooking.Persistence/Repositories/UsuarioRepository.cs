@@ -1,49 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
-using EasyBooking.Domain.Entities;
+﻿using EasyBooking.Domain.Entities;
 using EasyBooking.Persistence.Context;
 using EasyBooking.Persistence.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyBooking.Persistence.Repositories
 {
-    public class UsuarioRepository : IUsuarioRepository
+    public class UsuarioRepository : RepositoryBase<Usuario>, IUsuarioRepository
     {
-        private readonly EasyBookingDbContext _context;
-
-        public UsuarioRepository(EasyBookingDbContext context)
+        public UsuarioRepository(EasyBookingDbContext dbContext) : base(dbContext)
         {
-            _context = context;
         }
 
-        public async Task<Usuario> GetByIdAsync(int id)
+        public async Task<Usuario?> GetByEmailAsync(string email)
         {
-            return await _context.Usuarios.FindAsync(id);
+            return await _dbContext.Usuarios
+                .Where(u => u.Email == email && u.Activo)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Usuario>> GetAllAsync()
+        public async Task<bool> ExisteEmailAsync(string email)
         {
-            return await _context.Usuarios.ToListAsync();
+            return await _dbContext.Usuarios
+                .AnyAsync(u => u.Email == email && u.Activo);
         }
 
-        public async Task AddAsync(Usuario usuario)
+        public async Task DeleteAsync(Usuario usuario)
         {
-            await _context.Usuarios.AddAsync(usuario);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Usuario usuario)
-        {
-            _context.Usuarios.Update(usuario);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-            {
-                _context.Usuarios.Remove(usuario);
-                await _context.SaveChangesAsync();
-            }
+            _dbContext.Usuarios.Remove(usuario);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
