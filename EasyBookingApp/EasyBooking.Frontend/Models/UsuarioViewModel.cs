@@ -2,47 +2,61 @@
 
 namespace EasyBooking.Frontend.Models
 {
-    //Modelo para los usuarios
     public class UsuarioViewModel
     {
         public int Id { get; set; }
+        public string Nombre { get; set; } = string.Empty;
+        public string Apellido { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Telefono { get; set; } = string.Empty;
+        public DateTime FechaCreacion { get; set; }
+    }
 
-        [Required(ErrorMessage = "El nombre es obligatorio")]
+    public class RegistroUsuarioViewModel
+    {
+        [Required(ErrorMessage = "El nombre es requerido")]
         [Display(Name = "Nombre")]
         public string Nombre { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "El apellido es obligatorio")]
+        [Required(ErrorMessage = "El apellido es requerido")]
         [Display(Name = "Apellido")]
         public string Apellido { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "El email es obligatorio")]
-        [EmailAddress(ErrorMessage = "El formato del email no es válido")]
+        [Required(ErrorMessage = "El email es requerido")]
+        [EmailAddress(ErrorMessage = "El email no es válido")]
         [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "El nombre de usuario es obligatorio")]
-        [Display(Name = "Nombre de usuario")]
-        public string Username { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        [Required(ErrorMessage = "La contraseña es requerida")]
+        [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres de longitud", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
         [Display(Name = "Contraseña")]
         public string Password { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "La confirmación de contraseña es obligatoria")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         [Display(Name = "Confirmar contraseña")]
-        public string ConfirmPassword { get; set; } = string.Empty;
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
+        public string ConfirmarPassword { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "El teléfono es obligatorio")]
-        [Phone(ErrorMessage = "El formato del teléfono no es válido")]
+        [Required(ErrorMessage = "El teléfono es requerido")]
+        [Phone(ErrorMessage = "El teléfono no es válido")]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; } = string.Empty;
+    }
 
-        public bool IsEmailVerified { get; set; }
+    public class LoginUsuarioViewModel
+    {
+        [Required(ErrorMessage = "El email es requerido")]
+        [EmailAddress(ErrorMessage = "El email no es válido")]
+        [Display(Name = "Email")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "La contraseña es requerida")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Contraseña")]
+        public string Password { get; set; } = string.Empty;
+
+        [Display(Name = "Recordarme")]
+        public bool RecordarMe { get; set; }
     }
 }
-
-
