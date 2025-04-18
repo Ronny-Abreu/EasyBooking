@@ -35,8 +35,8 @@
                                 <div class="row g-0">
                                     <div class="col-md-4 pe-md-3">
                                         <div class="hotel-image-container rounded-4 overflow-hidden">
-                                            <img src="@(string.IsNullOrEmpty(Model.Hotel.ImagenUrl) ? "/img/hotels/default.jpg" : Model.Hotel.ImagenUrl)"
-                                                 class="img-fluid hotel-image" alt="@Model.Hotel.Nombre">
+                                            <img src="@Url.Content("~/" + Model.Hotel.ImagenUrl)" alt="Imagen del hotel" style="width: 100%; height: auto;"
+                                            class="img-fluid hotel-image" alt="@Model.Hotel.Nombre">
                                         </div>
                                     </div>
                                     <div class="col-md-8">
