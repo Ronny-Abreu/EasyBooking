@@ -1,35 +1,47 @@
-﻿using EasyBooking.Frontend.Services;
-using EasyBooking.Frontend.Models;
+﻿using EasyBooking.Frontend.Models;
+using EasyBooking.Frontend.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuraci�n de servicios ANTES de builder.Build()
-builder.Services.AddHttpClient(); // HttpClient
-builder.Services.AddScoped<HttpClientService>(); // Servicios personalizados
-builder.Services.AddScoped<UsuarioClientService>();
-builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings")); // Configuraci�n
-
-// Otros servicios
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build(); // A partir de aqu�, NO se pueden registrar m�s servicios
+// Add HttpClient
+builder.Services.AddHttpClient<HttpClientService>();
+builder.Services.AddScoped<HttpClientService>();
+builder.Services.AddScoped<UsuarioClientService>();
 
-// Configuraci�n del middleware (esto s� va despu�s de Build())
+// Configure ApiSettings
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+
+// Add Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Usuarios/Login";
+        options.LogoutPath = "/Usuarios/Logout";
+        options.AccessDeniedPath = "/Home/AccessDenied";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    });
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
-
-
-
-
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
