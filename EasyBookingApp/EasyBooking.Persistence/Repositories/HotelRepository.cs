@@ -37,5 +37,12 @@ namespace EasyBooking.Persistence.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<Hotel?> GetHotelWithImagesAsync(int id)
+        {
+            return await _dbContext.Hoteles
+                .Include(h => h.Imagenes.Where(i => i.Activo).OrderBy(i => i.Orden))
+                .FirstOrDefaultAsync(h => h.Id == id && h.Activo);
+        }
     }
 }
