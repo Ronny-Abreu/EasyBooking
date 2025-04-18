@@ -12,10 +12,19 @@ namespace EasyBooking.Persistence.Context
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Hotel> Hoteles { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<HotelImagen> HotelImagenes { get; set; } // Nueva entidad
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Configuración de HotelImagen
+            modelBuilder.Entity<HotelImagen>()
+                .HasOne(hi => hi.Hotel)
+                .WithMany(h => h.Imagenes)
+                .HasForeignKey(hi => hi.HotelId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             // Configuración de Usuario
             modelBuilder.Entity<Usuario>()
@@ -76,6 +85,92 @@ namespace EasyBooking.Persistence.Context
                     ImagenUrl = "/img/hotels/hotel3.jpg",
                     PrecioPorNoche = 180.00m,
                     Calificacion = 4,
+                    FechaCreacion = DateTime.Now,
+                    Activo = true
+                }
+            );
+
+            // Datos semilla para imágenes de hoteles
+            modelBuilder.Entity<HotelImagen>().HasData(
+                // Hotel 1 - Paraíso
+                new HotelImagen
+                {
+                    Id = 1,
+                    HotelId = 1,
+                    Url = "/img/hotels/hotel1.jpg",
+                    Titulo = "Vista principal",
+                    EsPrincipal = true,
+                    Orden = 1,
+                    FechaCreacion = DateTime.Now,
+                    Activo = true
+                },
+                new HotelImagen
+                {
+                    Id = 2,
+                    HotelId = 1,
+                    Url = "/img/hotels/hotel1_2.jpg",
+                    Titulo = "Habitación",
+                    EsPrincipal = false,
+                    Orden = 2,
+                    FechaCreacion = DateTime.Now,
+                    Activo = true
+                },
+                new HotelImagen
+                {
+                    Id = 3,
+                    HotelId = 1,
+                    Url = "/img/hotels/hotel1_3.jpg",
+                    Titulo = "Piscina",
+                    EsPrincipal = false,
+                    Orden = 3,
+                    FechaCreacion = DateTime.Now,
+                    Activo = true
+                },
+
+                // Hotel 2 - Montaña
+                new HotelImagen
+                {
+                    Id = 4,
+                    HotelId = 2,
+                    Url = "/img/hotels/hotel2.jpg",
+                    Titulo = "Vista principal",
+                    EsPrincipal = true,
+                    Orden = 1,
+                    FechaCreacion = DateTime.Now,
+                    Activo = true
+                },
+                new HotelImagen
+                {
+                    Id = 5,
+                    HotelId = 2,
+                    Url = "/img/hotels/hotel2_2.jpg",
+                    Titulo = "Habitación",
+                    EsPrincipal = false,
+                    Orden = 2,
+                    FechaCreacion = DateTime.Now,
+                    Activo = true
+                },
+
+                // Hotel 3 - Céntrico
+                new HotelImagen
+                {
+                    Id = 6,
+                    HotelId = 3,
+                    Url = "/img/hotels/hotel3.jpg",
+                    Titulo = "Vista principal",
+                    EsPrincipal = true,
+                    Orden = 1,
+                    FechaCreacion = DateTime.Now,
+                    Activo = true
+                },
+                new HotelImagen
+                {
+                    Id = 7,
+                    HotelId = 3,
+                    Url = "/img/hotels/hotel3_2.jpg",
+                    Titulo = "Restaurante",
+                    EsPrincipal = false,
+                    Orden = 2,
                     FechaCreacion = DateTime.Now,
                     Activo = true
                 }
