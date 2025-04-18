@@ -19,6 +19,32 @@ namespace EasyBooking.Frontend.Models
         public DateTime FechaCreacion { get; set; }
         public string Servicios { get; set; } = string.Empty;
 
+        // Nueva propiedad para las imágenes
+        public List<HotelImagenViewModel> Imagenes { get; set; } = new List<HotelImagenViewModel>();
+        // Método para obtener la imagen principal
+        public string GetImagenPrincipal()
+        {
+            if (Imagenes != null && Imagenes.Any())
+            {
+                var imagenPrincipal = Imagenes.FirstOrDefault(i => i.EsPrincipal);
+                if (imagenPrincipal != null)
+                {
+                    return imagenPrincipal.Url;
+                }
+                return Imagenes.First().Url;
+            }
+            return string.IsNullOrEmpty(ImagenUrl) ? "/img/hotels/default.jpg" : ImagenUrl;
+        }
+
+        public class HotelImagenViewModel
+        {
+            public int Id { get; set; }
+            public int HotelId { get; set; }
+            public string Url { get; set; } = string.Empty;
+            public string Titulo { get; set; } = string.Empty;
+            public bool EsPrincipal { get; set; }
+            public int Orden { get; set; }
+        }
 
         public string GetGoogleMapsUrl()
         {

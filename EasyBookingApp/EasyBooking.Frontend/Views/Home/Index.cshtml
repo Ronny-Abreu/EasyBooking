@@ -58,7 +58,7 @@
             {
                 <div class="hotel-card">
                     <div class="card-image">
-                        <img src="/img/hotels/hotel@(i+1).jpg" alt="@nombresHoteles[i]">
+                        <img src="/img/Hotels/PrincipalImgHotel@(i+1).jpg" alt="@nombresHoteles[i]">
                     </div>
                     <div class="card-content">
                         <h3>@nombresHoteles[i]</h3>
@@ -89,14 +89,20 @@
     </svg>
 </div>
 
-<!-- Scripts -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector(".content").classList.add("show");
 
-        // Scroll al hacer clic en el indicador
-        document.getElementById("scroll-down").addEventListener("click", function() {
-            document.getElementById("hoteles").scrollIntoView({ behavior: "smooth" });
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".content").classList.add("show");
+
+            // Scroll al hacer clic en el indicador
+            document.getElementById("scroll-down").addEventListener("click", function() {
+                document.getElementById("hoteles").scrollIntoView({ behavior: "smooth" });
+            });
         });
-    });
-</script>
+    </script>
+}
