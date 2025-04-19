@@ -1,0 +1,271 @@
+﻿:root {
+    --primary-color: #f8345c;
+    --primary-hover: #e02a4e;
+    --secondary-color: #2d3748;
+    --light-gray: #f8f9fa;
+    --border-radius: 12px;
+}
+
+/* Título principal */
+.package-title {
+    color: var(--secondary-color);
+    letter-spacing: -0.5px;
+}
+
+/* Tarjeta de filtros */
+.filter-card {
+    transition: all 0.3s ease;
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+}
+
+    .filter-card:hover {
+        transform: translateY(-5px);
+    }
+
+/* Botón de búsqueda */
+.btn-search {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+    .btn-search:hover, .btn-search:focus {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(248, 52, 92, 0.2);
+    }
+
+/* Tarjetas de paquetes */
+.package-card {
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+    .package-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+    }
+
+.package-img {
+    height: 350px;
+    object-fit: cover;
+    transition: all 0.5s ease;
+}
+
+.package-card:hover .package-img {
+    transform: scale(1.05);
+}
+
+/* Badge de precio */
+.package-price-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-top-left-radius: 12px;
+    font-weight: 500;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.package-card:hover .package-price-badge {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(248, 52, 92, 0.3);
+}
+
+/* Badge de duración */
+.package-duration-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Estrellas de calificación */
+.rating-stars {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+.package-description {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .btn-primary-custom:hover, .btn-primary-custom:focus {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(248, 52, 92, 0.2);
+    }
+
+.transition-hover {
+    transition: all 0.3s ease;
+}
+
+.input-group-text {
+    color: #6c757d;
+}
+
+.rounded-4 {
+    border-radius: var(--border-radius) !important;
+}
+
+/* Galería de imágenes */
+.package-gallery {
+    position: relative;
+}
+
+.package-main-image {
+    height: 400px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.package-thumbnails {
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
+    padding: 5px;
+}
+
+    .package-thumbnails::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .package-thumbnails::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+    }
+
+.image-title {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+}
+
+    .image-title h5 {
+        display: inline-block;
+        color: #fff;
+        font-weight: 600;
+        padding: 8px 16px;
+        margin: 0;
+        border-radius: 30px;
+        background: linear-gradient( 90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 20%, rgba(0, 0, 0, 0.4) 80%, rgba(0, 0, 0, 0) 100% );
+        backdrop-filter: blur(4px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+    }
+
+.carousel-item:hover .image-title h5 {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.info-card {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+    .info-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+.info-header {
+    background-color: var(--light-gray);
+    border-bottom: none;
+    padding: 15px 20px;
+}
+
+/* Tarjeta de reserva */
+.luxury-card {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.luxury-header {
+    background-color: var(--primary-color);
+    color: white;
+    border-bottom: none;
+    padding: 15px 20px;
+}
+
+.btn-luxury {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .btn-luxury:hover, .btn-luxury:focus {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(248, 52, 92, 0.2);
+    }
+
+.price-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Estilos para listas */
+.itinerary-list, .includes-list, .not-includes-list {
+    margin: 0;
+    padding: 0;
+}
+
+.itinerary-item, .includes-item, .not-includes-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+    .itinerary-item:last-child, .includes-item:last-child, .not-includes-item:last-child {
+        border-bottom: none;
+    }
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .package-card {
+        margin-bottom: 2rem;
+    }
+
+    .filter-card {
+        padding: 1rem;
+    }
+
+    .package-main-image {
+        height: 250px;
+    }
+}
