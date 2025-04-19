@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/css/Inicio_Forms/navbar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Hoteles/DescripcionHotels.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Hoteles/IndexHoteles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/paquetes.css" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
 
@@ -40,7 +41,7 @@
                             <a href="#" class="nav-tab dropdown-toggle-split">Publicaciones</a>
                             <div class="dropdown-menu">
                                 <a href="@Url.Action("Index", "Hoteles")" class="dropdown-item">Hoteles 🛎️</a>
-                                <a href="#" class="dropdown-item">Paquetes Turísticos 🌴</a>
+                                <a href="@Url.Action("Index", "PaquetesTuristicos")" class="dropdown-item">Paquetes Turísticos 🌴</a>
                                 <a href="#" class="dropdown-item">Viajes ✈️</a>
                             </div>
                         </div>
@@ -92,7 +93,11 @@
                         }
 
                         <div class="dropdown-section">
-                            <a asp-controller="Reservas" asp-action="Index" class="dropdown-item">Mis Reservas</a>
+                            <a asp-controller="Reservas" asp-action="Index" class="dropdown-item">Mis Reservas Hoteles</a>
+                        </div>
+
+                        <div class="dropdown-section">
+                            <a asp-controller="ReservasPaquetes" asp-action="Index" class="dropdown-item"> Mis Reservas Paquetes T </a>
                         </div>
 
                         <div class="dropdown-divider"></div>
@@ -100,7 +105,7 @@
                         <!-- Esta sección se mostrará siempre -->
                         <div class="dropdown-section">
                             <a asp-controller="Home" asp-action="SobreNosotros" class="dropdown-item">Sobre Nosotros</a>
-                            <a href="#" class="dropdown-item">Centro de ayuda</a>
+                            <a asp-controller="Support" asp-action="SupportUser" class="dropdown-item">Centro de Ayuda</a>
                         </div>
 
                         @if (User.Identity?.IsAuthenticated == true)
