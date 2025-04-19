@@ -1,0 +1,140 @@
+﻿@model EasyBooking.Frontend.Models.BusquedaPaquetesViewModel
+
+@{
+    ViewData["Title"] = "Paquetes Turísticos";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Hoteles/IndexHoteles.css.css" asp-append-version="true" />
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4 fw-bold display-4 hotel-title package-title">Paquetes Turísticos Disponibles</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger rounded-pill shadow-sm">
+            <i class="bi bi-exclamation-circle-fill me-2"></i>@TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-lg rounded-4 filter-card">
+                <div class="card-header bg-transparent border-0 pt-4 px-4">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-search me-2"></i>Buscar Paquetes</h5>
+                </div>
+                <div class="card-body px-4 pb-4">
+                    <form asp-action="Index" method="get">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label asp-for="Destino" class="form-label fw-medium"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-geo-alt"></i></span>
+                                    <input asp-for="Destino" class="form-control border-start-0 ps-0" placeholder="Ej: Riviera Maya" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label asp-for="PrecioMinimo" class="form-label fw-medium"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-currency-dollar"></i></span>
+                                    <input asp-for="PrecioMinimo" class="form-control border-start-0 ps-0" placeholder="Ej: 500" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label asp-for="PrecioMaximo" class="form-label fw-medium"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-currency-dollar"></i></span>
+                                    <input asp-for="PrecioMaximo" class="form-control border-start-0 ps-0" placeholder="Ej: 2000" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label asp-for="DuracionMinima" class="form-label fw-medium"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0"><i class="bi bi-calendar-week"></i></span>
+                                    <input asp-for="DuracionMinima" class="form-control border-start-0 ps-0" placeholder="Ej: 3" />
+                                </div>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button type="submit" class="btn btn-search text-white me-2 px-4 py-2">Buscar</button>
+                                <a asp-action="Index" class="btn btn-outline-secondary px-3 py-2">Limpiar</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        @if (Model.Paquetes.Any())
+        {
+            @foreach (var paquete in Model.Paquetes)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card hotel-card package-card h-100 border-0 shadow-sm rounded-4 overflow-hidden transition-hover">
+                        <div class="position-relative">
+                            <img src="@(string.IsNullOrEmpty(paquete.ImagenUrl) ? "/img/packages/default.jpg" : paquete.ImagenUrl)"
+                                 class="card-img-top hotel-img package-img" alt="@paquete.Nombre">
+                            @* <div class="hotel-price-badge package-price-badge"> *@
+                            @*     <span class="fw-bold">@paquete.Precio.ToString("C")</span><span class="fs-6">/persona</span> *@
+                            @* </div> *@
+                            <div class="package-duration-badge">
+                                <span> Duración de @paquete.Duracion días</span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title fw-bold mb-0">@paquete.Nombre</h5>
+                                <div class="rating-stars">
+                                    @for (int i = 0; i < paquete.Calificacion; i++)
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    @for (int i = paquete.Calificacion; i < 5; i++)
+                                    {
+                                        <i class="bi bi-star"></i>
+                                    }
+                                </div>
+                            </div>
+                            <p class="card-text text-muted mb-3">
+                                <i class="bi bi-geo-alt-fill me-1"></i>@paquete.Destino, @paquete.Pais
+                            </p>
+                            <p class="card-text hotel-description package-description">@paquete.Descripcion.Substring(0, Math.Min(100, paquete.Descripcion.Length))@(paquete.Descripcion.Length > 100 ? "..." : "")</p>
+                        </div>
+                        <div class="card-footer bg-white border-0 p-4 pt-0">
+                            <div class="d-grid gap-2">
+                                <a asp-action="Detalle" asp-route-id="@paquete.Id" class="btn btn-outline-secondary rounded-pill">
+                                    <i class="bi bi-info-circle me-1"></i>Ver Detalles
+                                </a>
+                                @if (User.Identity?.IsAuthenticated == true)
+                                {
+                                    <a asp-controller="ReservasPaquetes" asp-action="Crear" asp-route-paqueteId="@paquete.Id" class="btn btn-primary-custom rounded-pill">
+                                        <i class="bi bi-calendar-check me-1"></i>Reservar Ahora
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Usuarios" asp-action="Login" class="btn btn-primary-custom rounded-pill">
+                                        <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión para Reservar
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info rounded-4 shadow-sm p-4">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-info-circle-fill fs-3 me-3"></i>
+                        <p class="mb-0">No se encontraron paquetes turísticos que coincidan con los criterios de búsqueda.</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
