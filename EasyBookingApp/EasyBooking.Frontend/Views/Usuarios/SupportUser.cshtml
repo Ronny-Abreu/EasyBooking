@@ -1,0 +1,48 @@
+﻿@model EasyBooking.Frontend.Models.SupportViewModel
+
+@{
+    ViewData["Title"] = "Soporte al Usuario";
+}
+
+<link rel="stylesheet" href="~/css/Inicio_Forms/SupportUser.css" asp-append-version="true" />
+
+<div class="support-container">
+    <div class="support-header">
+        <h1 class="support-title">Soporte al Usuario</h1>
+        <p class="support-subtitle">Estamos aquí para ayudarte. Envíanos tu consulta y te responderemos lo antes posible.</p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="form-container">
+        <form class="form" asp-action="SupportUser" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Email">Correo Electrónico</label>
+                <input asp-for="Email" type="email" required>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Message">¿Tienes dudas? Desarróllala:</label>
+                <textarea asp-for="Message" rows="10" cols="50" required></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+
+            <button class="form-submit-btn" type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
