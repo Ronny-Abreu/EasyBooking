@@ -10,5 +10,7 @@ namespace EasyBooking.Domain.Entities
         public string PasswordHash { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
         public ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
+        public ICollection<ReservaPaquete> ReservasPaquetes { get; set; } = new List<ReservaPaquete>();
+
     }
 }
