@@ -83,5 +83,7 @@ namespace EasyBooking.Frontend.Models
 
         [Display(Name = "Duración máxima (días)")]
         public int? DuracionMaxima { get; set; }
+        public int TotalPaquetes { get; set; }
+
     }
 }

@@ -37,7 +37,8 @@ namespace EasyBooking.Frontend.Controllers
                         PrecioMaximo = precioMaximo,
                         Calificacion = calificacion,
                         DuracionMinima = duracionMinima,
-                        DuracionMaxima = duracionMaxima
+                        DuracionMaxima = duracionMaxima,
+                        TotalPaquetes = response.Data?.Count ?? 0
                     };
 
                     return View(model);
