@@ -49,6 +49,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IReservaRepository, ReservaRepository>();
+builder.Services.AddScoped<IPaqueteTuristicoRepository, PaqueteTuristicoRepository>();
+builder.Services.AddScoped<IReservaPaqueteRepository, ReservaPaqueteRepository>();
 
 
 // Services
@@ -57,6 +59,8 @@ builder.Services.AddScoped<IHotelService, HotelService>();
 builder.Services.AddScoped<IReservaService, ReservaService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddScoped<IPaqueteTuristicoService, PaqueteTuristicoService>();
+builder.Services.AddScoped<IReservaPaqueteService, ReservaPaqueteService>();
 
 
 // SMTP Settings
