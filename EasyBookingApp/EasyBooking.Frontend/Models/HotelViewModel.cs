@@ -78,6 +78,8 @@ namespace EasyBooking.Frontend.Models
 
         [Display(Name = "Calificación mínima")]
         public int? Calificacion { get; set; }
+        public int TotalHoteles { get; set; }
+
     }
 
     public class ServicioViewModel
