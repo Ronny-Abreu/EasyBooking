@@ -1,52 +1,81 @@
-using Microsoft.EntityFrameworkCore;
 using EasyBooking.Application.Contracts;
 using EasyBooking.Application.Services;
-using EasyBooking.Persistence.Interfaces;
+using EasyBooking.Application.Settings;
 using EasyBooking.Persistence.Context;
+using EasyBooking.Persistence.Interfaces;
 using EasyBooking.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllers();
+// Controllers and JSON Options
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
-//Configuracion Swagger
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configurar la base de datos
-builder.Services.AddDbContext<EasyBookingDbContext>(options =>
-  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-// Registrar Servicios
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();  // Servicio de usuario
-
-
-// Registrar repositorios
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
-// Registrar el servicio de correo electrónico
-builder.Services.AddScoped<IEmailService, EmailService>();
-
-
-
-
-
-// Configurar CORS
+// CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
+    options.AddPolicy("AllowFrontend", builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("https://localhost:7243")
+               .AllowAnyHeader()
                .AllowAnyMethod()
-               .AllowAnyHeader();
+               .AllowCredentials();
     });
 });
 
+
+// DbContext
+builder.Services.AddDbContext<EasyBookingDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+// Repositories
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IHotelRepository, HotelRepository>();
+builder.Services.AddScoped<IReservaRepository, ReservaRepository>();
+
+
+// Services
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IHotelService, HotelService>();
+builder.Services.AddScoped<IReservaService, ReservaService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
+
+
+// SMTP Settings
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("AppSettings:SmtpSettings"));
+
+
+// Autenticación y Autorización
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/login";
+        options.AccessDeniedPath = "/denegado";
+    });
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -54,8 +83,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
+
+app.UseCors("AllowFrontend");
+
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
+
+
 
 app.Run();

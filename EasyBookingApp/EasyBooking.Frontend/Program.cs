@@ -1,35 +1,52 @@
+ï»¿using EasyBooking.Frontend.Models;
 using EasyBooking.Frontend.Services;
-using EasyBooking.Frontend.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración de servicios ANTES de builder.Build()
-builder.Services.AddHttpClient(); // HttpClient
-builder.Services.AddScoped<HttpClientService>(); // Servicios personalizados
-builder.Services.AddScoped<UsuarioClientService>();
-builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings")); // Configuración
-
-// Otros servicios
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build(); // A partir de aquí, NO se pueden registrar más servicios
+builder.Services.AddAutoMapper(
+    typeof(EasyBooking.Application.Mappings.MappingProfile),
+    typeof(EasyBooking.Frontend.Mappings.FrontendMappingProfile)
+);
 
-// Configuración del middleware (esto sí va después de Build())
+// Add HttpClient
+builder.Services.AddHttpClient<HttpClientService>();
+builder.Services.AddScoped<HttpClientService>();
+builder.Services.AddScoped<UsuarioClientService>();
+
+// Configure ApiSettings
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+
+// Add Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Usuarios/Login";
+        options.LogoutPath = "/Usuarios/Logout";
+        options.AccessDeniedPath = "/Home/AccessDenied";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    });
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
-
-
-
-
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

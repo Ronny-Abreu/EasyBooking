@@ -1,27 +1,108 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
-<link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Inicio_Forms/Home.css" asp-append-version="true" />
 
-<div class="content">
-    <h1>
-        Bienvenido a EasyBooking 🧩
+<!-- Sección Hero -->
+<section class="hero-section">
+    <div class="content">
+        <h1>
+            Bienvenido a EasyBooking 🧩
+        </h1>
+        <p>Reserva, Pública y Gestiona fácil</p>
 
-    </h1>
-    <p>Reserva, Pública y Gestiona fácil</p>
+        <div class="features-container">
+            <div class="feature-card">
+                <i class="bi bi-search searchicon"></i>
+                <h3>Busca</h3>
+                <p>Encuentra el hotel perfecto para tu viaje entre nuestra amplia selección.</p>
+            </div>
+            <div class="feature-card">
+                <i class="bi bi-calendar-check calendaricon"></i>
+                <h3>Reserva</h3>
+                <p>Realiza tu reserva de forma rápida y segura en pocos pasos.</p>
+            </div>
+            <div class="feature-card">
+                <i class="bi bi-emoji-smile smileicon"></i>
+                <h3>Disfruta</h3>
+                <p>Relájate y disfruta de tu estancia con la tranquilidad de tener todo organizado.</p>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scroll-down">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14"></path>
+                <path d="m19 12-7 7-7-7"></path>
+            </svg>
+        </div>
+    </div>
+
+</section>
+
+<!-- Contenedor de secciones -->
+<div class="sections-container">
+    <!-- Sección de Hoteles -->
+    <section id="hoteles" class="section">
+        <div class="section-header">
+            <h2>Hoteles Destacados</h2>
+            <p>Descubre nuestras mejores opciones de alojamiento</p>
+        </div>
+
+        @{
+            var nombresHoteles = new[] { "Hotel Paraíso", "Hotel Montaña", "Hotel Céntrico" };
+            var ubicaciones = new[] { "Cancún, México", "Bariloche, Argentina", "Madrid, España" };
+            var precios = new[] { "$150 / noche", "$120 / noche", "$180 / noche" };
+        }
+
+        <div class="cards-container">
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="hotel-card">
+                    <div class="card-image">
+                        <img src="/img/Hotels/PrincipalImgHotel@(i+1).jpg" alt="@nombresHoteles[i]">
+                    </div>
+                    <div class="card-content">
+                        <h3>@nombresHoteles[i]</h3>
+                        <p class="location"><i class="bi bi-geo-alt"></i> @ubicaciones[i]</p>
+                        <div class="rating">
+                            @for (int j = 0; j < 5; j++)
+                            {
+                                <i class="bi bi-star-fill"></i>
+                            }
+                        </div>
+                        <p class="price">@precios[i]</p>
+                        <a href="@Url.Action("Detalle", "Hoteles", new { id = i + 1 })" class="btn-view">Ver detalles</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="view-more-container">
+            <a href="@Url.Action("Index", "Hoteles")" class="btn-view-more">Ver más hoteles</a>
+        </div>
+    </section>
+</div>
+
+<!-- Botón de volver arriba -->
+<div class="back-to-top" id="back-to-top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m18 15-6-6-6 6"></path>
+    </svg>
 </div>
 
 
-<!-- Secciones -->
-@await Html.PartialAsync("_HotelesPartial")
-@await Html.PartialAsync("_PaquetesPartial")
-@await Html.PartialAsync("_ViajesPartial")
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".content").classList.add("show");
 
-
-
-<!-- Scripts -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelector(".content").classList.add("show");
-    });
-</script>
+            // Scroll al hacer clic en el indicador
+            document.getElementById("scroll-down").addEventListener("click", function() {
+                document.getElementById("hoteles").scrollIntoView({ behavior: "smooth" });
+            });
+        });
+    </script>
+}

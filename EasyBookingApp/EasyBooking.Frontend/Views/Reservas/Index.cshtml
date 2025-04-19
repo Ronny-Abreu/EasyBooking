@@ -1,0 +1,262 @@
+﻿@model List<EasyBooking.Frontend.Models.ReservaViewModel>
+
+@{
+    ViewData["Title"] = "Mis Reservas";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Reservas/IndexReservas.css" asp-append-version="true" />
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4 fw-bold display-4 reservas-title">Mis Reservas</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success rounded-pill shadow-sm fade-in">
+            <i class="bi bi-check-circle-fill me-2"></i>@TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger rounded-pill shadow-sm fade-in">
+            <i class="bi bi-exclamation-circle-fill me-2"></i>@TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var reserva in Model)
+            {
+                <div class="col-md-6 mb-4 reserva-container" id="reserva-@reserva.Id">
+                    <div class="card reserva-card border-0 shadow-lg h-100 rounded-4 overflow-hidden">
+
+                        <div class="card-header border-0 py-3 px-4 d-flex justify-content-between align-items-center
+                            @(reserva.Estado == "Confirmada" ? "bg-success-subtle" :
+                              reserva.Estado == "Cancelada" ? "bg-danger-subtle" : "bg-warning-subtle")">
+                            <h5 class="mb-0 fw-bold
+                                @(reserva.Estado == "Confirmada" ? "text-success" :
+                                  reserva.Estado == "Cancelada" ? "text-danger" : "text-warning")">
+                                Reserva #@reserva.Id
+                            </h5>
+                            <span class="badge rounded-pill
+                                @(reserva.Estado == "Confirmada" ? "bg-success" :
+                                  reserva.Estado == "Cancelada" ? "bg-danger" : "bg-warning")">
+                                @reserva.Estado
+                            </span>
+                        </div>
+                        <div class="card-body p-4">
+                            @if (reserva.Hotel != null)
+                            {
+                                <div class="hotel-info mb-4">
+                                    <div class="row g-0">
+                                        <div class="col-md-4 pe-md-3">
+                                            <div class="hotel-image-container rounded-4 overflow-hidden">
+                                                <img src="@(string.IsNullOrEmpty(reserva.Hotel.ImagenUrl) ? "/img/hotels/default.jpg" : reserva.Hotel.ImagenUrl)"
+                                                     class="img-fluid hotel-image" alt="@reserva.Hotel.Nombre">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h5 class="hotel-name fw-bold mb-2">@reserva.Hotel.Nombre</h5>
+                                            <p class="hotel-location mb-0">
+                                                <i class="bi bi-geo-alt-fill me-1 text-muted"></i>
+                                                @reserva.Hotel.Ciudad, @reserva.Hotel.Pais
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="reservation-details">
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <div class="detail-card p-3 rounded-4 bg-light">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-circle bg-primary-subtle me-3">
+                                                    <i class="bi bi-calendar-check text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="detail-label">Entrada</div>
+                                                    <div class="detail-value">@reserva.FechaEntrada.ToString("dd/MM/yyyy")</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-card p-3 rounded-4 bg-light">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-circle bg-primary-subtle me-3">
+                                                    <i class="bi bi-calendar-x text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="detail-label">Salida</div>
+                                                    <div class="detail-value">@reserva.FechaSalida.ToString("dd/MM/yyyy")</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <div class="detail-card p-3 rounded-4 bg-light">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-circle bg-primary-subtle me-3">
+                                                    <i class="bi bi-people-fill text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="detail-label">Huéspedes</div>
+                                                    <div class="detail-value">@reserva.NumeroHuespedes</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="detail-card p-3 rounded-4 bg-light">
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-circle bg-primary-subtle me-3">
+                                                    <i class="bi bi-cash-stack text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="detail-label">Total</div>
+                                                    <div class="detail-value fw-bold">@reserva.PrecioTotal.ToString("C")</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(reserva.ReferenciaPago))
+                                {
+                                    <div class="payment-reference p-3 rounded-4 bg-light mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon-circle bg-primary-subtle me-3">
+                                                <i class="bi bi-credit-card text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <div class="detail-label">Referencia de Pago</div>
+                                                <div class="detail-value payment-code">@reserva.ReferenciaPago</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-footer border-0 bg-white p-4">
+                            <div class="d-flex justify-content-between gap-2">
+                                @if (reserva.Estado == "Pendiente")
+                                {
+                                    <a asp-action="Pago" asp-route-id="@reserva.Id" class="btn btn-success rounded-pill px-4">
+                                        <i class="bi bi-credit-card me-2"></i> Pagar
+                                    </a>
+                                    <a asp-action="Editar" asp-route-id="@reserva.Id" class="btn btn-primary rounded-pill px-4">
+                                        <i class="bi bi-pencil me-2"></i> Editar
+                                    </a>
+                                    <form class="form-cancelar" data-id="@reserva.Id">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger rounded-pill px-4">
+                                            <i class="bi bi-x-circle me-2"></i> Cancelar
+                                        </button>
+                                    </form>
+
+                                }
+                                else if (reserva.Estado == "Confirmada")
+                                {
+                                    <a asp-controller="Hoteles" asp-action="Detalle" asp-route-id="@reserva.HotelId" class="btn btn-outline-primary rounded-pill px-4">
+                                        <i class="bi bi-info-circle me-2"></i> Ver Hotel
+                                    </a>
+                                    <form class="form-cancelar" data-id="@reserva.Id">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger rounded-pill px-4">
+                                            <i class="bi bi-x-circle me-2"></i> Cancelar
+                                        </button>
+                                    </form>
+
+
+                                }
+                                else
+                                {
+                                    <a asp-controller="Hoteles" asp-action="Detalle" asp-route-id="@reserva.HotelId" class="btn btn-outline-primary rounded-pill px-4">
+                                        <i class="bi bi-info-circle me-2"></i> Ver Hotel
+                                    </a>
+                                    <a asp-controller="Hoteles" asp-action="Index" class="btn btn-success rounded-pill px-4">
+                                        <i class="bi bi-plus-circle me-2"></i> Nueva Reserva
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info rounded-4 shadow-sm p-4 empty-reservations">
+            <div class="text-center py-4">
+                <i class="bi bi-calendar-x display-1 text-info mb-3"></i>
+                <h4 class="mb-3">No tienes reservas actualmente</h4>
+                <p class="mb-4">¡Explora nuestros hoteles y haz tu primera reserva!</p>
+                <a asp-controller="Hoteles" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5">
+                    <i class="bi bi-search me-2"></i> Buscar Hoteles
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".form-cancelar").forEach(form => {
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    if (!confirm("¿Estás seguro de que deseas cancelar esta reserva?")) return;
+
+                    const reservaId = form.getAttribute("data-id");
+                    const container = document.getElementById(`reserva-${reservaId}`);
+                    const token = form.querySelector("input[name='__RequestVerificationToken']")?.value;
+
+                    fetch(`/Reservas/Cancelar/${reservaId}`, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': token
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("No se pudo cancelar la reserva.");
+                        }
+
+                        // Si encuentra la card, la oculta con animación
+                        if (container) {
+                            container.classList.add("fade-out");
+                            setTimeout(() => {
+                                container.remove();
+                                location.reload(); // Recarga la página después de eliminar la card
+                            }, 1000);
+                        } else {
+                            location.reload(); // Si no está visible (otra vista), recarga directo
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert("Hubo un error al cancelar la reserva. Intenta de nuevo.");
+                    });
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+    </style>
+}

@@ -1,0 +1,289 @@
+﻿@model EasyBooking.Frontend.Models.CrearReservaViewModel
+
+@{
+    ViewData["Title"] = "Editar Reserva";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Reservas/Crear_Editar_Reserva.css" asp-append-version="true" />
+}
+
+
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none"><i class="bi bi-house-door me-1"></i>Inicio</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Reservas" asp-action="Index" class="text-decoration-none"><i class="bi bi-calendar-event me-1"></i>Mis Reservas</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Editar Reserva</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-gradient-primary text-white border-0 py-3">
+                    <h4 class="mb-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>Editar Reserva</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Editar" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger rounded-3 p-3 bg-danger-subtle mb-4"></div>
+                        <input type="hidden" asp-for="HotelId" />
+
+                        @if (Model.Hotel != null)
+                        {
+                            <div class="hotel-preview mb-4 p-3 bg-light rounded-4">
+                                <div class="row g-0">
+                                    <div class="col-md-4 pe-md-3">
+                                        <div class="hotel-image-container rounded-4 overflow-hidden">
+                                            <img src="@Url.Content("~/" + Model.Hotel.ImagenUrl)" alt="Imagen del hotel" style="width: 100%; height: auto;"
+                                                 class="img-fluid hotel-image" alt="@Model.Hotel.Nombre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="p-3">
+                                            <h5 class="hotel-name fw-bold mb-2">@Model.Hotel.Nombre</h5>
+                                            <p class="hotel-location mb-2">
+                                                <i class="bi bi-geo-alt-fill me-1 text-primary"></i>
+                                                @Model.Hotel.Ciudad, @Model.Hotel.Pais
+                                            </p>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <span class="badge bg-success rounded-pill me-3 px-3 py-2">
+                                                    @Model.Hotel.PrecioPorNoche.ToString("C")/noche
+                                                </span>
+                                                <div class="rating">
+                                                    @for (int i = 0; i < Model.Hotel.Calificacion; i++)
+                                                    {
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                    }
+                                                    @for (int i = Model.Hotel.Calificacion; i < 5; i++)
+                                                    {
+                                                        <i class="bi bi-star text-warning"></i>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="reservation-form">
+                            <h5 class="section-title mb-4"><i class="bi bi-calendar-week me-2"></i>Detalles de la Estancia</h5>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="FechaEntrada" class="form-label fw-medium">
+                                            <i class="bi bi-calendar-check me-1 text-primary"></i>Fecha de entrada
+                                        </label>
+                                        <input asp-for="FechaEntrada" class="form-control date-input" type="date"
+                                               min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                        <span asp-validation-for="FechaEntrada" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="FechaSalida" class="form-label fw-medium">
+                                            <i class="bi bi-calendar-x me-1 text-primary"></i>Fecha de salida
+                                        </label>
+                                        <input asp-for="FechaSalida" class="form-control date-input" type="date"
+                                               min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+                                        <span asp-validation-for="FechaSalida" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label asp-for="NumeroHuespedes" class="form-label fw-medium">
+                                    <i class="bi bi-people me-1 text-primary"></i>Número de huéspedes
+                                </label>
+                                <div class="guest-selector">
+                                    <input asp-for="NumeroHuespedes" class="form-control" type="number" min="1" max="10" />
+                                    <div class="guest-controls">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary guest-control-btn" id="decreaseGuests">
+                                            <i class="bi bi-dash"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary guest-control-btn" id="increaseGuests">
+                                            <i class="bi bi-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="NumeroHuespedes" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group mt-4 d-flex gap-3">
+                                <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill">
+                                    <i class="bi bi-check-circle me-2"></i>Guardar Cambios
+                                </button>
+                                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                                    <i class="bi bi-x-circle me-2"></i>Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden sticky-top" style="top: 20px; z-index: 100;">
+                <div class="card-header bg-gradient-secondary text-dark border-0 py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-receipt me-2"></i>Resumen de Reserva</h5>
+                </div>
+                <div class="card-body p-4">
+                    @if (Model.Hotel != null)
+                    {
+                        <div class="summary-section mb-3">
+                            <div class="summary-item d-flex justify-content-between mb-2">
+                                <span class="fw-medium">Hotel:</span>
+                                <span>@Model.Hotel.Nombre</span>
+                            </div>
+                            <div class="summary-item d-flex justify-content-between">
+                                <span class="fw-medium">Precio por noche:</span>
+                                <span class="badge bg-success rounded-pill px-3 py-2">@Model.Hotel.PrecioPorNoche.ToString("C")</span>
+                            </div>
+                        </div>
+
+                        <hr class="divider">
+
+                        <div class="summary-section mb-3">
+                            <div class="summary-item d-flex align-items-center mb-3">
+                                <div class="icon-circle bg-primary-subtle me-3">
+                                    <i class="bi bi-calendar-check text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="summary-label">Fecha de entrada</div>
+                                    <div class="summary-value" id="resumenFechaEntrada">@Model.FechaEntrada.ToString("dd/MM/yyyy")</div>
+                                </div>
+                            </div>
+
+                            <div class="summary-item d-flex align-items-center mb-3">
+                                <div class="icon-circle bg-primary-subtle me-3">
+                                    <i class="bi bi-calendar-x text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="summary-label">Fecha de salida</div>
+                                    <div class="summary-value" id="resumenFechaSalida">@Model.FechaSalida.ToString("dd/MM/yyyy")</div>
+                                </div>
+                            </div>
+
+                            <div class="summary-item d-flex align-items-center mb-3">
+                                <div class="icon-circle bg-primary-subtle me-3">
+                                    <i class="bi bi-moon text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="summary-label">Número de noches</div>
+                                    <div class="summary-value" id="resumenNoches">@((Model.FechaSalida - Model.FechaEntrada).Days)</div>
+                                </div>
+                            </div>
+
+                            <div class="summary-item d-flex align-items-center">
+                                <div class="icon-circle bg-primary-subtle me-3">
+                                    <i class="bi bi-people text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="summary-label">Número de huéspedes</div>
+                                    <div class="summary-value" id="resumenHuespedes">@Model.NumeroHuespedes</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="divider">
+
+                        <div class="total-price p-3 bg-success-subtle rounded-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold fs-5">Total:</span>
+                                <span class="text-success fw-bold fs-4" id="resumenTotal">
+                                    @((Model.Hotel.PrecioPorNoche * (Model.FechaSalida - Model.FechaEntrada).Days).ToString("C"))
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="reservation-info mt-4">
+                            <div class="alert alert-info rounded-4 mb-0">
+                                <div class="d-flex">
+                                    <i class="bi bi-info-circle-fill fs-4 me-2"></i>
+                                    <div>
+                                        <p class="mb-0"><strong>Información importante:</strong></p>
+                                        <p class="mb-0 small">Los cambios en la reserva pueden afectar al precio final. Cancelación gratuita hasta 48 horas antes de la fecha de entrada.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Actualizar el resumen cuando cambian las fechas o el número de huéspedes
+            $('#FechaEntrada, #FechaSalida, #NumeroHuespedes').change(function() {
+                actualizarResumen();
+            });
+
+            // Controles para aumentar/disminuir huéspedes
+            $('#decreaseGuests').click(function() {
+                var currentValue = parseInt($('#NumeroHuespedes').val());
+                if (currentValue > 1) {
+                    $('#NumeroHuespedes').val(currentValue - 1).change();
+                }
+            });
+
+            $('#increaseGuests').click(function() {
+                var currentValue = parseInt($('#NumeroHuespedes').val());
+                if (currentValue < 10) {
+                    $('#NumeroHuespedes').val(currentValue + 1).change();
+                }
+            });
+
+            // Mejorar la experiencia de selección de fechas
+            $('.date-input').on('change', function() {
+                var fechaEntrada = new Date($('#FechaEntrada').val());
+                var fechaSalida = new Date($('#FechaSalida').val());
+
+                // Si la fecha de salida es anterior a la de entrada, ajustarla
+                if (fechaSalida <= fechaEntrada) {
+                    var nuevaFechaSalida = new Date(fechaEntrada);
+                    nuevaFechaSalida.setDate(nuevaFechaSalida.getDate() + 1);
+                    $('#FechaSalida').val(nuevaFechaSalida.toISOString().split('T')[0]).change();
+                }
+            });
+
+            function actualizarResumen() {
+                var fechaEntrada = new Date($('#FechaEntrada').val());
+                var fechaSalida = new Date($('#FechaSalida').val());
+                var numeroHuespedes = $('#NumeroHuespedes').val();
+
+                // Formatear fechas
+                var options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                $('#resumenFechaEntrada').text(fechaEntrada.toLocaleDateString('es-ES', options));
+                $('#resumenFechaSalida').text(fechaSalida.toLocaleDateString('es-ES', options));
+
+                // Calcular número de noches
+                var noches = Math.floor((fechaSalida - fechaEntrada) / (1000 * 60 * 60 * 24));
+                $('#resumenNoches').text(noches);
+
+                // Actualizar número de huéspedes
+                $('#resumenHuespedes').text(numeroHuespedes);
+
+                // Calcular total
+                var precioPorNoche = @Html.Raw(Json.Serialize(Model.Hotel?.PrecioPorNoche ?? 0));
+                var total = precioPorNoche * noches;
+                $('#resumenTotal').text(new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(total));
+
+                // Efecto visual para el cambio de precio
+                $('#resumenTotal').addClass('price-updated');
+                setTimeout(function() {
+                    $('#resumenTotal').removeClass('price-updated');
+                }, 500);
+            }
+        });
+    </script>
+}

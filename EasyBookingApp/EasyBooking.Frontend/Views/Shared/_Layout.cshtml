@@ -3,174 +3,141 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EasyBooking </title>
-    <link href="https://fonts.googleapis.com/css2?family=Circular:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>@ViewData["Title"] - EasyBooking</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" /> 
-    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/Inicio_Forms/Home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Inicio_Forms/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Inicio_Forms/navbar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Hoteles/DescripcionHotels.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Hoteles/IndexHoteles.css" asp-append-version="true" />
+
     @RenderSection("Styles", required: false)
 
 </head>
 <body>
-    @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
-    {
-        @await Html.PartialAsync("_NavbarPartial")
-
-    }
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-
-
-    @* Loading clases *@
-    <!-- Style loading From Uiverse.io by mrhyddenn -->
-    <div class="spinner center">
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-        <div class="spinner-blade"></div>
-    </div>
-
-    <!-- Modal Background Overlay -->
-    <div id="modal-overlay" class="modal-overlay"></div>
-
-    <!-- Login Modal -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeLoginModal()">&times;</span>
-
-            <!-- Login Form -->
-            <div id="login-form-container" class="container">
-                <div class="heading">Iniciar Sesión</div>
-                <div id="login-error-message" class="alert alert-danger" style="display: none;"></div>
-                <form id="login-form" class="form" method="dialog">
-                    <input required class="input" type="email" name="Email" id="email" placeholder="Correo electrónico">
-                    <input required class="input" type="password" name="Password" id="password" placeholder="Contraseña">
-                    <span class="forgot-password"><a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a></span>
-                    <input class="login-button" type="submit" value="Iniciar Sesión">
-                </form>
-                <div class="social-account-container">
-                    <span class="title">O inicia sesión con</span>
-                    <div class="social-accounts">
-                        <button type="button" class="social-button google">
-                            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 488 512">
-                                <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-                            </svg>
-                        </button>
-                    </div>
+    <header>
+        <nav class="EasyBooking-navbar">
+            <div class="navbar-container">
+                <div class="navbar-left">
+                    <a href="@Url.Action("Index", "Home")" class="logo-link">
+                        <img src="~/img/logoEasyBooking.png" alt="Logo EasyBooking" />
+                    </a>
                 </div>
-                <div class="form-footer">
-                    <p>¿No tienes cuenta? <a href="#" onclick="switchToRegister(event)">Crear cuenta</a></p>
-                </div>
-                <span class="agreement"><a href="#">Términos y condiciones</a></span>
-            </div>
 
-            <!-- Forgot Password Form - Step 1: Request Code -->
-            <div id="forgot-password-container" class="container" style="display: none;">
-                <div class="heading">Recuperar Contraseña</div>
-                <div id="forgot-password-message" class="alert alert-info" style="display: none;"></div>
-                <form id="forgot-password-form" class="form" method="dialog">
-                    <p class="form-description">Ingresa tu correo electrónico y te enviaremos un código de verificación para restablecer tu contraseña.</p>
-                    <input required class="input" type="email" name="ForgotEmail" id="forgot-email" placeholder="Correo electrónico">
-                    <input class="login-button" type="submit" value="Enviar Código">
-                    <button type="button" class="back-button" id="back-to-login-btn">Volver al inicio de sesión</button>
-                </form>
-            </div>
+                <div class="navbar-center">
+                    <div class="nav-tab">
+                        @{
+                            var isHomePage = Context.Request.Path.Value.Equals("/") ||
+                            Context.Request.Path.Value.Equals("/Home") ||
+                            Context.Request.Path.Value.Equals("/Home/Index");
+                        }
 
-            <!-- Forgot Password Form - Step 2: Verify Code and Reset Password -->
-            <div id="reset-password-container" class="container" style="display: none;">
-                <div class="heading">Restablecer Contraseña</div>
-                <div id="reset-password-message" class="alert alert-info" style="display: none;"></div>
-                <form id="reset-password-form" class="form" method="dialog">
-                    <p class="form-description">Ingresa el código de verificación que enviamos a tu correo electrónico.</p>
-                    <div class="verification-code-container">
-                        <input required class="input verification-code" type="text" name="VerificationCode" id="verification-code" placeholder="Código de verificación" maxlength="6">
-                        <div class="code-status">
-                            <span id="code-valid" style="display: none;"><i class="bi bi-check-circle-fill text-success"></i> Código válido</span>
-                            <span id="code-invalid" style="display: none;"><i class="bi bi-x-circle-fill text-danger"></i> Código inválido</span>
+                        <a href="@Url.Action("Index", "Home")" class="nav-tab @(isHomePage ? "active" : "")">Inicio</a>
+
+
+                        <div class="dropdown">
+                            <a href="#" class="nav-tab dropdown-toggle-split">Publicaciones</a>
+                            <div class="dropdown-menu">
+                                <a href="@Url.Action("Index", "Hoteles")" class="dropdown-item">Hoteles 🛎️</a>
+                                <a href="#" class="dropdown-item">Paquetes Turísticos 🌴</a>
+                                <a href="#" class="dropdown-item">Viajes ✈️</a>
+                            </div>
                         </div>
                     </div>
-                    <div id="reset-password-message" class="alert alert-info" style="display: none;"></div>
-                    <input required class="input" type="password" name="NewPassword" id="new-password" placeholder="Nueva contraseña" disabled>
-                    <input class="login-button" type="submit" value="Restablecer Contraseña" id="reset-password-btn" disabled>
-                    <button type="button" class="back-button" id="back-to-forgot-btn">Volver</button>
-                </form>
-            </div>
-        </div>
-    </div>
+                </div>
 
-
-    <!-- Register Modal -->
-    <div id="register-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeRegisterModal()">&times;</span>
-            <div class="container">
-                <div class="heading">Registrarse</div>
-                <div id="register-error-message" class="alert alert-danger" style="display: none;"></div>
-                <form id="register-form" class="form" method="dialog">
-                    <input required class="input" type="text" name="Name" id="register-nombre" placeholder="Nombre">
-                    <input required class="input" type="text" name="Apellido" id="register-apellido" placeholder="Apellido">
-                    <input required class="input" type="email" name="Email" id="register-email" placeholder="Correo electrónico">
-                    <input required class="input" type="text" name="Username" id="register-username" placeholder="Nombre de usuario">
-                    <input required class="input" type="tel" name="Telefono" id="register-telefono" placeholder="Teléfono">
-                    <input required class="input" type="password" name="Password" id="register-password" placeholder="Contraseña">
-                    <div id="password-feedback" class="feedback-text" style="margin-top: -10px; margin-bottom: 10px; font-size: 14px; display: none;"></div>
-                    <input required class="input" type="password" name="ConfirmPassword" id="register-confirm-password" placeholder="Confirmar contraseña">
-                    <div class="checkbox-container">
-                    </div>
-                    <input class="login-button" type="submit" value="Registrarse">
-                </form>
-                <div class="social-account-container">
-                    <span class="title">O regístrate con</span>
-                    <div class="social-accounts">
-                        <button type="button" class="social-button google">
-                            <svg class="svg" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 488 512">
-                                <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
+                @* Boton del perfil *@
+                <div class="profile-container">
+                    <button class="profile-button" id="profile-button">
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+                            <g fill="none" fill-rule="nonzero">
+                                <path d="m2 16h28"></path>
+                                <path d="m2 24h28"></path>
+                                <path d="m2 8h28"></path>
+                            </g>
+                        </svg>
+                        <div class="profile-avatar1">
+                            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 100%; width: 100%; fill: currentcolor;">
+                                <path d="M16 2C8.268 2 2 8.268 2 16s6.268 14 14 14 14-6.268 14-14S23.732 2 16 2zm0 5c2.486 0 4.5 2.014 4.5 4.5S18.486 16 16 16s-4.5-2.014-4.5-4.5S13.514 7 16 7zm0 20c-3.248 0-6.154-1.559-8-3.959C9.4 19.525 12.238 17 16 17c3.762 0 6.6 2.525 8 6.041-1.846 2.4-4.752 3.959-8 3.959z" />
                             </svg>
-                        </button>
+                        </div>
+                    </button>
+
+                    <!-- Profile Dropdown Menu -->
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <!-- Esta sección solo se mostrará cuando el usuario esté autenticado -->
+                            <div class="dropdown-section logged-in-section">
+                                <div class="dropdown-item user-name">@User.Identity.Name</div>
+                            </div>
+
+                            <div class="dropdown-section logged-in-section">
+                                <a asp-controller="Usuarios" asp-action="PerfilUser" class="dropdown-item">Perfil</a>
+
+                            </div>
+
+                            <div class="dropdown-divider logged-in-section"></div>
+                        }
+                        else
+                        {
+                            <!-- Esta sección solo se mostrará cuando el usuario NO esté autenticado -->
+                            <div class="dropdown-section logged-out-section">
+                                <a asp-controller="Usuarios" asp-action="Login" class="dropdown-item">Iniciar sesión</a>
+                                <a asp-controller="Usuarios" asp-action="Registro" class="dropdown-item">Registrarse</a>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
+                        }
+
+                        <div class="dropdown-section">
+                            <a asp-controller="Reservas" asp-action="Index" class="dropdown-item">Mis Reservas</a>
+                        </div>
+
+                        <div class="dropdown-divider"></div>
+
+                        <!-- Esta sección se mostrará siempre -->
+                        <div class="dropdown-section">
+                            <a asp-controller="Home" asp-action="SobreNosotros" class="dropdown-item">Sobre Nosotros</a>
+                            <a href="#" class="dropdown-item">Centro de ayuda</a>
+                        </div>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <!-- Esta sección solo se mostrará cuando el usuario esté autenticado -->
+                            <div class="dropdown-divider logged-in-section"></div>
+
+                            <div class="dropdown-section logged-in-section">
+                                <form asp-controller="Usuarios" asp-action="Logout" method="post">
+                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                </form>
+                            </div>
+                        }
                     </div>
                 </div>
-                <div class="form-footer">
-                    <p>¿Ya tienes cuenta? <a href="#" onclick="switchToLogin(event)">Iniciar sesión</a></p>
-                </div>
-                <span class="agreement"><a href="#">Términos y condiciones</a></span>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
 
-    @if (ViewData["HideFooter"] == null || !(bool)ViewData["HideFooter"])
-    {
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2025 - EasyBooking- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-    }
+    <main role="main" class="pb-3" style="margin-top: 80px;">
+        @RenderBody()
+    </main>
 
-    <!-- Scripts -->
+
+    @*     @if (ViewData["HideFooter"] == null || !(bool)ViewData["HideFooter"]) *@
+    @* { *@
+    @*     <footer class="border-top footer text-muted"> *@
+    @*         <div class="container"> *@
+    @*             &copy; 2025 - EasyBooking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+    @*         </div> *@
+    @*     </footer> *@
+    @* } *@
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/navbar.js" asp-append-version="true"></script>
-    <script src="~/js/auth.js" asp-append-version="true"></script>
-	<script src="~/js/authResetPassword.js" asp-append-version="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    @* <script src="~/js/Secciones.js" asp-append-version="true"></script> *@
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-

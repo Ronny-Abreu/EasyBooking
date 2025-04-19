@@ -1,0 +1,297 @@
+﻿/* Estilos para la página de pago con tarjeta interactiva */
+:root {
+    --primary-color: #f8345c;
+    --primary-hover: #e02a4e;
+    --primary-light: #ffeaee;
+    --success-color: #10b981;
+    --success-light: #ecfdf5;
+    --card-blue: #0099cc;
+    --card-dark-blue: #0077aa;
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+/* Gradientes */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+}
+
+.bg-gradient-secondary {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+/* Tarjeta de crédito interactiva */
+.credit-card-wrapper {
+    perspective: 1000px;
+    max-width: 450px;
+    margin: 0 auto 2rem;
+}
+
+.credit-card-container {
+    width: 100%;
+    padding-top: 56.25%; /* Proporción de aspecto 16:9 */
+    position: relative;
+}
+
+.credit-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+    .credit-card.flipped {
+        transform: rotateY(180deg);
+    }
+
+.credit-card-front,
+.credit-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.credit-card-front {
+    background: linear-gradient(135deg, var(--card-blue), var(--card-dark-blue));
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.credit-card-back {
+    background: linear-gradient(135deg, var(--card-dark-blue), var(--card-blue));
+    color: white;
+    transform: rotateY(180deg);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.credit-card-logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+}
+
+.credit-card-chip {
+    width: 50px;
+    height: 40px;
+    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .credit-card-chip::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 70%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 50%, transparent 50%, transparent 75%, rgba(255, 255, 255, 0.2) 75% );
+        background-size: 8px 8px;
+    }
+
+.credit-card-brand {
+    width: 60px;
+    height: 40px;
+    border-radius: 4px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+    .credit-card-brand.visa {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504 291"><path fill="%23ffffff" d="M139.4 192.7h-24.3l15.2-94.5h24.3l-15.2 94.5zm80.3-92.2c-4.8-1.9-12.4-3.9-21.8-3.9-24 0-40.9 12.1-41.1 29.4-.1 12.8 12.1 20 21.4 24.3 9.5 4.3 12.6 7 12.6 10.8 0 5.8-7.6 8.4-14.7 8.4-9.8 0-15-1.3-23-4.4l-3.2-1.5-3.4 21c5.6 2.5 15.9 4.7 26.6 4.8 25.1 0 41.5-12 41.7-30.5.1-10.2-6.3-17.9-20.1-24.3-8.3-4.1-13.4-6.9-13.4-10.7.1-3.6 4.3-7.3 13.5-7.3 7.7-.1 13.4 1.5 17.8 3.2l2.1 1 3.2-20.1zm84.5 61.5c1.9-4.9 9.3-24.1 9.3-24.1-.2.4 1.9-4.9 3-8.1l1.6 7.3s4.4 20.3 5.3 24.8h-19.2zm28.4-40.9h-17.8c-5.2 0-9.1 1.5-11.4 6.8l-34.2 64.1h24.1s3.7-10.5 4.6-12.9c2.5 0 24.8.1 28 .1 0.7 3 2.7 12.8 2.7 12.8h21.3l-17.3-71zm69.7-13.6h-18.7c-5.8 0-10.1 1.6-12.6 8.2l-33.9 86.3h24.6l4.7-13.1h30.1l2.7 13.1h21.7l-18.6-94.5zm-28.9 60.8c2-5.2 9.6-25.1 9.6-25.1s2-5.1 3.1-8.4l1.7 7.6s4.6 21.2 5.5 25.9h-20z"/></svg>');
+    }
+
+
+    .credit-card-brand.mastercard {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 131.39 86.9"><path fill="%23ffb600" d="M48.37,15.14h34.66v56.61h-34.66z"/><path fill="%23f7981d" d="M51.94,43.45a35.94,35.94,0,0,1,13.75-28.3,36,36,0,1,0,0,56.61A35.94,35.94,0,0,1,51.94,43.45Z"/><path fill="%23ff8500" d="M120.5,65.76V64.6H121v-.24h-1.19v.24h.45v1.16Zm2.31,0v-1.4h-.36l-.42,1-.42-1h-.36v1.4h.26V64.7l.39.91h.27l.39-.91v1.06Z"/><path fill="%23ff5050" d="M123.94,43.45a36,36,0,0,1-58.25,28.3,36,36,0,0,0,0-56.61,36,36,0,0,1,58.25,28.3Z"/></svg>');
+    }
+
+    .credit-card-brand.amex {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 64"><path fill="%231F72CD" d="M104,64H0V0h104V64z"/><path fill="%23FFFFFF" d="M52,32L52,32L52,32L52,32z"/><path fill="%23FFFFFF" d="M18.2,23.2l-5.1,12.3H8L3,23.2v12.3H0V19.1h4.9l4.6,11.1l4.6-11.1h4.9v16.4h-3V23.2z"/><path fill="%23FFFFFF" d="M19.9,35.5h9.6v-3.1h-6.6v-3.6h6.4v-3.1h-6.4v-3.5h6.6v-3.1h-9.6V35.5z"/><path fill="%23FFFFFF" d="M45.2,29.5c0,1.2-0.2,2.2-0.7,3c-0.5,0.8-1.1,1.5-2,2c-0.8,0.5-1.8,0.8-2.8,1c-1,0.2-2.1,0.3-3.1,0.3h-5.9V19.1h5.9 c1.1,0,2.1,0.1,3.1,0.3c1,0.2,1.9,0.5,2.7,1c0.8,0.5,1.4,1.1,1.9,1.9C45,23.1,45.2,24.2,45.2,25.5V29.5z M42.2,25.7c0-0.7-0.1-1.3-0.4-1.8 c-0.3-0.5-0.6-0.8-1.1-1.1c-0.4-0.3-0.9-0.5-1.5-0.6c-0.6-0.1-1.1-0.1-1.7-0.1h-2.9v11.4h2.9c0.6,0,1.2,0,1.7-0.1 c0.6-0.1,1.1-0.3,1.5-0.6c0.4-0.3,0.8-0.7,1.1-1.1c0.3-0.5,0.4-1.1,0.4-1.8V25.7z"/><path fill="%23FFFFFF" d="M56.5,35.5h-3.1l-1.4-3.6h-6.2l-1.4,3.6h-3.1l6.2-16.4h2.8L56.5,35.5z M51.1,29.1l-2.3-6.2l-2.3,6.2H51.1z"/><path fill="%23FFFFFF" d="M70.8,35.5h-3.7l-4-6.5h-2.7v6.5h-3V19.1h6.9c0.7,0,1.4,0.1,2.1,0.3c0.7,0.2,1.3,0.5,1.8,0.9 c0.5,0.4,0.9,0.9,1.2,1.5c0.3,0.6,0.5,1.3,0.5,2.1c0,1.2-0.3,2.2-0.9,3c-0.6,0.8-1.5,1.3-2.6,1.6L70.8,35.5z M67.8,24.1 c0-0.4-0.1-0.7-0.2-1c-0.1-0.3-0.3-0.5-0.5-0.7c-0.2-0.2-0.5-0.3-0.8-0.4c-0.3-0.1-0.6-0.1-1-0.1h-3.8v4.4h3.8c0.3,0,0.7,0,1-0.1 c0.3-0.1,0.6-0.2,0.8-0.4c0.2-0.2,0.4-0.4,0.5-0.7C67.7,24.8,67.8,24.5,67.8,24.1z"/><path fill="%23FFFFFF" d="M72.3,35.5h9.6v-3.1h-6.6v-3.6h6.4v-3.1h-6.4v-3.5h6.6v-3.1h-9.6V35.5z"/><path fill="%23FFFFFF" d="M95.3,22.2h-4.9v13.3h-3V22.2h-4.9v-3.1h12.8V22.2z"/></svg>');
+    }
+
+    .credit-card-brand.discover {
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 500"><path fill="%23F47216" d="M409.4,197.9c31.8,0,57.6,25.8,57.6,57.6c0,31.8-25.8,57.6-57.6,57.6c-31.8,0-57.6-25.8-57.6-57.6C351.8,223.7,377.6,197.9,409.4,197.9L409.4,197.9z"/><path fill="%23000000" d="M321.2,197.9c-31.8,0-57.6,25.8-57.6,57.6c0,31.8,25.8,57.6,57.6,57.6c13.4,0,25.7-4.6,35.5-12.3c-17.6-14.2-28.9-36-28.9-60.5c0-6.5,0.8-12.8,2.3-18.8C325.8,198.8,321.2,197.9,321.2,197.9L321.2,197.9z"/><path fill="%23000000" d="M49.6,297.4h15.9v-54.4h15.7v-12.6H33.9v12.6h15.7V297.4L49.6,297.4z"/><path fill="%23000000" d="M88.2,297.4H104v-67h-15.8V297.4L88.2,297.4z"/><path fill="%23000000" d="M177.3,297.4h15.7v-48.8l17.1,48.8h17.1v-67h-15.7v47.1l-16.6-47.1h-17.6V297.4L177.3,297.4z"/><path fill="%23000000" d="M154.4,297.4h15.9v-67h-15.9V297.4L154.4,297.4z"/><path fill="%23000000" d="M469.1,297.4H485v-67h-15.9V297.4L469.1,297.4z"/><path fill="%23000000" d="M509.4,297.4h34.7v-12.6h-18.9v-16.5h18.2v-12.6h-18.2v-12.6h18.9v-12.6h-34.7V297.4L509.4,297.4z"/><path fill="%23000000" d="M651.9,297.4h15.9v-54.4h15.7v-12.6h-47.3v12.6h15.7V297.4L651.9,297.4z"/><path fill="%23000000" d="M705.9,297.7c5.6,0,10.1-0.5,17.7-2.8v-13.4c-7.1,3.5-10.6,4.6-15.2,4.6c-10.7,0-17.9-7.5-17.9-18.9c0-10.6,7.6-18.9,17.6-18.9c4.8,0,8.2,1.1,15.5,4.4v-13.9c-7.3-2.1-12.1-2.8-17.6-2.8c-19.1,0-33.9,13.7-33.9,31.4C672.1,284.2,686.8,297.7,705.9,297.7L705.9,297.7z"/><path fill="%23000000" d="M583.7,267.9c0,18.7,13.7,30.9,34.2,30.9c6.8,0,12.3-1.1,19.4-3.9v-15.2c-7.6,4.6-12.6,6.4-18.9,6.4c-10.4,0-17.9-7.3-17.9-17.6c0-10.1,7.3-17.3,17.6-17.3c6.6,0,11.3,1.8,19.2,6.4v-15.2c-7.3-2.8-12.8-3.9-19.7-3.9C597.9,238.5,583.7,250.1,583.7,267.9L583.7,267.9z"/><path fill="%23F47216" d="M246.6,297.4h17.6l22.5-67h-17.1l-14.1,46.8l-14.1-46.8h-17.1L246.6,297.4L246.6,297.4z"/><path fill="%23F47216" d="M553.8,297.4c7.8,0,13.9-1.8,19.7-5.8c6.8-4.8,10.8-12.1,10.8-20.2c0-7.8-3.9-14.4-10.6-18.9c-4.6-3-6.2-3.5-19.7-6.9c-7.3-1.8-9.6-3.5-9.6-6.9c0-4.1,3.9-6.9,9.6-6.9c3.9,0,7.1,0.9,9.6,2.8c1.6,1.1,3,2.5,5.3,5.3l10.4-9.9c-8.7-9.6-16.6-12.8-26.7-12.8c-15.2,0-26.2,9.2-26.2,21.8c0,9.4,5.3,16.3,14.9,19.7c1.6,0.5,3,1.1,4.6,1.4c1.6,0.5,3.2,0.9,5.3,1.4c2.1,0.5,3.9,0.9,5.5,1.4c1.6,0.5,3.5,0.9,5.8,1.6c3.7,1.1,5.5,2.1,6.6,3.2c1.4,1.4,2.1,3,2.1,5.1c0,6-5.1,10.1-12.6,10.1c-8.9,0-15.5-3.9-20.4-12.1l-11.7,11.1C536.1,292.3,543.4,297.4,553.8,297.4L553.8,297.4z"/><path fill="%23F47216" d="M750,230.4l-24.8,67h16.8l3.7-10.6h25.3l3.7,10.6h17.1l-24.8-67H750L750,230.4z M749.8,273.3l8.7-23.9l8.5,23.9H749.8L749.8,273.3z"/><path fill="%23F47216" d="M455.9,230.4h-13.9l-21.6,27.1v-27.1h-15.9v67h15.9v-20.4l7.1-8.5l15.9,28.9h19.4l-24.6-40.4L455.9,230.4L455.9,230.4z"/></svg>');
+    }
+
+.credit-card-number {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: monospace;
+}
+
+.credit-card-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.credit-card-holder, .credit-card-expires {
+    display: flex;
+    flex-direction: column;
+}
+
+    .credit-card-holder .label, .credit-card-expires .label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        opacity: 0.7;
+        margin-bottom: 5px;
+    }
+
+    .credit-card-holder .value, .credit-card-expires .value {
+        font-size: 1rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-family: monospace;
+    }
+
+.credit-card-stripe {
+    height: 40px;
+    background-color: #000;
+    margin: 20px 0;
+}
+
+.credit-card-signature {
+    height: 40px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    justify-content: flex-end;
+}
+
+.credit-card-cvv {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+    .credit-card-cvv .label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        color: #333;
+    }
+
+    .credit-card-cvv .value {
+        font-size: 1rem;
+        color: #333;
+        font-weight: bold;
+        font-family: monospace;
+    }
+
+.credit-card-info-back {
+    margin-top: 20px;
+    font-size: 0.6rem;
+    opacity: 0.7;
+    text-align: center;
+}
+
+.small-text {
+    font-size: 0.6rem;
+    line-height: 1.2;
+}
+
+/* Formulario de pago */
+.form-control {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(248, 52, 92, 0.25);
+    }
+
+.input-group-text {
+    border-radius: 8px 0 0 8px;
+}
+
+/* Resumen de reserva */
+.hotel-info {
+    transition: var(--transition);
+}
+
+    .hotel-info:hover {
+        transform: translateY(-2px);
+    }
+
+.detail-item {
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+    .detail-item:last-child {
+        border-bottom: none;
+    }
+
+.total-price {
+    padding: 10px 15px;
+    background-color: var(--success-light);
+    border-radius: 8px;
+}
+
+/* Iconos circulares */
+.icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+/* Bordes redondeados */
+.rounded-4 {
+    border-radius: var(--border-radius) !important;
+}
+
+/* Botones */
+.btn {
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+.btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .credit-card-container {
+        padding-top: 70%; /* Proporción de aspecto más alta para móviles */
+    }
+
+    .credit-card-number {
+        font-size: 1.2rem;
+    }
+
+    .credit-card-holder .value, .credit-card-expires .value {
+        font-size: 0.9rem;
+    }
+}

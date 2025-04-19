@@ -1,118 +1,122 @@
-﻿using EasyBooking.Application.Contracts;
+﻿using AutoMapper;
+using EasyBooking.Application.Contracts;
+using EasyBooking.Application.Dtos;
 using EasyBooking.Domain.Entities;
-using EasyBooking.Persistence.Context;
-using Microsoft.EntityFrameworkCore;
+using EasyBooking.Persistence.Interfaces;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EasyBooking.Application.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        private readonly EasyBookingDbContext _context;
+        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public UsuarioService(EasyBookingDbContext context)
+        public UsuarioService(
+            IUsuarioRepository usuarioRepository,
+            IMapper mapper,
+            IEmailService emailService)
         {
-            _context = context;
+            _usuarioRepository = usuarioRepository;
+            _mapper = mapper;
+            _emailService = emailService;
         }
 
-        public async Task<Usuario> CrearUsuarioAsync(Usuario usuario)
+        public async Task<UsuarioDto?> RegistrarUsuarioAsync(RegistroUsuarioDto registroDto)
         {
-            try
+            // Verifica si el email ya existe
+            if (await _usuarioRepository.ExisteEmailAsync(registroDto.Email))
             {
-                // Verificar si el email ya existe
-                var existingEmail = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email);
-                if (existingEmail != null)
-                {
-                    throw new InvalidOperationException("El email ya está registrado.");
-                }
+                return null;
+            }
 
-                // Verificar si el username ya existe
-                var existingUsername = await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == usuario.Username);
-                if (existingUsername != null)
-                {
-                    throw new InvalidOperationException("El nombre de usuario ya está registrado.");
-                }
+            // Verifica que las contraseñas coincidan
+            if (registroDto.Password != registroDto.ConfirmarPassword)
+            {
+                return null;
+            }
 
-                _context.Usuarios.Add(usuario);
-                await _context.SaveChangesAsync();
-                return usuario;
-            }
-            catch (DbUpdateException ex)
+            var passwordHash = HashPassword(registroDto.Password);
+
+            var usuario = new Usuario
             {
-                // Loggear la excepción
-                Console.WriteLine($"Error de base de datos: {ex.Message}");
-                throw new Exception("Ocurrió un error al guardar el usuario en la base de datos.", ex);
-            }
-            catch (Exception ex)
-            {
-                // Loggear la excepción
-                Console.WriteLine($"Error general: {ex.Message}");
-                throw new Exception("Ocurrió un error al crear el usuario.", ex);
-            }
+                Nombre = registroDto.Nombre,
+                Apellido = registroDto.Apellido,
+                Email = registroDto.Email,
+                PasswordHash = passwordHash,
+                Telefono = registroDto.Telefono
+            };
+
+            await _usuarioRepository.AddAsync(usuario);
+
+
+            return _mapper.Map<UsuarioDto>(usuario);
         }
 
-        public async Task<Usuario> ObtenerUsuarioPorIdAsync(int id)
-        {
-            // Usar FindAsync es más eficiente si solo se busca por ID
-            var usuario = await _context.Usuarios.FindAsync(id);
-            return usuario;  // Si no se encuentra, devuelve null
-        }
 
-        public async Task<IEnumerable<Usuario>> ObtenerUsuariosAsync()
-        {
-            return await _context.Usuarios.ToListAsync();
-        }
 
-        public async Task<Usuario> ActualizarUsuarioAsync(Usuario usuario)
+        public async Task<UsuarioDto?> LoginAsync(LoginUsuarioDto loginDto)
         {
-            var usuarioExistente = await ObtenerUsuarioPorIdAsync(usuario.Id);
-            if (usuarioExistente == null)
-            {
-                throw new KeyNotFoundException($"Usuario con ID {usuario.Id} no encontrado.");
-            }
-
-            try
-            {
-                _context.Usuarios.Update(usuario);
-                await _context.SaveChangesAsync();
-                return usuario;
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores (podrías loggear o lanzar una excepción personalizada)
-                throw new Exception("Ocurrió un error al actualizar el usuario.", ex);
-            }
-        }
-
-        public async Task EliminarUsuarioAsync(int id)
-        {
-            var usuario = await ObtenerUsuarioPorIdAsync(id);
+            // Buscar el usuario por email
+            var usuario = await _usuarioRepository.GetByEmailAsync(loginDto.Email);
             if (usuario == null)
             {
-                throw new KeyNotFoundException($"Usuario con ID {id} no encontrado.");
+                return null;
             }
 
-            try
+            if (!VerifyPassword(loginDto.Password, usuario.PasswordHash))
             {
-                _context.Usuarios.Remove(usuario);
-                await _context.SaveChangesAsync();
+                return null;
             }
-            catch (Exception ex)
-            {
-                // Manejo de errores (podrías loggear o lanzar una excepción personalizada)
-                throw new Exception("Ocurrió un error al eliminar el usuario.", ex);
-            }
+
+            return _mapper.Map<UsuarioDto>(usuario);
         }
 
-        public async Task<Usuario> ObtenerPorEmailAsync(string email)
+        public async Task<bool> EliminarUsuarioAsync(int id)
         {
-            return await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.Email == email);
+            var usuario = await _usuarioRepository.GetByIdAsync(id);
+            if (usuario == null)
+                return false;
+
+            await _usuarioRepository.DeleteAsync(usuario);
+            return true;
         }
 
-        public async Task<Usuario> ObtenerPorUsernameAsync(string username)
+        public async Task<bool> ValidarContrasenaAsync(int id, string password)
         {
-            return await _context.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+            var usuario = await _usuarioRepository.GetByIdAsync(id);
+            if (usuario == null)
+                return false;
+
+            return VerifyPassword(password, usuario.PasswordHash);
+        }
+
+
+        public async Task<UsuarioDto?> GetUsuarioByIdAsync(int id)
+        {
+            var usuario = await _usuarioRepository.GetByIdAsync(id);
+            return usuario != null ? _mapper.Map<UsuarioDto>(usuario) : null;
+        }
+
+        public async Task<UsuarioDto?> GetUsuarioByEmailAsync(string email)
+        {
+            var usuario = await _usuarioRepository.GetByEmailAsync(email);
+            return usuario != null ? _mapper.Map<UsuarioDto>(usuario) : null;
+        }
+
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(hashedBytes);
+        }
+
+        private bool VerifyPassword(string password, string storedHash)
+        {
+            var hashedPassword = HashPassword(password);
+            return hashedPassword == storedHash;
         }
     }
 }
-

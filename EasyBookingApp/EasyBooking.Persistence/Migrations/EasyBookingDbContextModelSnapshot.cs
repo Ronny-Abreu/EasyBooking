@@ -17,12 +17,12 @@ namespace EasyBooking.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Publicacion", b =>
+            modelBuilder.Entity("EasyBooking.Domain.Entities.HotelImagen", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,57 +33,113 @@ namespace EasyBooking.Persistence.Migrations
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Capacidad")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Descripcion")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<bool>("EsPrincipal")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaFin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImagenUrl")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Tipo")
+                    b.Property<int>("Orden")
                         .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Ubicacion")
+                    b.Property<string>("Url")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("UsuarioId")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Titulo");
+                    b.HasIndex("HotelId");
 
-                    b.HasIndex("UsuarioId");
+                    b.ToTable("HotelImagenes");
 
-                    b.ToTable("Publicaciones");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Activo = true,
+                            EsPrincipal = true,
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8316),
+                            HotelId = 1,
+                            Orden = 1,
+                            Titulo = "Vista principal",
+                            Url = "/img/hotels/hotel1.jpg"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Activo = true,
+                            EsPrincipal = false,
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8318),
+                            HotelId = 1,
+                            Orden = 2,
+                            Titulo = "Habitación",
+                            Url = "/img/hotels/hotel1_2.jpg"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Activo = true,
+                            EsPrincipal = false,
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8320),
+                            HotelId = 1,
+                            Orden = 3,
+                            Titulo = "Piscina",
+                            Url = "/img/hotels/hotel1_3.jpg"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Activo = true,
+                            EsPrincipal = true,
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8322),
+                            HotelId = 2,
+                            Orden = 1,
+                            Titulo = "Vista principal",
+                            Url = "/img/hotels/hotel2.jpg"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Activo = true,
+                            EsPrincipal = false,
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8324),
+                            HotelId = 2,
+                            Orden = 2,
+                            Titulo = "Habitación",
+                            Url = "/img/hotels/hotel2_2.jpg"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Activo = true,
+                            EsPrincipal = true,
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8325),
+                            HotelId = 3,
+                            Orden = 1,
+                            Titulo = "Vista principal",
+                            Url = "/img/hotels/hotel3.jpg"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Activo = true,
+                            EsPrincipal = false,
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8326),
+                            HotelId = 3,
+                            Orden = 2,
+                            Titulo = "Restaurante",
+                            Url = "/img/hotels/hotel3_2.jpg"
+                        });
                 });
 
             modelBuilder.Entity("EasyBooking.Domain.Entities.Reserva", b =>
@@ -97,48 +153,39 @@ namespace EasyBooking.Persistence.Migrations
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CantidadPersonas")
-                        .HasColumnType("int");
-
                     b.Property<int>("Estado")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCheckIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaCheckOut")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaFin")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("FechaInicio")
+                    b.Property<DateTime>("FechaEntrada")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaReserva")
+                    b.Property<DateTime>("FechaSalida")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumeroHuespedes")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("PrecioTotal")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("PublicacionId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("ReferenciaPago")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PublicacionId");
+                    b.HasIndex("HotelId");
 
                     b.HasIndex("UsuarioId");
 
@@ -158,10 +205,6 @@ namespace EasyBooking.Persistence.Migrations
 
                     b.Property<string>("Apellido")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("AvatarUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -174,33 +217,17 @@ namespace EasyBooking.Persistence.Migrations
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsEmailVerified")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResetCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ResetCodeExpiry")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -208,24 +235,9 @@ namespace EasyBooking.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Usuarios");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 20,
-                            Activo = true,
-                            Apellido = "Admin",
-                            Email = "admin@easybooking.com",
-                            FechaCreacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsEmailVerified = false,
-                            Nombre = "Admin2",
-                            Password = "hashedpassword",
-                            Telefono = "1234567890",
-                            Username = "admin"
-                        });
                 });
 
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Valoracion", b =>
+            modelBuilder.Entity("Hotel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -236,9 +248,20 @@ namespace EasyBooking.Persistence.Migrations
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Comentario")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<int>("Calificacion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Ciudad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
@@ -246,40 +269,100 @@ namespace EasyBooking.Persistence.Migrations
                     b.Property<DateTime?>("FechaModificacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PublicacionId")
-                        .HasColumnType("int");
+                    b.Property<string>("ImagenUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Puntuacion")
-                        .HasColumnType("int");
+                    b.Property<double?>("Latitud")
+                        .HasColumnType("float");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
+                    b.Property<double?>("Longitud")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pais")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PrecioPorNoche")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Servicios")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PublicacionId");
+                    b.ToTable("Hoteles");
 
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Valoraciones");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Activo = true,
+                            Calificacion = 5,
+                            Ciudad = "Cancún",
+                            Descripcion = "Un lujoso hotel con vistas al mar",
+                            Direccion = "Calle Principal 123",
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8154),
+                            ImagenUrl = "/img/hotels/hotel1.jpg",
+                            Nombre = "Hotel Paraíso",
+                            Pais = "México",
+                            PrecioPorNoche = 150.00m,
+                            Servicios = ""
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Activo = true,
+                            Calificacion = 4,
+                            Ciudad = "Bariloche",
+                            Descripcion = "Disfruta de la naturaleza en nuestro hotel de montaña",
+                            Direccion = "Avenida Sierra 456",
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8169),
+                            ImagenUrl = "/img/hotels/hotel2.jpg",
+                            Nombre = "Hotel Montaña",
+                            Pais = "Argentina",
+                            PrecioPorNoche = 120.00m,
+                            Servicios = ""
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Activo = true,
+                            Calificacion = 4,
+                            Ciudad = "Madrid",
+                            Descripcion = "Ubicado en el corazón de la ciudad",
+                            Direccion = "Plaza Mayor 789",
+                            FechaCreacion = new DateTime(2025, 4, 18, 12, 3, 34, 262, DateTimeKind.Local).AddTicks(8173),
+                            ImagenUrl = "/img/hotels/hotel3.jpg",
+                            Nombre = "Hotel Céntrico",
+                            Pais = "España",
+                            PrecioPorNoche = 180.00m,
+                            Servicios = ""
+                        });
                 });
 
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Publicacion", b =>
+            modelBuilder.Entity("EasyBooking.Domain.Entities.HotelImagen", b =>
                 {
-                    b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Publicaciones")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("Hotel", "Hotel")
+                        .WithMany("Imagenes")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Usuario");
+                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("EasyBooking.Domain.Entities.Reserva", b =>
                 {
-                    b.HasOne("EasyBooking.Domain.Entities.Publicacion", "Publicacion")
+                    b.HasOne("Hotel", "Hotel")
                         .WithMany("Reservas")
-                        .HasForeignKey("PublicacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
@@ -288,44 +371,21 @@ namespace EasyBooking.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Publicacion");
+                    b.Navigation("Hotel");
 
                     b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Valoracion", b =>
-                {
-                    b.HasOne("EasyBooking.Domain.Entities.Publicacion", "Publicacion")
-                        .WithMany("Valoraciones")
-                        .HasForeignKey("PublicacionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("EasyBooking.Domain.Entities.Usuario", "Usuario")
-                        .WithMany("Valoraciones")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Publicacion");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("EasyBooking.Domain.Entities.Publicacion", b =>
-                {
-                    b.Navigation("Reservas");
-
-                    b.Navigation("Valoraciones");
                 });
 
             modelBuilder.Entity("EasyBooking.Domain.Entities.Usuario", b =>
                 {
-                    b.Navigation("Publicaciones");
+                    b.Navigation("Reservas");
+                });
+
+            modelBuilder.Entity("Hotel", b =>
+                {
+                    b.Navigation("Imagenes");
 
                     b.Navigation("Reservas");
-
-                    b.Navigation("Valoraciones");
                 });
 #pragma warning restore 612, 618
         }

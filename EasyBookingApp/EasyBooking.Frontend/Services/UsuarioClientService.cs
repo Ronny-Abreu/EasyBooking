@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using EasyBooking.Frontend.Models;
+﻿using EasyBooking.Frontend.Models;
 
 namespace EasyBooking.Frontend.Services
 {
@@ -12,36 +11,28 @@ namespace EasyBooking.Frontend.Services
             _httpClient = httpClient;
         }
 
-        public async Task<ApiResponse<UsuarioViewModel>> RegistrarUsuarioAsync(UsuarioViewModel usuario)
+        // Registrar nuevo usuario
+        public async Task<ApiResponse<UsuarioViewModel>> RegistrarUsuarioAsync(RegistroUsuarioViewModel usuario)
         {
-            return await _httpClient.PostAsync<UsuarioViewModel>("Usuario", usuario);
+            return await _httpClient.PostAsync<UsuarioViewModel>("Usuarios/registro", usuario);
         }
 
-        public async Task<ApiResponse<UsuarioViewModel>> LoginAsync(string email, string password)
+        // Iniciar sesión
+        public async Task<ApiResponse<UsuarioViewModel>> LoginAsync(LoginUsuarioViewModel login)
         {
-            var loginData = new { Email = email, Password = password };
-            return await _httpClient.PostAsync<UsuarioViewModel>("Usuario/Login", loginData);
+            return await _httpClient.PostAsync<UsuarioViewModel>("Usuarios/login", login);
         }
 
+        // Obtener usuario por ID
         public async Task<ApiResponse<UsuarioViewModel>> ObtenerUsuarioPorIdAsync(int id)
         {
-            return await _httpClient.GetAsync<UsuarioViewModel>($"Usuario/{id}");
+            return await _httpClient.GetAsync<UsuarioViewModel>($"Usuarios/{id}");
         }
 
-        public async Task<ApiResponse<List<UsuarioViewModel>>> ObtenerTodosLosUsuariosAsync()
-        {
-            return await _httpClient.GetAsync<List<UsuarioViewModel>>("Usuario");
-        }
-
-        public async Task<ApiResponse<UsuarioViewModel>> ActualizarUsuarioAsync(UsuarioViewModel usuario)
-        {
-            return await _httpClient.PutAsync<UsuarioViewModel>($"Usuario/{usuario.Id}", usuario);
-        }
-
+        // Eliminar usuario por ID
         public async Task<ApiResponse<bool>> EliminarUsuarioAsync(int id)
         {
-            return await _httpClient.DeleteAsync<bool>($"Usuario/{id}");
+            return await _httpClient.DeleteAsync<bool>($"Usuarios/{id}");
         }
-
     }
 }

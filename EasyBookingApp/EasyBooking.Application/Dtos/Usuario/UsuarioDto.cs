@@ -1,15 +1,12 @@
-﻿namespace EasyBooking.Application.Dtos
+﻿using EasyBooking.Application.Dtos;
+
+namespace EasyBooking.Application.Dtos
 {
     public class UsuarioDto : DtoBase
     {
-        public string? Nombre { get; set; }
-        public string? Apellido { get; set; }
-        public string? Email { get; set; }
-        public string? Username { get; set; }
-        public string? Telefono { get; set; }
-        public string? Password { get; set; }
-        public bool IsEmailVerified { get; set; }
-        public string? AvatarUrl { get; set; }
-
+        public string Nombre { get; set; } = string.Empty;
+        public string Apellido { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Telefono { get; set; } = string.Empty;
     }
 }
