@@ -1,0 +1,249 @@
+﻿@model EasyBooking.Frontend.Models.CrearReservaPaqueteViewModel
+
+@{
+    ViewData["Title"] = "Crear Reserva de Paquete";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Reservas/Crear_Editar_Reserva.css" asp-append-version="true" />
+}
+
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none"><i class="bi bi-house-door me-1"></i>Inicio</a></li>
+            <li class="breadcrumb-item"><a asp-controller="PaquetesTuristicos" asp-action="Index" class="text-decoration-none"><i class="bi me-1"></i>Paquetes Turísticos</a></li>
+            <li class="breadcrumb-item"><a asp-controller="PaquetesTuristicos" asp-action="Detalle" asp-route-id="@Model.PaqueteId" class="text-decoration-none">@Model.Paquete?.Nombre</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Crear Reserva</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-gradient-primary text-white border-0 py-3">
+                    <h4 class="mb-0 fw-bold"><i class="bi bi-calendar-plus me-2"></i>Crear Reserva de Paquete</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Crear" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger rounded-3 p-3 bg-danger-subtle mb-4"></div>
+                        <input type="hidden" asp-for="PaqueteId" />
+
+                        @if (Model.Paquete != null)
+                        {
+                            <div class="package-preview mb-4 p-3 bg-light rounded-4">
+                                <div class="row g-0">
+                                    <div class="col-md-4 pe-md-3">
+                                        <div class="package-image-container rounded-4 overflow-hidden">
+                                            <img src="@(string.IsNullOrEmpty(Model.Paquete.ImagenUrl) ? "/img/packages/default.jpg" : Model.Paquete.ImagenUrl)"
+                                                 class="img-fluid package-image" alt="@Model.Paquete.Nombre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="p-3">
+                                            <h5 class="package-name fw-bold mb-2">@Model.Paquete.Nombre</h5>
+                                            <p class="package-location mb-2">
+                                                <i class="bi bi-geo-alt-fill me-1 text-primary"></i>
+                                                @Model.Paquete.Destino, @Model.Paquete.Pais
+                                            </p>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <span class="badge bg-success rounded-pill me-3 px-3 py-2">
+                                                    @Model.Paquete.Precio.ToString("C")/persona
+                                                </span>
+                                                <div class="rating">
+                                                    @for (int i = 0; i < Model.Paquete.Calificacion; i++)
+                                                    {
+                                                        <i class="bi bi-star-fill text-warning"></i>
+                                                    }
+                                                    @for (int i = Model.Paquete.Calificacion; i < 5; i++)
+                                                    {
+                                                        <i class="bi bi-star text-warning"></i>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="reservation-form">
+                            <h5 class="section-title mb-4"><i class="bi bi-calendar-week me-2"></i>Detalles de la Reserva</h5>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="FechaInicio" class="form-label fw-medium">
+                                            <i class="bi bi-calendar-check me-1 text-primary"></i>Fecha de inicio
+                                        </label>
+                                        <input asp-for="FechaInicio" class="form-control date-input" type="date"
+                                               min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label asp-for="NumeroPersonas" class="form-label fw-medium">
+                                            <i class="bi bi-people me-1 text-primary"></i>Número de personas
+                                        </label>
+                                        <div class="guest-selector">
+                                            <input asp-for="NumeroPersonas" class="form-control" type="number" min="1" max="20" />
+                                            <div class="guest-controls">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary guest-control-btn" id="decreaseGuests">
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary guest-control-btn" id="increaseGuests">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="NumeroPersonas" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-4 d-flex gap-3">
+                                <button type="submit" class="btn btn-primary btn-lg px-5 rounded-pill">
+                                    <i class="bi bi-calendar-check me-2"></i>Crear Reserva
+                                </button>
+                                <a asp-controller="PaquetesTuristicos" asp-action="Detalle" asp-route-id="@Model.PaqueteId"
+                                   class="btn btn-outline-secondary rounded-pill px-4">
+                                    <i class="bi bi-x-circle me-2"></i>Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden sticky-top" style="top: 20px; z-index: 100;">
+                <div class="card-header bg-gradient-secondary text-dark border-0 py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-receipt me-2"></i>Resumen de Reserva</h5>
+                </div>
+                <div class="card-body p-4">
+                    @if (Model.Paquete != null)
+                    {
+                        <div class="summary-section mb-3">
+                            <div class="summary-item d-flex justify-content-between mb-2">
+                                <span class="fw-medium">Paquete:</span>
+                                <span>@Model.Paquete.Nombre</span>
+                            </div>
+                            <div class="summary-item d-flex justify-content-between">
+                                <span class="fw-medium">Precio por persona:</span>
+                                <span class="badge bg-success rounded-pill px-3 py-2">@Model.Paquete.Precio.ToString("C")</span>
+                            </div>
+                        </div>
+
+                        <hr class="divider">
+
+                        <div class="summary-section mb-3">
+                            <div class="summary-item d-flex align-items-center mb-3">
+                                <div class="icon-circle bg-primary-subtle me-3">
+                                    <i class="bi bi-calendar-check text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="summary-label">Fecha de inicio</div>
+                                    <div class="summary-value" id="resumenFechaInicio">@Model.FechaInicio.ToString("dd/MM/yyyy")</div>
+                                </div>
+                            </div>
+
+                            <div class="summary-item d-flex align-items-center mb-3">
+                                <div class="icon-circle bg-primary-subtle me-3">
+                                    <i class="bi bi-calendar-week text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="summary-label">Duración</div>
+                                    <div class="summary-value" id="resumenDuracion">@Model.Paquete.Duracion días</div>
+                                </div>
+                            </div>
+
+                            <div class="summary-item d-flex align-items-center">
+                                <div class="icon-circle bg-primary-subtle me-3">
+                                    <i class="bi bi-people text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="summary-label">Número de personas</div>
+                                    <div class="summary-value" id="resumenPersonas">@Model.NumeroPersonas</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="divider">
+
+                        <div class="total-price p-3 bg-success-subtle rounded-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold fs-5">Total:</span>
+                                <span class="text-success fw-bold fs-4" id="resumenTotal">
+                                    @((Model.Paquete.Precio * Model.NumeroPersonas).ToString("C"))
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="reservation-info mt-4">
+                            <div class="alert alert-info rounded-4 mb-0">
+                                <div class="d-flex">
+                                    <i class="bi bi-info-circle-fill fs-4 me-2"></i>
+                                    <div>
+                                        <p class="mb-0"><strong>Información importante:</strong></p>
+                                        <p class="mb-0 small">El pago se realizará después de confirmar la reserva. Cancelación gratuita hasta 7 días antes de la fecha de inicio.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+            // Actualizar el resumen cuando cambian la fecha o el número de personas
+            $('#FechaInicio, #NumeroPersonas').change(function() {
+                actualizarResumen();
+            });
+
+            $('#decreaseGuests').click(function() {
+                var currentValue = parseInt($('#NumeroPersonas').val());
+                if (currentValue > 1) {
+                    $('#NumeroPersonas').val(currentValue - 1).change();
+                }
+            });
+
+            $('#increaseGuests').click(function() {
+                var currentValue = parseInt($('#NumeroPersonas').val());
+                if (currentValue < 20) {
+                    $('#NumeroPersonas').val(currentValue + 1).change();
+                }
+            });
+
+            function actualizarResumen() {
+                var fechaInicio = new Date($('#FechaInicio').val());
+                var numeroPersonas = $('#NumeroPersonas').val();
+
+                var options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                $('#resumenFechaInicio').text(fechaInicio.toLocaleDateString('es-ES', options));
+
+                // Actualizar número de personas
+                $('#resumenPersonas').text(numeroPersonas);
+
+                // Calcular total
+                var precioPorPersona = @Html.Raw(Json.Serialize(Model.Paquete?.Precio ?? 0));
+                var total = precioPorPersona * numeroPersonas;
+                $('#resumenTotal').text(new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(total));
+
+                $('#resumenTotal').addClass('price-updated');
+                setTimeout(function() {
+                    $('#resumenTotal').removeClass('price-updated');
+                }, 500);
+            }
+        });
+    </script>
+}
