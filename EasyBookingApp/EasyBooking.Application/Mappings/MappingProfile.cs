@@ -24,6 +24,14 @@ namespace EasyBooking.Application.Mappings
 
             // Mapeo de HotelImagen a HotelImagenDto
             CreateMap<HotelImagen, HotelImagenDto>().ReverseMap();
+
+            // Mapeos para Paquetes turísticos
+            CreateMap<PaqueteTuristico, PaqueteTuristicoDto>();
+            CreateMap<PaqueteImagen, PaqueteImagenDto>().ReverseMap();
+            CreateMap<ReservaPaquete, ReservaPaqueteDto>()
+                .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.Estado.ToString()));
+            CreateMap<CrearReservaPaqueteDto, ReservaPaquete>();
+
         }
     }
 }
