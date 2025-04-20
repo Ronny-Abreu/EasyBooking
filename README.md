@@ -168,6 +168,14 @@ Acceso a la **base de datos** mediante Entity Framework Core.
 
 ---
 
+## 🙌 Autor
+
+**Desarrollado por:**  
+👨‍💻 **Ronny De León** – Web Developer
+
+📧 **Email:** [dleonabreuronny@gmail.com](mailto:dleonabreuronny@gmail.com)  
+🔗 **GitHub:** [github.com/Ronny-Abreu](https://github.com/Ronny-Abreu)
+
 ## 🚀 Cómo Ejecutar el Proyecto
 
 1. Clonar el repositorio:
