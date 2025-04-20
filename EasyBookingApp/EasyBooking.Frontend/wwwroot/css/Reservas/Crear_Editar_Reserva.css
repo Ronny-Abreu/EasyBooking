@@ -102,6 +102,19 @@
     padding: 0;
 }
 
+.cardResumen {
+    cursor: pointer;
+    top: 20px;
+    z-index: 100;
+}
+.badge-zoom {
+    transition: transform 0.3s ease;
+}
+
+    .badge-zoom:hover {
+        transform: scale(1.1);
+    }
+
 /* Resumen de reserva */
 .summary-section {
     margin-bottom: 1.5rem;
@@ -112,10 +125,29 @@
 }
 
 .summary-label {
-    font-size: 0.8rem;
-    color: #6b7280;
-    font-weight: 500;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
 }
+
+    .summary-label::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #111827;
+        transition: width 0.3s ease;
+    }
+
+    .summary-label:hover::after {
+        width: 100%;
+    }
+    .summary-label:hover {
+        transform: scale(1.05);
+    }
+
 
 .summary-value {
     font-size: 1rem;

@@ -255,6 +255,36 @@
         border-bottom: none;
     }
 
+/*Estilo para los item incluye y no incluye*/
+.includes-item,
+.not-includes-item {
+    background-color: #f9f9f9;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+    .includes-item:hover,
+    .not-includes-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        z-index: 5;
+        background-color: #ffffff;
+    }
+
+.includes-list .includes-item,
+.not-includes-list .not-includes-item {
+    transition: filter 0.3s ease;
+}
+
+.includes-list:hover .includes-item:not(:hover),
+.not-includes-list:hover .not-includes-item:not(:hover) {
+    filter: blur(1px) brightness(0.95);
+}
+
 /* Estilos responsivos */
 @media (max-width: 768px) {
     .package-card {

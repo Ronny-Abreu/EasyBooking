@@ -142,11 +142,13 @@
                         <ul class="list-unstyled services-list">
                             @foreach (var servicio in servicios)
                             {
-                                <li class="service-item">
-                                    <i class="bi bi-check-circle-fill text-success me-2"></i>@servicio.Trim()
+                                <li class="service-item d-flex align-items-center efecto-hover">
+                                    <i class="bi bi-check-circle-fill text-success me-2 fs-5"></i>
+                                    <span>@servicio.Trim()</span>
                                 </li>
                             }
                         </ul>
+
                     }
                     else
                     {

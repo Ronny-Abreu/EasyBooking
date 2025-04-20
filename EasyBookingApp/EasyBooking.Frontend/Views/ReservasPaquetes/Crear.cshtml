@@ -117,7 +117,7 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden sticky-top" style="top: 20px; z-index: 100;">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden sticky-top cardResumen">
                 <div class="card-header bg-gradient-secondary text-dark border-0 py-3">
                     <h5 class="mb-0 fw-bold"><i class="bi bi-receipt me-2"></i>Resumen de Reserva</h5>
                 </div>
@@ -131,7 +131,9 @@
                             </div>
                             <div class="summary-item d-flex justify-content-between">
                                 <span class="fw-medium">Precio por persona:</span>
-                                <span class="badge bg-success rounded-pill px-3 py-2">@Model.Paquete.Precio.ToString("C")</span>
+                                <span class="badge bg-success rounded-pill px-3 py-2 badge-zoom">
+                                    @Model.Paquete.Precio.ToString("C")
+                                </span>
                             </div>
                         </div>
 

@@ -165,11 +165,13 @@
                                 <ul class="list-unstyled includes-list">
                                     @foreach (var item in incluye)
                                     {
-                                        <li class="includes-item">
-                                            <i class="bi bi-check-circle-fill text-success me-2"></i>@item.Trim()
+                                        <li class="includes-item d-flex align-items-center efecto-hover">
+                                            <i class="bi bi-check-circle-fill text-success me-2 fs-5"></i>
+                                            <span>@item.Trim()</span>
                                         </li>
                                     }
                                 </ul>
+
                             }
                             else
                             {
@@ -190,11 +192,13 @@
                                 <ul class="list-unstyled not-includes-list">
                                     @foreach (var item in noIncluye)
                                     {
-                                        <li class="not-includes-item">
-                                            <i class="bi bi-x-circle-fill text-danger me-2"></i>@item.Trim()
+                                        <li class="not-includes-item d-flex align-items-center efecto-hover">
+                                            <i class="bi bi-x-circle-fill text-danger me-2 fs-5"></i>
+                                            <span>@item.Trim()</span>
                                         </li>
                                     }
                                 </ul>
+
                             }
                             else
                             {
