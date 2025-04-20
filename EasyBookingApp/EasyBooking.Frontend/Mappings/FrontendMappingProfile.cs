@@ -17,6 +17,11 @@ namespace EasyBooking.Frontend.Mappings
 
             // Mapeo para HotelImagenDto
             CreateMap<HotelImagenDto, HotelImagenViewModel>().ReverseMap();
+
+            // Mapeo para Paquetes turísticos
+            CreateMap<PaqueteTuristicoDto, PaqueteTuristicoViewModel>().ReverseMap();
+            CreateMap<PaqueteImagenDto, PaqueteTuristicoViewModel.PaqueteImagenViewModel>().ReverseMap();
+            CreateMap<ReservaPaqueteDto, ReservaPaqueteViewModel>().ReverseMap();
         }
     }
 }

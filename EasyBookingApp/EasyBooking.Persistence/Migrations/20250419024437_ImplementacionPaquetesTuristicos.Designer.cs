@@ -4,6 +4,7 @@ using EasyBooking.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyBooking.Persistence.Migrations
 {
     [DbContext(typeof(EasyBookingDbContext))]
-    partial class EasyBookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250419024437_ImplementacionPaquetesTuristicos")]
+    partial class ImplementacionPaquetesTuristicos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,7 +71,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 1,
                             Activo = true,
                             EsPrincipal = true,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7440),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5459),
                             HotelId = 1,
                             Orden = 1,
                             Titulo = "Vista principal",
@@ -79,7 +82,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 2,
                             Activo = true,
                             EsPrincipal = false,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7442),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5461),
                             HotelId = 1,
                             Orden = 2,
                             Titulo = "Habitación",
@@ -90,7 +93,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 3,
                             Activo = true,
                             EsPrincipal = false,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7443),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5463),
                             HotelId = 1,
                             Orden = 3,
                             Titulo = "Piscina",
@@ -101,7 +104,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 4,
                             Activo = true,
                             EsPrincipal = true,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7445),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5464),
                             HotelId = 2,
                             Orden = 1,
                             Titulo = "Vista principal",
@@ -112,7 +115,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 5,
                             Activo = true,
                             EsPrincipal = false,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7451),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5466),
                             HotelId = 2,
                             Orden = 2,
                             Titulo = "Habitación",
@@ -123,7 +126,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 6,
                             Activo = true,
                             EsPrincipal = true,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7452),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5467),
                             HotelId = 3,
                             Orden = 1,
                             Titulo = "Vista principal",
@@ -134,7 +137,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 7,
                             Activo = true,
                             EsPrincipal = false,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7454),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5469),
                             HotelId = 3,
                             Orden = 2,
                             Titulo = "Restaurante",
@@ -188,7 +191,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 1,
                             Activo = true,
                             EsPrincipal = true,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7509),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5528),
                             Orden = 1,
                             PaqueteId = 1,
                             Titulo = "Vista principal",
@@ -199,7 +202,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 2,
                             Activo = true,
                             EsPrincipal = false,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7511),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5530),
                             Orden = 2,
                             PaqueteId = 1,
                             Titulo = "Cenote",
@@ -210,7 +213,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 3,
                             Activo = true,
                             EsPrincipal = false,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7512),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5531),
                             Orden = 3,
                             PaqueteId = 1,
                             Titulo = "Playa",
@@ -221,7 +224,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 4,
                             Activo = true,
                             EsPrincipal = true,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7513),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5533),
                             Orden = 1,
                             PaqueteId = 2,
                             Titulo = "Vista principal",
@@ -232,7 +235,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 5,
                             Activo = true,
                             EsPrincipal = false,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7514),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5539),
                             Orden = 2,
                             PaqueteId = 2,
                             Titulo = "Cusco",
@@ -243,7 +246,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 6,
                             Activo = true,
                             EsPrincipal = true,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7516),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5541),
                             Orden = 1,
                             PaqueteId = 3,
                             Titulo = "Vista principal",
@@ -254,7 +257,7 @@ namespace EasyBooking.Persistence.Migrations
                             Id = 7,
                             Activo = true,
                             EsPrincipal = false,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7517),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5542),
                             Orden = 2,
                             PaqueteId = 3,
                             Titulo = "Resort",
@@ -339,7 +342,7 @@ namespace EasyBooking.Persistence.Migrations
                             Descripcion = "Descubre las maravillas de la Riviera Maya con este paquete que incluye visitas a cenotes, zonas arqueológicas y playas paradisíacas.",
                             Destino = "Riviera Maya",
                             Duracion = 7,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7484),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5502),
                             ImagenUrl = "/img/packages/package1.jpg",
                             Incluye = "Hospedaje en hotel 5 estrellas, Desayunos, Traslados, Entradas a zonas arqueológicas, Tour a cenotes",
                             Itinerario = "Día 1: Llegada y check-in, Día 2: Visita a Tulum, Día 3: Cenotes, Día 4: Playa del Carmen, Día 5: Xcaret, Día 6: Día libre, Día 7: Check-out y despedida",
@@ -358,7 +361,7 @@ namespace EasyBooking.Persistence.Migrations
                             Descripcion = "Explora la antigua ciudad inca de Machu Picchu y descubre la rica cultura peruana en este fascinante viaje.",
                             Destino = "Cusco",
                             Duracion = 5,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7491),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5506),
                             ImagenUrl = "/img/packages/package2.jpg",
                             Incluye = "Hospedaje, Desayunos, Guía turístico, Entradas a Machu Picchu, Tren a Aguas Calientes",
                             Itinerario = "Día 1: Llegada a Cusco, Día 2: City tour en Cusco, Día 3: Valle Sagrado, Día 4: Machu Picchu, Día 5: Regreso",
@@ -377,7 +380,7 @@ namespace EasyBooking.Persistence.Migrations
                             Descripcion = "Disfruta de las mejores playas del Caribe en este paquete todo incluido en Punta Cana.",
                             Destino = "Punta Cana",
                             Duracion = 4,
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7493),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5509),
                             ImagenUrl = "/img/packages/package3.jpg",
                             Incluye = "Hospedaje todo incluido, Traslados, Acceso a todas las instalaciones del resort",
                             Itinerario = "Día 1: Llegada y check-in, Día 2-3: Disfrute de playa y actividades del resort, Día 4: Check-out",
@@ -506,9 +509,6 @@ namespace EasyBooking.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("EmailValidado")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
@@ -605,7 +605,7 @@ namespace EasyBooking.Persistence.Migrations
                             Ciudad = "Cancún",
                             Descripcion = "Un lujoso hotel con vistas al mar",
                             Direccion = "Calle Principal 123",
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7293),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5307),
                             ImagenUrl = "/img/hotels/hotel1.jpg",
                             Nombre = "Hotel Paraíso",
                             Pais = "México",
@@ -620,7 +620,7 @@ namespace EasyBooking.Persistence.Migrations
                             Ciudad = "Bariloche",
                             Descripcion = "Disfruta de la naturaleza en nuestro hotel de montaña",
                             Direccion = "Avenida Sierra 456",
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7308),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5321),
                             ImagenUrl = "/img/hotels/hotel2.jpg",
                             Nombre = "Hotel Montaña",
                             Pais = "Argentina",
@@ -635,7 +635,7 @@ namespace EasyBooking.Persistence.Migrations
                             Ciudad = "Madrid",
                             Descripcion = "Ubicado en el corazón de la ciudad",
                             Direccion = "Plaza Mayor 789",
-                            FechaCreacion = new DateTime(2025, 4, 19, 22, 8, 40, 979, DateTimeKind.Local).AddTicks(7310),
+                            FechaCreacion = new DateTime(2025, 4, 18, 22, 44, 36, 437, DateTimeKind.Local).AddTicks(5324),
                             ImagenUrl = "/img/hotels/hotel3.jpg",
                             Nombre = "Hotel Céntrico",
                             Pais = "España",

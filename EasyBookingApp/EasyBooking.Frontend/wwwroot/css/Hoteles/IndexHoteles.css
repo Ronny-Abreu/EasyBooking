@@ -13,6 +13,10 @@
     letter-spacing: -0.5px;
 }
 
+.cantHotelesDisponibles {
+    position: relative;
+    top: -8px;
+}
 /* Tarjeta de filtros */
 .filter-card {
     transition: all 0.3s ease;

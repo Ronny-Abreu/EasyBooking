@@ -253,8 +253,9 @@ h1 {
     }
 
 .card-image {
-    height: 200px;
+    height: 300px;
     overflow: hidden;
+    position: relative;
 }
 
     .card-image img {
@@ -416,6 +417,19 @@ h1 {
     .clear-button:hover {
         background-color: #e0e0e0;
     }
+
+/* Badge de duración */
+.package-duration {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

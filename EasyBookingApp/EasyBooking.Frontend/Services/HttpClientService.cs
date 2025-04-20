@@ -178,15 +178,30 @@ namespace EasyBooking.Frontend.Services
                         PropertyNameCaseInsensitive = true
                     };
 
-                    var errorResponse = JsonSerializer.Deserialize<object>(content, options);
+                    using var document = JsonDocument.Parse(content);
+
+                    string? extractedMessage = null;
+
+                    if (document.RootElement.ValueKind == JsonValueKind.Object)
+                    {
+                        // Intenta buscar "message" o "error" en el JSON
+                        if (document.RootElement.TryGetProperty("message", out var messageProp))
+                        {
+                            extractedMessage = messageProp.GetString();
+                        }
+                        else if (document.RootElement.TryGetProperty("error", out var errorProp))
+                        {
+                            extractedMessage = errorProp.GetString();
+                        }
+                    }
 
                     return new ApiResponse<T>
                     {
                         Success = false,
-                        Error = $"Error: {response.StatusCode} - {content}"
+                        Error = extractedMessage ?? $"Error: {response.StatusCode} - {content}"
                     };
                 }
-                catch
+                catch (JsonException)
                 {
                     return new ApiResponse<T>
                     {
@@ -195,6 +210,8 @@ namespace EasyBooking.Frontend.Services
                     };
                 }
             }
+
+
         }
     }
 }

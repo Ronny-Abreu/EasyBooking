@@ -9,6 +9,9 @@ namespace EasyBooking.Domain.Entities
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public string Telefono { get; set; } = string.Empty;
+        public bool EmailValidado { get; set; } = false;
         public ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
+        public ICollection<ReservaPaquete> ReservasPaquetes { get; set; } = new List<ReservaPaquete>();
+
     }
 }

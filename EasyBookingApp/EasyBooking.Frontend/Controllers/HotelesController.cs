@@ -36,7 +36,8 @@ namespace EasyBooking.Frontend.Controllers
                         Ciudad = ciudad,
                         PrecioMinimo = precioMinimo,
                         PrecioMaximo = precioMaximo,
-                        Calificacion = calificacion
+                        Calificacion = calificacion,
+                        TotalHoteles = response.Data?.Count ?? 0
                     };
 
                     return View(model);

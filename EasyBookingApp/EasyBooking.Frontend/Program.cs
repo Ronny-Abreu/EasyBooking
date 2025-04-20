@@ -1,4 +1,6 @@
-﻿using EasyBooking.Frontend.Models;
+﻿using EasyBooking.Application.Contracts;
+using EasyBooking.Application.Services;
+using EasyBooking.Frontend.Models;
 using EasyBooking.Frontend.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -16,6 +18,10 @@ builder.Services.AddAutoMapper(
 builder.Services.AddHttpClient<HttpClientService>();
 builder.Services.AddScoped<HttpClientService>();
 builder.Services.AddScoped<UsuarioClientService>();
+
+//Service Email
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 // Configure ApiSettings
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));

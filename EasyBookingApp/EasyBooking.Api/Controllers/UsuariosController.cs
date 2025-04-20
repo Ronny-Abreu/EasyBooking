@@ -40,45 +40,136 @@ namespace EasyBooking.Api.Controllers
             }
 
             // Enviar correo de bienvenida
-            var subject = "¡Bienvenido a EasyBooking!";
+            var subject = "🌟 Bienvenido a EasyBooking";
+
             var body = $@"
-        <html>
-        <head>
-            <style>
-                body {{ font-family: Arial, sans-serif; line-height: 1.6; }}
-                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                .header {{ background-color: indianred; padding: 20px; text-align: center; color: white; }}
-                .content {{ padding: 20px; }}
-                .button {{ display: inline-block; padding: 10px 20px; background-color: #4a90e2; color: white; text-decoration: none; border-radius: 5px; }}
-                .footer {{ background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 0.8em; }}
-            </style>
-        </head>
-        <body>
-            <div class='container'>
-                <div class='header'>
-                    <h1>¡Bienvenido a EasyBooking!</h1>
-                </div>
-                <div class='content'>
-                    <p>Hola {resultado.Nombre},</p>
-                    <p>¡Gracias por registrarte en <strong>EasyBooking</strong>! Estamos emocionados de tenerte con nosotros.</p>
-                    <p>A partir de ahora podrás:</p>
-                    <ul>
-                        <li>Reservar Hoteles y Paquetes Turísticos en pocos clics</li>
-                        <li>Gestionar y revisar tus reservas fácilmente</li>
-                        <li>Recibir notificaciones y recordatorios importantes</li>
-                    </ul>
-                    <p>Para empezar, solo inicia sesión y descubre todo lo que tenemos para ti.</p>
-                    <p>Si tienes preguntas o necesitas asistencia, nuestro equipo está aquí para ayudarte.</p>
-                    <p>¡Esperamos que disfrutes de tu experiencia en EasyBooking!</p>
-                    <p>Saludos,<br>El equipo de EasyBooking</p>
-                </div>
-                <div class='footer'>
-                    <p>© 2025 EasyBooking. Todos los derechos reservados.</p>
-                </div>
-            </div>
-        </body>
-        </html>
-    ";
+                <!DOCTYPE html>
+                <html lang=""es"">
+                <head>
+                    <meta charset=""UTF-8"">
+                    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">
+                    <title>Bienvenido a EasyBooking</title>
+                    <style>
+                        body {{
+                            font-family: 'Segoe UI', Arial, sans-serif;
+                            background-color: #f8f9fa;
+                            margin: 0;
+                            padding: 0;
+                            color: #333;
+                        }}
+                        .container {{
+                            max-width: 600px;
+                            margin: 20px auto;
+                            background-color: #ffffff;
+                            border-radius: 16px;
+                            overflow: hidden;
+                            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                        }}
+                        .header {{
+                            background: linear-gradient(135deg, #f8345c, #e02a4e);
+                            color: #ffffff;
+                            padding: 40px 20px;
+                            text-align: center;
+                        }}
+                        .header h1 {{
+                            margin: 0;
+                            font-size: 26px;
+                            font-weight: 700;
+                        }}
+                        .content {{
+                            padding: 40px 30px;
+                            font-size: 16px;
+                            line-height: 1.6;
+                        }}
+                        .greeting {{
+                            font-size: 20px;
+                            font-weight: 600;
+                            color: #f8345c;
+                            margin-bottom: 20px;
+                        }}
+                        .features {{
+                            background-color: #f9f9f9;
+                            border-radius: 12px;
+                            padding: 25px;
+                            margin: 25px 0;
+                        }}
+                        .features-title {{
+                            font-weight: 600;
+                            margin-bottom: 15px;
+                            font-size: 18px;
+                        }}
+                        .features li {{
+                            margin-bottom: 10px;
+                            list-style: none;
+                        }}
+                        .features li::before {{
+                            content: '✓ ';
+                            color: #f8345c;
+                            font-weight: bold;
+                        }}
+                        .cta-button {{
+                            display: inline-block;
+                            padding: 14px 30px;
+                            background: linear-gradient(135deg, #f8345c, #e02a4e);
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 50px;
+                            font-weight: 600;
+                            font-size: 16px;
+                            margin-top: 20px;
+                        }}
+                        .signature {{
+                            margin-top: 30px;
+                            font-weight: 500;
+                        }}
+                        .signature-name {{
+                            font-weight: 600;
+                            color: #333;
+                        }}
+                        .footer {{
+                            background-color: #f1f1f1;
+                            padding: 25px 20px;
+                            text-align: center;
+                            font-size: 14px;
+                            color: #666666;
+                            border-top: 1px solid #eeeeee;
+                        }}
+                    </style>
+                </head>
+                <body>
+                    <div class=""container"">
+                        <div class=""header"">
+                            <h1>¡Bienvenido a la experiencia EasyBooking!</h1>
+                        </div>
+                        <div class=""content"">
+                            <p class=""greeting"">Hola {resultado.Nombre},</p>
+                            <p>¡Gracias por unirte a nuestra comunidad de viajeros! Estamos emocionados de tenerte con nosotros y ayudarte a descubrir destinos increíbles.</p>
+                            <div class=""features"">
+                                <p class=""features-title"">Con tu cuenta de EasyBooking podrás:</p>
+                                <ul>
+                                    <li>Reservar hoteles y paquetes turísticos con las mejores tarifas</li>
+                                    <li>Gestionar tus reservas fácilmente</li>
+                                    <li>Recibir ofertas exclusivas y personalizadas</li>
+                                    <li>Acceder a atención al cliente 24/7</li>
+                                </ul>
+                            </div>
+                            <div style=""text-align: center;"">
+                                <a class=""cta-button"" href=""https://localhost:7094/Home"">Explorar Destinos</a>
+                            </div>
+                            <div class=""signature"">
+                                <p>¡Felices viajes!</p>
+                                <p class=""signature-name"">El equipo de EasyBooking</p>
+                            </div>
+                        </div>
+                        <div class=""footer"">
+                            <p>© 2025 EasyBooking. Todos los derechos reservados.</p>
+                            <p>Calle Principal 123, Ciudad, País</p>
+                        </div>
+                    </div>
+                </body>
+                </html>";
+
+
 
             await _emailService.SendEmailAsync(resultado.Email, subject, body);
 

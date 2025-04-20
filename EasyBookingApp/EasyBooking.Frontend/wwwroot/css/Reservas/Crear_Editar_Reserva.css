@@ -102,6 +102,19 @@
     padding: 0;
 }
 
+.cardResumen {
+    cursor: pointer;
+    top: 20px;
+    z-index: 100;
+}
+.badge-zoom {
+    transition: transform 0.3s ease;
+}
+
+    .badge-zoom:hover {
+        transform: scale(1.1);
+    }
+
 /* Resumen de reserva */
 .summary-section {
     margin-bottom: 1.5rem;
@@ -112,10 +125,29 @@
 }
 
 .summary-label {
-    font-size: 0.8rem;
-    color: #6b7280;
-    font-weight: 500;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
 }
+
+    .summary-label::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #111827;
+        transition: width 0.3s ease;
+    }
+
+    .summary-label:hover::after {
+        width: 100%;
+    }
+    .summary-label:hover {
+        transform: scale(1.05);
+    }
+
 
 .summary-value {
     font-size: 1rem;
@@ -203,3 +235,146 @@
             margin-bottom: 0.5rem;
         }
 }
+
+
+/* Estilos para paquetes turísticos */
+.package-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+    .package-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .package-card .card-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+
+        .package-card .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+    .package-card:hover .card-image img {
+        transform: scale(1.05);
+    }
+
+.package-duration {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.package-price-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(40, 167, 69, 0.9);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.package-duration-badge {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.package-gallery {
+    position: relative;
+}
+
+.package-main-image {
+    height: 400px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.package-thumbnails {
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
+    padding: 5px;
+}
+
+    .package-thumbnails::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .package-thumbnails::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+    }
+
+.image-title {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 10;
+}
+
+    .image-title h5 {
+        display: inline-block;
+        color: #fff;
+        font-weight: 600;
+        padding: 8px 16px;
+        margin: 0;
+        border-radius: 30px;
+        background: linear-gradient( 90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 20%, rgba(0, 0, 0, 0.4) 80%, rgba(0, 0, 0, 0) 100% );
+        backdrop-filter: blur(4px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+    }
+
+.carousel-item:hover .image-title h5 {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.itinerary-list,
+.includes-list,
+.not-includes-list {
+    margin: 0;
+    padding: 0;
+}
+
+.itinerary-item,
+.includes-item,
+.not-includes-item {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+    .itinerary-item:last-child,
+    .includes-item:last-child,
+    .not-includes-item:last-child {
+        border-bottom: none;
+    }

@@ -98,7 +98,7 @@ namespace EasyBooking.Application.Services
                             <p><strong>Precio total:</strong> {precioTotal:C}</p>
                             <br />
                             <p>Para completar tu reserva, por favor realiza el pago haciendo clic en el siguiente botón:</p>
-                            <p><a class='button' href='https://localhost:7243/Reservas'>Ir a mis Reservas (Inicia sesión si es necesario)</a>
+                            <p><a class='button' href='https://localhost:7094/Reservas'>Ir a mis Reservas (Inicia sesión si es necesario)</a>
                 </p>
                             <br />
                             <p>Gracias por confiar en <strong>EasyBooking</strong>. ¡Te esperamos!</p>

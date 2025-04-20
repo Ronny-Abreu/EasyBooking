@@ -80,6 +80,55 @@
             <a href="@Url.Action("Index", "Hoteles")" class="btn-view-more">Ver más hoteles</a>
         </div>
     </section>
+
+    <!-- Sección de Paquetes Turísticos -->
+    <section id="paquetes" class="section">
+        <div class="section-header">
+            <h2>Paquetes Turísticos Destacados</h2>
+            <p>Descubre nuestras mejores experiencias de viaje</p>
+        </div>
+
+        @{
+            var nombresPaquetes = new[] { "Aventura en Riviera Maya", "Maravillas Machu Picchu", "Escapada a Punta Cana" };
+            var destinos = new[] { "Riviera Maya, México", "Cusco, Perú", "Punta Cana, República Dominicana" };
+            var preciosPaquetes = new[] { "$1,200 / persona", "$950 / persona", "$850 / persona" };
+        }
+
+        <div class="cards-container">
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="hotel-card">
+                    <div class="card-image">
+                        <img src="/img/packages/Package@(i+1).jpg" alt="@nombresPaquetes[i]">
+                        <div class="package-duration">
+                            <span> Duración de @(i == 0 ? 7 : i == 1 ? 5 : 4) días</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>@nombresPaquetes[i]</h3>
+                        <p class="location"><i class="bi bi-geo-alt"></i> @destinos[i]</p>
+                        <div class="rating">
+                            @for (int j = 0; j < (i == 1 ? 4 : 5); j++)
+                            {
+                                <i class="bi bi-star-fill"></i>
+                            }
+                            @if (i == 1)
+                            {
+                                <i class="bi bi-star"></i>
+                            }
+                        </div>
+                        <p class="price">@preciosPaquetes[i]</p>
+                        <a href="@Url.Action("Detalle", "PaquetesTuristicos", new { id = i + 1 })" class="btn-view">Ver detalles</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="view-more-container">
+            <a href="@Url.Action("Index", "PaquetesTuristicos")" class="btn-view-more">Ver más paquetes</a>
+        </div>
+    </section>
+
 </div>
 
 <!-- Botón de volver arriba -->
