@@ -392,7 +392,7 @@ namespace EasyBooking.Application.Services
             <p>Para completar tu reserva, realiza el pago haciendo clic en el siguiente botón:</p>
             
             <div class=""cta-container"">
-                <a href=""https://localhost:7243/ReservasPaquetes"" class=""cta-button"">Completar Reserva</a>
+                <a href=""https://localhost:7094/ReservasPaquetes"" class=""cta-button"">Completar Reserva</a>
             </div>
             
             <div class=""next-steps"">

@@ -154,7 +154,7 @@ namespace EasyBooking.Api.Controllers
                                 </ul>
                             </div>
                             <div style=""text-align: center;"">
-                                <a class=""cta-button"" href=""https://localhost:7243/Home"">Explorar Destinos</a>
+                                <a class=""cta-button"" href=""https://localhost:7094/Home"">Explorar Destinos</a>
                             </div>
                             <div class=""signature"">
                                 <p>¡Felices viajes!</p>
