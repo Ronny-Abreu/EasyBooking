@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Email Verificado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["HideFooter"] = true;
+
+}
+
+<div class="container">
+    <img src="~/img/emailVerifiedLogo.jpeg" alt="Verificado" class="logo">
+    <h1>¡Email Verificado!</h1>
+    <p>Tu email ha sido verificado exitosamente.</p>
+    <p>Ahora puedes acceder a todas las funcionalidades de nuestra plataforma.</p>
+    <a href="@Url.Action("PerfilUser", "Usuario")" class="btn">Ver mi perfil</a>
+</div>
+
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/EmailVerified.css">
+}

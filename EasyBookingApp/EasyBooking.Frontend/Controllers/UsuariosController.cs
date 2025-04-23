@@ -235,9 +235,23 @@ namespace EasyBooking.Frontend.Controllers
         [HttpGet]
         public async Task<IActionResult> PerfilUser()
         {
-            ViewData["HideFooter"] = true;
-            return View("PerfilUser");
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            var response = await _usuarioClientService.ObtenerUsuarioPorIdAsync(userId);
+
+            if (!response.Success || response.Data == null)
+            {
+                TempData["ErrorMessage"] = "No se pudo cargar el perfil del usuario.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(response.Data); // ← Pasamos el ViewModel a la vista
         }
+
 
     }
 }

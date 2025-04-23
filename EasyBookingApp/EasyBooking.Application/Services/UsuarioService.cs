@@ -3,6 +3,7 @@ using EasyBooking.Application.Contracts;
 using EasyBooking.Application.Dtos;
 using EasyBooking.Domain.Entities;
 using EasyBooking.Persistence.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -73,6 +74,7 @@ namespace EasyBooking.Application.Services
 
             return _mapper.Map<UsuarioDto>(usuario);
         }
+
 
         public async Task<bool> EliminarUsuarioAsync(int id)
         {
