@@ -151,6 +151,15 @@ namespace EasyBooking.Frontend.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> ActualizarUsuario([FromBody] ActualizarUsuarioViewModel model)
+        {
+            var response = await _usuarioClientService.ActualizarUsuarioAsync(model);
+            return Json(response);
+        }
+
+
         [HttpGet]
         public IActionResult CuentaEliminada()
         {
@@ -249,7 +258,7 @@ namespace EasyBooking.Frontend.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(response.Data); // ← Pasamos el ViewModel a la vista
+            return View(response.Data);
         }
 
 

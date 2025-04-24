@@ -34,5 +34,12 @@ namespace EasyBooking.Frontend.Services
         {
             return await _httpClient.DeleteAsync<bool>($"Usuarios/{id}");
         }
+
+        //Actualizar usuario
+        public async Task<ApiResponse<UsuarioViewModel>> ActualizarUsuarioAsync(ActualizarUsuarioViewModel dto)
+        {
+            return await _httpClient.PutAsync<UsuarioViewModel>("Usuarios/actualizar", dto);
+        }
+
     }
 }

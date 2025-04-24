@@ -271,6 +271,20 @@ namespace EasyBooking.Api.Controllers
             return Redirect(redirectUrl);
         }
 
+        [HttpPut("actualizar")]
+        public async Task<IActionResult> Actualizar([FromBody] ActualizarUsuarioDto dto)
+        {
+            try
+            {
+                var actualizado = await _usuarioService.ActualizarUsuarioAsync(dto);
+                return Ok(new { Message = "Usuario actualizado correctamente", Data = actualizado });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

@@ -86,6 +86,67 @@ namespace EasyBooking.Application.Services
             return true;
         }
 
+        public async Task<UsuarioDto?> ActualizarUsuarioAsync(ActualizarUsuarioDto dto)
+        {
+            var usuario = await _usuarioRepository.GetByIdAsync(dto.Id);
+            if (usuario == null) return null;
+
+            bool hayCambios = false;
+
+            if (!string.IsNullOrWhiteSpace(dto.Nombre) && usuario.Nombre != dto.Nombre)
+            {
+                usuario.Nombre = dto.Nombre;
+                hayCambios = true;
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(dto.Apellido) && usuario.Apellido != dto.Apellido)
+            {
+                usuario.Apellido = dto.Apellido;
+                hayCambios = true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.Telefono) && usuario.Telefono != dto.Telefono)
+            {
+                usuario.Telefono = dto.Telefono;
+                hayCambios = true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(dto.Email) && usuario.Email != dto.Email)
+            {
+                // Opcional: Verifica si el nuevo email ya está en uso
+                var existeEmail = await _usuarioRepository.ExisteEmailAsync(dto.Email);
+                if (existeEmail)
+                {
+                    throw new Exception("El nuevo correo ya está en uso.");
+                }
+
+                usuario.Email = dto.Email;
+                hayCambios = true;
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(dto.PasswordNueva))
+            {
+                if (string.IsNullOrWhiteSpace(dto.PasswordActual) || !VerifyPassword(dto.PasswordActual, usuario.PasswordHash))
+                {
+                    throw new Exception("La contraseña actual es incorrecta.");
+                }
+
+                usuario.PasswordHash = HashPassword(dto.PasswordNueva);
+                hayCambios = true;
+            }
+
+            if (!hayCambios)
+            {
+                throw new Exception("No se detectaron cambios para actualizar.");
+            }
+
+            await _usuarioRepository.UpdateAsync(usuario);
+            return _mapper.Map<UsuarioDto>(usuario);
+        }
+
+
         public async Task<bool> ValidarContrasenaAsync(int id, string password)
         {
             var usuario = await _usuarioRepository.GetByIdAsync(id);

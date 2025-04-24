@@ -59,4 +59,26 @@ namespace EasyBooking.Frontend.Models
         [Display(Name = "Recordarme")]
         public bool RecordarMe { get; set; }
     }
+
+    public class ActualizarUsuarioViewModel
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "El nombre es requerido")]
+        public string Nombre { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El apellido es requerido")]
+        public string Apellido { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El teléfono es requerido")]
+        public string Telefono { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El email es requerido")]
+        [EmailAddress(ErrorMessage = "El email no es válido")]
+        public string Email { get; set; } = string.Empty;
+        // Cambiar la contraseña es opcional
+        public string? PasswordActual { get; set; }
+
+        public string? PasswordNueva { get; set; }
+    }
 }

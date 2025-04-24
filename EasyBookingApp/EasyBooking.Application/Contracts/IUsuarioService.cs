@@ -8,7 +8,7 @@ namespace EasyBooking.Application.Contracts
         Task<UsuarioDto?> LoginAsync(LoginUsuarioDto loginDto);
         Task<bool> EliminarUsuarioAsync(int id);
         Task<bool> ValidarContrasenaAsync(int id, string password);
-
+        Task<UsuarioDto?> ActualizarUsuarioAsync(ActualizarUsuarioDto dto);
         Task<UsuarioDto?> GetUsuarioByIdAsync(int id);
         Task<UsuarioDto?> GetUsuarioByEmailAsync(string email);
     }
