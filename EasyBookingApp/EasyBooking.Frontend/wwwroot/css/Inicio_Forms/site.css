@@ -22,6 +22,16 @@ body {
     background-color: #f8f9fa;
 }
 
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
 /* Custom styles */
 .hotel-card {
     transition: transform 0.3s ease;
@@ -33,13 +43,13 @@ body {
     }
 
 .footer {
-    position: absolute;
+    position: static;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
+    flex-shrink: 0;
 }
-
 .navbar-brand {
     font-weight: bold;
     color: #0d6efd !important;
