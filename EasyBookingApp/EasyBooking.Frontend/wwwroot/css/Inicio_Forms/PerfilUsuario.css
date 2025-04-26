@@ -269,24 +269,26 @@ h3 {
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     animation: slideIn 0.3s ease;
+    position: relative;
 }
 
 .close-edit-modal {
-    position: relative;
-    right: 1.25rem;
-    top: 1.25rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
     color: #9ca3af;
     font-size: 1.5rem;
     font-weight: 500;
     cursor: pointer;
     z-index: 1070;
     transition: color 0.3s ease;
-    margin-left: 430px;
 }
 
     .close-edit-modal:hover {
         color: #1f2937;
     }
+
+
 
 /* Form styling */
 .form {
@@ -354,7 +356,7 @@ h3 {
         .form label .input:focus + span,
         .form label .input:not(:placeholder-shown) + span {
             transform: translateY(-1.5rem) scale(0.85);
-            color: #ff5a5f;
+            color: #f7335b;
             background-color: white;
             padding: 0 0.25rem;
         }
@@ -373,7 +375,7 @@ h3 {
     color: white;
     font-size: 1rem;
     font-weight: 500;
-    background-color: #ff5a5f;
+    background-color: #f7335b;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -383,6 +385,82 @@ h3 {
         transform: translateY(-2px);
         box-shadow: 0 4px 6px rgba(255, 90, 95, 0.2);
     }
+
+/* Estilos para modales */
+.modal {
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-backdrop {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    z-index: 1002;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+    }
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Animación de error */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.6s ease-in-out;
+}
 
 /* Password verification modal */
 .group {

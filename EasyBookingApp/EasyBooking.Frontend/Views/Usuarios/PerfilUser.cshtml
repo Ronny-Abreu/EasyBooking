@@ -45,6 +45,8 @@
                         <p class="message">Edita cada campo para actualizar tu perfil.</p>
                         <div class="flex">
                             <label>
+                                <input type="hidden" id="userId" value="@Model.Id" />
+
                                 <input class="input" type="text" id="editNombre" placeholder=" " required>
                                 <span>Nombre</span>
                             </label>
@@ -52,6 +54,11 @@
                             <label>
                                 <input class="input" type="text" id="editApellido" placeholder=" " required>
                                 <span>Apellido</span>
+                            </label>
+
+                            <label>
+                                <input class="input" type="tel" id="editTelefono" placeholder=" " required>
+                                <span>Teléfono</span>
                             </label>
                         </div>
 
@@ -75,11 +82,11 @@
                             </label>
 
                             <div id="password-error" class="text-danger" style="display: none;">
-                                La contraseña actual es incorrecta.
+                                <b>La contraseña actual es incorrecta.</b>
                             </div>
 
                             <div class="text-black mt-2">
-                                <a href="#" id="forgot-password-link-profile" style="text-decoration: none; color: #ff5a5f; font-size: 0.9rem;">
+                                <a href="#" id="forgot-password-link-profile" style="text-decoration: none; color:black; font-size: 0.9rem;">
                                     ¿Olvidaste tu contraseña actual?
                                 </a>
                             </div>
