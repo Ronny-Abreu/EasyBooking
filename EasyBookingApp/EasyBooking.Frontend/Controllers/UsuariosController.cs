@@ -61,6 +61,27 @@ namespace EasyBooking.Frontend.Controllers
             }
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetUserData(int id)
+        {
+            // Verificar que el usuario autenticado solo pueda ver su propio perfil
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId) || userId != id)
+            {
+                return Json(new { success = false, message = "No autorizado" });
+            }
+
+            var response = await _usuarioClientService.ObtenerUsuarioPorIdAsync(id);
+
+            if (!response.Success || response.Data == null)
+            {
+                return Json(new { success = false, message = "No se pudo cargar el perfil del usuario." });
+            }
+
+            return Json(new { success = true, data = response.Data });
+        }
+
         [HttpGet]
         public IActionResult Login()
         {
