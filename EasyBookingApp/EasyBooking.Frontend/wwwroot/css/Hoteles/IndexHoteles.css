@@ -1,5 +1,4 @@
-﻿/* Estilos modernos para la página de hoteles */
-:root {
+﻿:root {
     --primary-color: #f8345c;
     --primary-hover: #e02a4e;
     --secondary-color: #2d3748;
@@ -7,7 +6,6 @@
     --border-radius: 12px;
 }
 
-/* Título principal */
 .hotel-title {
     color: var(--secondary-color);
     letter-spacing: -0.5px;
@@ -17,7 +15,7 @@
     position: relative;
     top: -8px;
 }
-/* Tarjeta de filtros */
+
 .filter-card {
     transition: all 0.3s ease;
     background: linear-gradient(145deg, #ffffff, #f8f9fa);
@@ -27,7 +25,31 @@
         transform: translateY(-5px);
     }
 
-/* Botón de búsqueda */
+    .filter-card input.form-control,
+    .filter-card select.form-select {
+        transition: all 0.3s ease;
+    }
+
+        .filter-card input.form-control:hover,
+        .filter-card select.form-select:hover,
+        .filter-card input.form-control:focus,
+        .filter-card select.form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(248, 52, 92, 0.2);
+        }
+
+        .filter-card input.form-control::placeholder,
+        .filter-card select.form-select::placeholder {
+            color: #adb5bd;
+            transition: color 0.3s ease;
+        }
+
+        .filter-card input.form-control:focus::placeholder,
+        .filter-card select.form-select:focus::placeholder {
+            color: var(--primary-color);
+        }
+
+
 .btn-search {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
@@ -43,16 +65,24 @@
         box-shadow: 0 4px 12px rgba(248, 52, 92, 0.2);
     }
 
-/* Tarjetas de hoteles */
 .hotel-card {
-    transition: all 0.3s ease;
-    height: 100%;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
 }
 
-    .hotel-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
+    .hotel-card.show {
+        opacity: 1;
+        transform: translateY(0);
     }
+
+    .hotel-card.fade-reset {
+        transition: none;
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
 
 .hotel-img {
     height: 220px;
@@ -83,20 +113,17 @@
     box-shadow: 0 5px 15px rgba(248, 52, 92, 0.3);
 }
 
-/* Estrellas de calificación */
 .rating-stars {
     color: #ffc107;
     font-size: 0.9rem;
 }
 
-/* Descripción del hotel */
 .hotel-description {
     color: #6c757d;
     font-size: 0.95rem;
     line-height: 1.5;
 }
 
-/* Botón primario personalizado */
 .btn-primary-custom {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
@@ -113,22 +140,19 @@
         box-shadow: 0 4px 12px rgba(248, 52, 92, 0.2);
     }
 
-/* Efecto de transición general */
 .transition-hover {
     transition: all 0.3s ease;
 }
 
-/* Inputs con iconos */
 .input-group-text {
     color: #6c757d;
 }
 
-/* Bordes redondeados */
 .rounded-4 {
     border-radius: var(--border-radius) !important;
 }
 
-/* Estilos responsivos */
+/* Estilos responsivos para mobiles */
 @media (max-width: 768px) {
     .hotel-card {
         margin-bottom: 2rem;
@@ -137,4 +161,45 @@
     .filter-card {
         padding: 1rem;
     }
+
+    .col-md-4 {
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+    }
 }
+
+@media (max-width: 576px) {
+    .hotel-card.package-card {
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+        max-width: 90%;
+    }
+}
+
+
+
+/*Estilos cards responsivos para tablets*/
+@media (min-width: 700px) and (max-width: 1000px) {
+    .col-md-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 765px) and (max-width: 1000px) {
+    .filter-card form .row > div {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .filter-card {
+        padding: 2rem;
+    }
+
+        .filter-card .btn {
+            width: 100%;
+        }
+}
+

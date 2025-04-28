@@ -31,9 +31,7 @@
     }
 
 .hotel-image-container {
-    height: 140px;
-    overflow: hidden;
-}
+    height: 200px;}
 
 .hotel-image {
     width: 100%;
@@ -378,3 +376,63 @@
     .not-includes-item:last-child {
         border-bottom: none;
     }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Estilos RESPONSIVE para móviles */
+@media (max-width: 768px) {
+    .guest-selector {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .guest-controls {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 5px;
+    }
+
+    .guest-control-btn {
+        width: 60px;
+        height: 30px;
+        font-size: 1.9rem;
+        border-radius: 16px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        font-size: 1.2rem;
+        padding-right: 130px;
+    }
+
+    .hotel-image-container,
+    .package-image-container {
+        height: auto;
+    }
+
+    .hotel-image,
+    .package-image {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+}
+
+

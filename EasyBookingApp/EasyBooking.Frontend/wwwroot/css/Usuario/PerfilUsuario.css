@@ -68,14 +68,13 @@
     padding: 1.75rem;
 }
 
-/* Profile action buttons container */
 .profile-action-buttons {
     position: absolute;
     right: 1.5rem;
     top: 1.5rem;
 }
 
-/* Edit button styling */
+/* Boton de Editar Perfil*/
 .edit-button {
     width: 40px;
     height: 40px;
@@ -130,7 +129,7 @@ h3 {
         border-radius: 3px;
     }
 
-/* Information items */
+/* Informacion user items */
 .info-item {
     display: flex;
     align-items: flex-start;
@@ -161,7 +160,7 @@ h3 {
     margin: 0;
 }
 
-/* Verification status */
+/* Verification estatus correo*/
 .verification-status {
     display: flex;
     align-items: center;
@@ -196,7 +195,7 @@ h3 {
     color: #4b5563;
 }
 
-/* Verification button */
+/* Boton de Verification */
 #verification-btn {
     background-color: white;
     border: 1px solid #ff5a5f;
@@ -214,7 +213,7 @@ h3 {
         box-shadow: 0 4px 6px rgba(255, 90, 95, 0.2);
     }
 
-/* Delete button styling */
+/* Boton de eliminar cuenta*/
 .button {
     position: relative;
     border-radius: 8px;
@@ -245,7 +244,7 @@ h3 {
             color: white;
         }
 
-/* Modal styling */
+/* Modal de formulario para editar Perfil*/
 .edit-profile-modal,
 .password-verification-modal,
 .delete-confirmation-modal {
@@ -289,8 +288,6 @@ h3 {
     }
 
 
-
-/* Form styling */
 .form {
     display: flex;
     flex-direction: column;
@@ -540,7 +537,7 @@ h3 {
         background-color: #e5e7eb;
     }
 
-/* Delete confirmation modal */
+/* Modal de confirmación de eliminar cuenta */
 .delete-confirmation-modal .card {
     max-width: 350px;
     margin: 10% auto;

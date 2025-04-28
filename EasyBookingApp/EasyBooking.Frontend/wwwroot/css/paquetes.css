@@ -6,13 +6,11 @@
     --border-radius: 12px;
 }
 
-/* Título principal */
 .package-title {
     color: var(--secondary-color);
     letter-spacing: -0.5px;
 }
 
-/* Tarjeta de filtros */
 .filter-card {
     transition: all 0.3s ease;
     background: linear-gradient(145deg, #ffffff, #f8f9fa);
@@ -22,7 +20,6 @@
         transform: translateY(-5px);
     }
 
-/* Botón de búsqueda */
 .btn-search {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
@@ -59,7 +56,6 @@
     transform: scale(1.05);
 }
 
-/* Badge de precio */
 .package-price-badge {
     position: absolute;
     bottom: 0;
@@ -78,7 +74,6 @@
     box-shadow: 0 5px 15px rgba(248, 52, 92, 0.3);
 }
 
-/* Badge de duración */
 .package-duration-badge {
     position: absolute;
     bottom: 10px;
@@ -91,7 +86,6 @@
     font-weight: 600;
 }
 
-/* Estrellas de calificación */
 .rating-stars {
     color: #ffc107;
     font-size: 0.9rem;
@@ -240,7 +234,6 @@
     color: var(--primary-color);
 }
 
-/* Estilos para listas */
 .itinerary-list, .includes-list, .not-includes-list {
     margin: 0;
     padding: 0;
@@ -265,6 +258,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     z-index: 1;
+    cursor:pointer;
 }
 
     .includes-item:hover,
@@ -284,6 +278,22 @@
 .not-includes-list:hover .not-includes-item:not(:hover) {
     filter: blur(1px) brightness(0.95);
 }
+
+/* Transición para la imagen en el carrusel */
+.package-main-image {
+    transition: transform 0.3s ease-in-out;
+}
+
+    .package-main-image:hover {
+        transform: scale(1.05);
+    }
+
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
 
 /* Estilos responsivos */
 @media (max-width: 768px) {

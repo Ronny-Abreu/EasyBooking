@@ -1,5 +1,90 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
-    // Profile dropdown toggle
+﻿document.addEventListener("DOMContentLoaded", function () {
+    const hamburger = document.getElementById('hamburger-menu');
+    const mobileNav = document.getElementById('mobile-nav');
+    const backdrop = document.getElementById('mobile-nav-backdrop');
+
+    function openMenu() {
+        mobileNav.classList.add('show');
+        backdrop.classList.add('show');
+        document.body.classList.add('no-scroll'); // Desactivar scroll (solo dentro del menú hamburguesa)
+    }
+
+    function closeMenu() {
+        mobileNav.classList.remove('show');
+        backdrop.classList.remove('show');
+        document.body.classList.remove('no-scroll');
+    }
+
+    // Cerrar menú al hacer click en cualquier enlace
+    hamburger.addEventListener('click', openMenu);
+
+    backdrop.addEventListener('click', closeMenu);
+
+    const mobileLinks = document.querySelectorAll('.mobile-nav-links a, .footer-btn');
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+});
+
+
+//Función para cargar la inicial del avatar dentro del menú hamburguesa
+document.addEventListener("DOMContentLoaded", function () {
+    const profileAvatarLink = document.querySelector('.profile-avatar-link');
+    const mobileProfileAvatar = document.getElementById('mobile-profile-avatar');
+
+    if (profileAvatarLink && mobileProfileAvatar) {
+        const userName = profileAvatarLink.getAttribute('data-username')?.trim();
+        if (userName && userName.length > 0) {
+            const initial = userName.charAt(0).toUpperCase();
+            mobileProfileAvatar.textContent = initial;
+        }
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Publicaciones
+    const submenuToggle = document.getElementById('toggle-submenu');
+    const subMenu = document.getElementById('sub-menu');
+    const arrowIcon = document.getElementById('arrow-icon');
+
+    // Mis Reservas
+    const reservasToggle = document.getElementById('toggle-reservas');
+    const reservasSubMenu = document.getElementById('reservas-submenu');
+    const arrowReservasIcon = document.getElementById('arrow-reservas-icon');
+
+    function closeAllSubmenus() {
+        subMenu.style.maxHeight = null;
+        reservasSubMenu.style.maxHeight = null;
+        arrowIcon.classList.remove('rotate');
+        arrowReservasIcon.classList.remove('rotate');
+    }
+
+    submenuToggle.addEventListener('click', function () {
+        const isOpen = subMenu.style.maxHeight;
+        closeAllSubmenus();
+        if (!isOpen) {
+            subMenu.style.maxHeight = subMenu.scrollHeight + "px";
+            arrowIcon.classList.add('rotate');
+        }
+    });
+
+    reservasToggle.addEventListener('click', function () {
+        const isOpen = reservasSubMenu.style.maxHeight;
+        closeAllSubmenus();
+        if (!isOpen) {
+            reservasSubMenu.style.maxHeight = reservasSubMenu.scrollHeight + "px";
+            arrowReservasIcon.classList.add('rotate');
+        }
+    });
+});
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Menú items del boton profile (solo en Destokp y tablets)
     const profileButton = document.getElementById("profile-button")
     const profileDropdown = document.getElementById("profile-dropdown")
 
@@ -17,7 +102,7 @@
         })
     }
 
-    // Back to top button
+    // Boton de volver al principio
     const backToTopButton = document.getElementById("back-to-top")
 
     if (backToTopButton) {
@@ -37,31 +122,6 @@
         })
     }
 
-    // Theme toggle
-    const themeToggleButton = document.getElementById("theme-toggle-button")
-
-    if (themeToggleButton) {
-        // Check for saved theme preference or use device preference
-        const savedTheme = localStorage.getItem("theme")
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-
-        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-            document.body.classList.add("dark-theme")
-        }
-
-        themeToggleButton.addEventListener("click", () => {
-            document.body.classList.toggle("dark-theme")
-
-            // Save preference
-            if (document.body.classList.contains("dark-theme")) {
-                localStorage.setItem("theme", "dark")
-            } else {
-                localStorage.setItem("theme", "light")
-            }
-        })
-    }
-
-    // Navbar hide on scroll down, show on scroll up
     let lastScrollTop = 0
     const navbar = document.querySelector(".EasyBooking-navbar")
 
@@ -70,10 +130,8 @@
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop
 
             if (scrollTop > lastScrollTop && scrollTop > 100) {
-                // Scroll down
                 navbar.classList.add("navbar-hidden")
             } else {
-                // Scroll up
                 navbar.classList.remove("navbar-hidden")
             }
 
@@ -81,87 +139,4 @@
         })
     }
 
-    // Modal functions
-    window.openLoginModal = () => {
-        document.getElementById("modal-overlay").classList.add("active")
-        document.getElementById("login-modal").classList.add("active")
-        document.getElementById("login-form-container").style.display = "block"
-        document.getElementById("forgot-password-container").style.display = "none"
-        document.getElementById("reset-password-container").style.display = "none"
-    }
-
-    window.closeLoginModal = () => {
-        document.getElementById("modal-overlay").classList.remove("active")
-        document.getElementById("login-modal").classList.remove("active")
-    }
-
-    window.openRegisterModal = () => {
-        document.getElementById("modal-overlay").classList.add("active")
-        document.getElementById("register-modal").classList.add("active")
-    }
-
-    window.closeRegisterModal = () => {
-        document.getElementById("modal-overlay").classList.remove("active")
-        document.getElementById("register-modal").classList.remove("active")
-    }
-
-    window.switchToRegister = (event) => {
-        event.preventDefault()
-        document.getElementById("login-modal").classList.add("slide-out")
-
-        setTimeout(() => {
-            document.getElementById("login-modal").classList.remove("active")
-            document.getElementById("login-modal").classList.remove("slide-out")
-            document.getElementById("register-modal").classList.add("active")
-            document.getElementById("register-modal").classList.add("slide-in")
-
-            setTimeout(() => {
-                document.getElementById("register-modal").classList.remove("slide-in")
-            }, 300)
-        }, 300)
-    }
-
-    window.switchToLogin = (event) => {
-        event.preventDefault()
-        document.getElementById("register-modal").classList.add("slide-out")
-
-        setTimeout(() => {
-            document.getElementById("register-modal").classList.remove("active")
-            document.getElementById("register-modal").classList.remove("slide-out")
-            document.getElementById("login-modal").classList.add("active")
-            document.getElementById("login-modal").classList.add("slide-in")
-
-            setTimeout(() => {
-                document.getElementById("login-modal").classList.remove("slide-in")
-            }, 300)
-        }, 300)
-    }
-
-    // Forgot password link
-    const forgotPasswordLink = document.getElementById("forgot-password-link")
-    if (forgotPasswordLink) {
-        forgotPasswordLink.addEventListener("click", (e) => {
-            e.preventDefault()
-            document.getElementById("login-form-container").style.display = "none"
-            document.getElementById("forgot-password-container").style.display = "block"
-        })
-    }
-
-    // Back to login button
-    const backToLoginBtn = document.getElementById("back-to-login-btn")
-    if (backToLoginBtn) {
-        backToLoginBtn.addEventListener("click", () => {
-            document.getElementById("login-form-container").style.display = "block"
-            document.getElementById("forgot-password-container").style.display = "none"
-        })
-    }
-
-    // Back to forgot password button
-    const backToForgotBtn = document.getElementById("back-to-forgot-btn")
-    if (backToForgotBtn) {
-        backToForgotBtn.addEventListener("click", () => {
-            document.getElementById("reset-password-container").style.display = "none"
-            document.getElementById("forgot-password-container").style.display = "block"
-        })
-    }
 })

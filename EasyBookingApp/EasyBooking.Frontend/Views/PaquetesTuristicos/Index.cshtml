@@ -5,7 +5,7 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/Hoteles/IndexHoteles.css.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Hoteles/IndexHoteles.css" asp-append-version="true" />
 }
 
 <div class="container mt-5">
@@ -81,11 +81,11 @@
                 <div class="col-md-4 mb-4">
                     <div class="card hotel-card package-card h-100 border-0 shadow-sm rounded-4 overflow-hidden transition-hover">
                         <div class="position-relative">
-                            <img src="@(string.IsNullOrEmpty(paquete.ImagenUrl) ? "/img/packages/default.jpg" : paquete.ImagenUrl)"
-                                 class="card-img-top hotel-img package-img" alt="@paquete.Nombre">
-                            @* <div class="hotel-price-badge package-price-badge"> *@
-                            @*     <span class="fw-bold">@paquete.Precio.ToString("C")</span><span class="fs-6">/persona</span> *@
-                            @* </div> *@
+                             <a asp-action="Detalle" asp-route-id="@paquete.Id">
+                                <img src="@(string.IsNullOrEmpty(paquete.ImagenUrl) ? "/img/packages/default.jpg" : paquete.ImagenUrl)"
+                                     class="card-img-top hotel-img package-img" alt="@paquete.Nombre" style="cursor: pointer;">
+                            </a>
+
                             <div class="package-duration-badge">
                                 <span> Duración de @paquete.Duracion días</span>
                             </div>

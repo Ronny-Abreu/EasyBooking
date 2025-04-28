@@ -13,13 +13,11 @@
     --border-radius: 8px;
 }
 
-/* Estilos generales y contenedor */
 .container {
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Breadcrumb moderno */
 .breadcrumb-modern {
     background: transparent;
     padding: 0.5rem 0;
@@ -37,7 +35,7 @@
 }
 
     .breadcrumb-item a:hover {
-        color: var(--accent-color);
+        color: #f7335b;
         transform: translateY(-2px);
     }
 
@@ -48,7 +46,7 @@
         height: 2px;
         bottom: -4px;
         left: 0;
-        background-color: var(--accent-color);
+        background-color: black;
         transition: width var(--transition-normal);
     }
 
@@ -78,6 +76,7 @@
     .hotel-main-image:hover {
         transform: scale(1.03);
     }
+
 
 /* Tarjeta de reserva */
 .luxury-card {
@@ -251,7 +250,6 @@
     font-size: 1.2rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .hotel-main-image {
         height: 350px;
@@ -321,7 +319,6 @@
     position: relative;
 }
 
-/* Nuevo estilo para los títulos de imágenes */
 .image-title {
     position: absolute;
     bottom: 20px;
@@ -351,7 +348,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Estilos para las miniaturas */
 .hotel-thumbnails {
     scrollbar-width: thin;
     -ms-overflow-style: none;
@@ -375,7 +371,6 @@
         transform: translateY(-2px);
     }
 
-/* Estilos para los controles del carrusel */
 .carousel-control-prev,
 .carousel-control-next {
     width: 10%;

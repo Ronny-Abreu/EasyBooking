@@ -148,45 +148,49 @@
                             <div class="d-flex justify-content-between gap-2">
                                 @if (reserva.Estado == "Pendiente")
                                 {
-                                    <a asp-action="Pago" asp-route-id="@reserva.Id" class="btn btn-success rounded-pill px-4">
-                                        <i class="bi bi-credit-card me-2"></i> Pagar
-                                    </a>
-                                    <a asp-action="Editar" asp-route-id="@reserva.Id" class="btn btn-primary rounded-pill px-4">
-                                        <i class="bi bi-pencil me-2"></i> Editar
-                                    </a>
-                                    <form class="form-cancelar" data-id="@reserva.Id">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-danger rounded-pill px-4">
-                                            <i class="bi bi-x-circle me-2"></i> Cancelar
-                                        </button>
-                                    </form>
-
+                                    <div class="btn-group-custom">
+                                        <a asp-action="Pago" asp-route-id="@reserva.Id" class="btn btn-success rounded-pill">
+                                            <i class="bi bi-credit-card me-2"></i> Pagar
+                                        </a>
+                                        <a asp-action="Editar" asp-route-id="@reserva.Id" class="btn btn-primary rounded-pill">
+                                            <i class="bi bi-pencil me-2"></i> Editar
+                                        </a>
+                                        <form class="form-cancelar" data-id="@reserva.Id">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger rounded-pill">
+                                                <i class="bi bi-x-circle me-2"></i> Cancelar
+                                            </button>
+                                        </form>
+                                    </div>
                                 }
                                 else if (reserva.Estado == "Confirmada")
                                 {
-                                    <a asp-controller="Hoteles" asp-action="Detalle" asp-route-id="@reserva.HotelId" class="btn btn-outline-primary rounded-pill px-4">
-                                        <i class="bi bi-info-circle me-2"></i> Ver Hotel
-                                    </a>
-                                    <form class="form-cancelar" data-id="@reserva.Id">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-danger rounded-pill px-4">
-                                            <i class="bi bi-x-circle me-2"></i> Cancelar
-                                        </button>
-                                    </form>
-
-
+                                    <div class="btn-group-custom">
+                                        <a asp-controller="Hoteles" asp-action="Detalle" asp-route-id="@reserva.HotelId" class="btn btn-outline-primary rounded-pill">
+                                            <i class="bi bi-info-circle me-2"></i> Ver Hotel
+                                        </a>
+                                        <form class="form-cancelar" data-id="@reserva.Id">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-danger rounded-pill">
+                                                <i class="bi bi-x-circle me-2"></i> Cancelar
+                                            </button>
+                                        </form>
+                                    </div>
                                 }
                                 else
                                 {
-                                    <a asp-controller="Hoteles" asp-action="Detalle" asp-route-id="@reserva.HotelId" class="btn btn-outline-primary rounded-pill px-4">
-                                        <i class="bi bi-info-circle me-2"></i> Ver Hotel
-                                    </a>
-                                    <a asp-controller="Hoteles" asp-action="Index" class="btn btn-success rounded-pill px-4">
-                                        <i class="bi bi-plus-circle me-2"></i> Nueva Reserva
-                                    </a>
+                                    <div class="btn-group-custom">
+                                        <a asp-controller="Hoteles" asp-action="Detalle" asp-route-id="@reserva.HotelId" class="btn btn-outline-primary rounded-pill">
+                                            <i class="bi bi-info-circle me-2"></i> Ver Hotel
+                                        </a>
+                                        <a asp-controller="Hoteles" asp-action="Index" class="btn btn-success rounded-pill">
+                                            <i class="bi bi-plus-circle me-2"></i> Nueva Reserva
+                                        </a>
+                                    </div>
                                 }
                             </div>
                         </div>
+
                     </div>
                 </div>
             }
@@ -232,15 +236,14 @@
                             throw new Error("No se pudo cancelar la reserva.");
                         }
 
-                        // Si encuentra la card, la oculta con animación
                         if (container) {
                             container.classList.add("fade-out");
                             setTimeout(() => {
                                 container.remove();
-                                location.reload(); // Recarga la página después de eliminar la card
+                                location.reload();
                             }, 1000);
                         } else {
-                            location.reload(); // Si no está visible (otra vista), recarga directo
+                            location.reload();
                         }
                     })
                     .catch(error => {

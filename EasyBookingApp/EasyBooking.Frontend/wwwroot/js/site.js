@@ -20,3 +20,29 @@
         })
     })
 })
+
+
+//fade-in para las cards
+document.addEventListener('DOMContentLoaded', function () {
+    const cards = document.querySelectorAll('.hotel-card');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('show');
+                    entry.target.classList.remove('fade-reset');
+                }, index * 100);
+            } else {
+                entry.target.classList.remove('show');
+                entry.target.classList.add('fade-reset');
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+});

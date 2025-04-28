@@ -6,13 +6,13 @@
     <title>@ViewData["Title"] - EasyBooking</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="~/css/Inicio_Forms/Home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Inicio_Forms/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Inicio_Forms/navbar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Hoteles/DescripcionHotels.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Hoteles/IndexHoteles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/paquetes.css" asp-append-version="true" />
-
     @RenderSection("Styles", required: false)
 
 </head>
@@ -47,8 +47,16 @@
                     </div>
                 </div>
 
+                <!-- Icono de hamburguesa -->
+                <div class="hamburger-container">
+                    <button id="hamburger-menu" class="hamburger-btn">
+                        <i class="bi bi-list"></i>
+                    </button>
+                </div>
+
                 @* Boton del perfil *@
                 <div class="profile-container">
+
                     <button class="profile-button" id="profile-button">
                         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
                             <g fill="none" fill-rule="nonzero">
@@ -74,11 +82,20 @@
                             </div>
 
                             <div class="dropdown-section logged-in-section">
-                                <a asp-controller="Usuarios" asp-action="PerfilUser" class="dropdown-item">Perfil</a>
-
+                                <a href="@Url.Action("PerfilUser", "Usuarios")" class="dropdown-item">Mi Perfil</a>
                             </div>
 
                             <div class="dropdown-divider logged-in-section"></div>
+
+                            <div class="dropdown-section">
+                                <a asp-controller="Reservas" asp-action="Index" class="dropdown-item">Mis Reservas Hoteleras</a>
+                            </div>
+
+                            <div class="dropdown-section">
+                                <a asp-controller="ReservasPaquetes" asp-action="Index" class="dropdown-item"> Mis Reservas Turísticas </a>
+                            </div>
+
+                            <div class="dropdown-divider"></div>
                         }
                         else
                         {
@@ -91,16 +108,6 @@
                             <div class="dropdown-divider"></div>
                         }
 
-                        <div class="dropdown-section">
-                            <a asp-controller="Reservas" asp-action="Index" class="dropdown-item">Mis Reservas Hoteleras</a>
-                        </div>
-
-                        <div class="dropdown-section">
-                            <a asp-controller="ReservasPaquetes" asp-action="Index" class="dropdown-item"> Mis Reservas Turísticas </a>
-                        </div>
-
-                        <div class="dropdown-divider"></div>
-
                         <!-- Esta sección se mostrará siempre -->
                         <div class="dropdown-section">
                             <a asp-controller="Home" asp-action="SobreNosotros" class="dropdown-item">Sobre Nosotros</a>
@@ -109,7 +116,6 @@
 
                         @if (User.Identity?.IsAuthenticated == true)
                         {
-                            <!-- Esta sección solo se mostrará cuando el usuario esté autenticado -->
                             <div class="dropdown-divider logged-in-section"></div>
 
                             <div class="dropdown-section logged-in-section">
@@ -124,19 +130,108 @@
         </nav>
     </header>
 
+
+    <!-- Menú Hamburguesa -->
+    <div id="mobile-nav-backdrop" class="mobile-nav-backdrop"></div>
+
+    <div id="mobile-nav" class="mobile-nav">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="mobile-nav-header">
+                <a href="/Usuarios/PerfilUser" class="profile-avatar-link" data-username="@User.Identity.Name">
+                    <div class="profile-avatar-container">
+                        <div id="mobile-profile-avatar" class="profile-avatar">
+                            <!-- Inicial cargada desde navbar.js -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+        <ul class="mobile-nav-links">
+            <li><a href="/">Inicio</a></li>
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <li><a href="/Usuarios/PerfilUser">Mi Perfil</a></li>
+
+                <!-- Publicaciones con submenú -->
+                <li class="publicaciones-item">
+                    <button id="toggle-submenu" class="submenu-toggle">
+                        Publicaciones
+                        <span id="arrow-icon" class="arrow-icon">▼</span>
+                    </button>
+                    <ul id="sub-menu" class="sub-menu">
+                        <li><a href="@Url.Action("Index", "Hoteles")">🛎️ Hoteles</a></li>
+                        <li><a href="@Url.Action("Index", "PaquetesTuristicos")">🌴 Paquetes Turísticos</a></li>
+                    </ul>
+                </li>
+
+                <!-- Reservas con submenú -->
+                <li class="reservas-item">
+                    <button id="toggle-reservas" class="submenu-toggle">
+                        Mis Reservas
+                        <span id="arrow-reservas-icon" class="arrow-icon">▼</span>
+                    </button>
+                    <ul id="reservas-submenu" class="sub-menu">
+                        <li><a href="@Url.Action("Index", "Reservas")">🏨 Mis Reservas Hoteleras</a></li>
+                        <li><a href="@Url.Action("Index", "ReservasPaquetes")">✈️ Mis Reservas Turísticas</a></li>
+                    </ul>
+                </li>
+
+            }
+            else
+            {
+                <li><a href="/Usuarios/Login">Iniciar sesión</a></li>
+                <li><a href="/Usuarios/Registro">Registrarse</a></li>
+            }
+        </ul>
+
+
+        <div class="footer-buttons">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a href="/Home/SobreNosotros" class="footer-btn" data-tooltip="Sobre Nosotros">
+                    <i class="bi bi-info-circle"></i>
+                </a>
+                <a href="/Support/SupportUser" class="footer-btn" data-tooltip="Soporte">
+                    <i class="bi bi-question-circle"></i>
+                </a>
+
+                <form asp-controller="Usuarios" asp-action="Logout" method="post" style="display:inline;">
+                    <button type="submit" class="footer-btn" data-tooltip="Cerrar Sesión">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </form>
+            }
+            else
+            {
+                <a href="/Home/SobreNosotros" class="footer-btn" data-tooltip="Sobre Nosotros">
+                    <i class="bi bi-info-circle"></i>
+                </a>
+                <a href="/Support/SupportUser" class="footer-btn" data-tooltip="Soporte">
+                    <i class="bi bi-question-circle"></i>
+                </a>
+            }
+            
+            
+        </div>
+    </div>
+
+
+
     <main role="main" class="pb-3" style="margin-top: 80px;">
         @RenderBody()
     </main>
 
+    
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - EasyBooking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+        </div>
+    </footer>
 
-    @*     @if (ViewData["HideFooter"] == null || !(bool)ViewData["HideFooter"]) *@
-    @* { *@
-    @*     <footer class="border-top footer text-muted"> *@
-    @*         <div class="container"> *@
-    @*             &copy; 2025 - EasyBooking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
-    @*         </div> *@
-    @*     </footer> *@
-    @* } *@
+    <div id="toast-container"></div>
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

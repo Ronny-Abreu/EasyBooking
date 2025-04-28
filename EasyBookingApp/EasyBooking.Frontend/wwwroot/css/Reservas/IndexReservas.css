@@ -1,5 +1,4 @@
-﻿/* Estilos modernos para la página de Mis Reservas */
-:root {
+﻿:root {
     --primary-color: #f8345c;
     --primary-hover: #e02a4e;
     --primary-light: #ffeaee;
@@ -76,7 +75,6 @@
     transform: scale(1.05);
 }
 
-/* Nombre del hotel */
 .hotel-name {
     font-size: 1.25rem;
     color: #2d3748;
@@ -88,7 +86,6 @@
     color: #6b7280;
 }
 
-/* Tarjetas de detalles */
 .detail-card {
     transition: var(--transition);
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -99,7 +96,6 @@
         transform: translateY(-2px);
     }
 
-/* Iconos circulares */
 .icon-circle {
     width: 40px;
     height: 40px;
@@ -110,7 +106,6 @@
     font-size: 1.2rem;
 }
 
-/* Etiquetas y valores */
 .detail-label {
     font-size: 0.8rem;
     color: #6b7280;
@@ -159,7 +154,6 @@
         border-color: var(--primary-color);
     }
 
-/* Mensaje de sin reservas */
 .empty-reservations {
     background-color: #f9fafb;
     border: none;
@@ -204,5 +198,57 @@
 
     .card-footer .btn {
         width: 100%;
+    }
+}
+
+
+/* Estilos para mantener los botones en una fila en móviles */
+@media (max-width: 767px) {
+    .btn-group-custom {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+        .btn-group-custom .btn {
+            border-radius: 50%;
+            padding: 10px 20px;
+            width: auto;
+        }
+
+            .btn-group-custom .btn i {
+                font-size: 18px;
+            }
+}
+
+/*Estilos para tablets y destok*/
+@media (min-width: 700px) and (max-width: 1160px), (min-width: 1150px) {
+    .btn-group-custom {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        width: 100%;
+    }
+
+        .btn-group-custom .btn {
+            border-radius: 50%;
+            padding: 10px 20px;
+            width: auto;
+        }
+
+            .btn-group-custom .btn i {
+                font-size: 18px;
+            }
+
+    @media (min-width: 1100px) {
+        .btn-group-custom {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+            .btn-group-custom .btn {
+                width: auto;
+            }
     }
 }
